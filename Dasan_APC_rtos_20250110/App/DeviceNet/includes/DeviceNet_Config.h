@@ -36,7 +36,7 @@ extern "C" {
  * 4. Change ENABLE_DEVICENET to 1
  * 5. Rebuild project
  */
-#define ENABLE_DEVICENET    0    /* 0 = DISABLED, 1 = ENABLED */
+#define ENABLE_DEVICENET    1    /* 0 = DISABLED, 1 = ENABLED */
 
 /* =============================================================================
  * Hardware Configuration
