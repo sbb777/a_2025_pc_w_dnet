@@ -1,0 +1,95 @@
+--------------------------------------------------------------------------------
+eCos - Maintenance
+--------------------------------------------------------------------------------
+
+V2.3.0.0
+--------
+ - ECOSMFW-82:  When installing firmware files, delete only the required FLASH memory size 
+ - ECOSMFW-83:  NXE / NAE files not deleted when changing firmware 
+ - ECOSMFW-84:  Update to eCosPro V2.3.0.0 
+
+
+V2.2.0.0
+--------
+ - ECOSMFW-81:  [netX90] Add handling for maintenance user modules 
+
+
+V2.1.0.2
+--------
+ - ECOSMFW-79:  MFW only starts with every 2nd attempt if "BOOTSTART" is forced 
+ - ECOSMFW-80:  Firmware variant selection of an unknown selection does not show an error 
+
+
+V2.1.0.1
+--------
+ - ECOSMFW-78:  Maintenance firmware rejects download of firmware file for Use Case A.  
+
+
+V2.1.0.0
+--------
+ - ECOSMFW-62:  Add support for secure boot file signature verification 
+ - ECOSMFW-68:  Rework file handling for FLASH or File System handling 
+ - ECOSMFW-74:  ulCommonCRC32 for firmware combinations not recalculated by MFW 
+ - ECOSMFW-75:  Enable Bootswitch handling in Maintenance Firmware 
+ - ECOSMFW-76:  Create and add a unique maintenance taskidentifier for the component information 
+ - ECOSMFW-77:  Add option for firmware verification without installing it 
+
+
+V2.0.0.0
+--------
+ - ECOSMFW-73:  Update to eCos V2.0.0.1 and new toolchain 
+
+
+V1.4.0.0
+--------
+ - ECOSMFW-67:  Review and update error codes written to DPM/error log buffer in case of failed update attempts 
+ - ECOSMFW-69:  Update middleware to V1.4.0.1 
+ - ECOSMFW-70:  Update eCos to version V1.4.0.2 
+ - ECOSMFW-71:  Change offset/size calculation to new header definitions 
+ - ECOSMFW-72:  Add function to detect netX90 ROM loader startup information 
+
+
+V1.3.0.1
+--------
+ - ECOSMFW-66:  Update eCos to V1.4.0.1 
+
+
+V1.3.0.0
+--------
+ - ECOSMFW-57:  Change file header cookie to ".MXF" 
+ - ECOSMFW-58:  Possible endless loop when encouting read error of fwupdate.zip 
+ - ECOSMFW-59:  configuration file inside fwupdate.zip not installed as expected 
+ - ECOSMFW-61:  Optimize code size of maintenance firmware 
+ - ECOSMFW-63:  Error during configuration file installation does not stop installation process 
+ - ECOSMFW-64:  Propagate changes concerning read and write operations of hccfat API 
+
+
+V1.2.1.0
+--------
+ - ECOSMFW-57:  Change file header cookie to ".MXF" 
+ - ECOSMFW-58:  Possible endless loop when encouting read error of fwupdate.zip 
+ - ECOSMFW-59:  configuration file inside fwupdate.zip not installed as expected 
+ - ECOSMFW-60:  Build an additional MFW without Marshaller support 
+
+
+V1.2.0.0
+--------
+ - ECOSMFW-18:  Optimization concerning Update performance and Firmware size 
+ - ECOSMFW-31:  Enable Marshaller only on installation error or on bootstart 
+ - ECOSMFW-33:  Use Middleware API to execute a system reset 
+ - ECOSMFW-34:  FLASH and SPI drivers are now initialized manually 
+ - ECOSMFW-35:  Possible endless loop during installation of configuration files 
+ - ECOSMFW-36:  Firmware update can't be installed when using ZIP container 
+ - ECOSMFW-37:  Update MFW to use GCC toolchain headers 
+ - ECOSMFW-38:  Prevent generation of *.mxf files too large for the defined FLASH area 
+ - ECOSMFW-39:  force install of the FW Update container if MFW was started via cold reset/power reset 
+ - ECOSMFW-40:  add checks for file header used in NXI +NXE and NAI +NAE use cases 
+ - ECOSMFW-41:  Combination of NXI/NXE can't be installed if only NXE is different 
+ - ECOSMFW-43:  Corrupted firmware file in FW update area does not lead to system error 
+ - ECOSMFW-46:  Assembly options in FileHeader should be assembly independent 
+ - ECOSMFW-47:  Use Case C: FWUPDATE.ZIP with sub-directories in port directories are moved to root 
+ - ECOSMFW-50:  Apply changes of eCos DDP to Maintenance Firmware 
+ - ECOSMFW-52:  Increase MPU protected area size for exception handler 
+ - ECOSMFW-53:  Use HILDEF definitions instead of local ones 
+ - ECOSMFW-54:  Remove storage library from maintenance firmware 
+ - ECOSMFW-55:  Add Firmware_Toolbox V1.1.0.0 to MFW project 

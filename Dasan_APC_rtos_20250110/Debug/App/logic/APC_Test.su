@@ -1,0 +1,5 @@
+../App/logic/APC_Test.c:29:6:initTest	4	static
+../App/logic/APC_Test.c:36:6:procTest	32	static
+../App/logic/APC_Test.c:59:6:setTest	16	static
+../App/logic/APC_Test.c:74:6:runTest	16	static
+../App/logic/APC_Test.c:102:6:endTest	8	static

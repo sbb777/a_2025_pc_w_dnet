@@ -1,0 +1,15 @@
+../App/model/driver/APC_Spi.c:24:6:initSpi	4	static
+../App/model/driver/APC_Spi.c:29:6:setSpiOption	16	static
+../App/model/driver/APC_Spi.c:39:9:getSpiOption	4	static
+../App/model/driver/APC_Spi.c:44:6:setSpiDataMode	16	static
+../App/model/driver/APC_Spi.c:77:6:set_SPI5_SpiDataMode	16	static
+../App/model/driver/APC_Spi.c:110:6:setSpiBitWidth	16	static
+../App/model/driver/APC_Spi.c:123:9:receiveSpi	24	static
+../App/model/driver/APC_Spi.c:132:9:transmitSpi	24	static
+../App/model/driver/APC_Spi.c:151:9:receive_SPI5_Spi	24	static
+../App/model/driver/APC_Spi.c:160:9:transmit_SPI5_Spi	24	static
+../App/model/driver/APC_Spi.c:170:9:transfer8Spi	32	static
+../App/model/driver/APC_Spi.c:180:10:transfer16Spi	32	static
+../App/model/driver/APC_Spi.c:207:6:transferSpi	40	static
+../App/model/driver/APC_Spi.c:228:6:transfer_VDRUCK_Spi	40	static
+../App/model/driver/APC_Spi.c:250:6:transferDspSpi	40	static

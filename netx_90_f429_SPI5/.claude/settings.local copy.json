@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(attrib:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

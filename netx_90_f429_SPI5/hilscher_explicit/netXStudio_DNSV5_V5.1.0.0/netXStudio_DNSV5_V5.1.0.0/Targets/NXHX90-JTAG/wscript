@@ -1,0 +1,13 @@
+def build(bld):
+    bld.sdkcomponent(
+        name            = "netx_drv_configuration_sdk",
+        export_includes = "Include",
+    )
+    
+    bld.sdkcomponent(
+    name            = "cmsis_configuration_sdk",
+    export_defines  = [
+                       "__STACK_SIZE = 0x00002000",
+                       "__HEAP_SIZE =  0x00008000",
+                       ],
+    )

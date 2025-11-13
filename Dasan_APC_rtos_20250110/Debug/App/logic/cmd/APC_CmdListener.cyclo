@@ -1,0 +1,9 @@
+../App/logic/cmd/APC_CmdListener.c:52:6:initCmdListener	1
+../App/logic/cmd/APC_CmdListener.c:60:6:initLocalListener	1
+../App/logic/cmd/APC_CmdListener.c:68:6:initRemoteListener	1
+../App/logic/cmd/APC_CmdListener.c:79:6:procCmdListener	4
+../App/logic/cmd/APC_CmdListener.c:112:6:procLocalCmd	14
+../App/logic/cmd/APC_CmdListener.c:196:6:procRemoteCmd	17
+../App/logic/cmd/APC_CmdListener.c:276:6:procCmd	19
+../App/logic/cmd/APC_CmdListener.c:362:6:printRS232	2
+../App/logic/cmd/APC_CmdListener.c:370:6:setRemoteTrace	1

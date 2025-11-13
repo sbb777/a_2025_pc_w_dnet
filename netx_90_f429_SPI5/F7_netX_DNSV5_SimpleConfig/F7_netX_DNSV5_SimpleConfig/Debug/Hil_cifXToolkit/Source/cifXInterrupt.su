@@ -1,0 +1,3 @@
+../Hil_cifXToolkit/Source/cifXInterrupt.c:155:13:ProcessIOArea	24	static
+../Hil_cifXToolkit/Source/cifXInterrupt.c:40:5:cifXTKitISRHandler	48	static
+../Hil_cifXToolkit/Source/cifXInterrupt.c:202:6:cifXTKitDSRHandler	56	static

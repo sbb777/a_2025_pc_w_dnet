@@ -1,0 +1,6 @@
+../Hil_DemoApp/Sources/App_VAT_Conversion.c:34:7:VAT_ConvertPressureIntToReal	24	static
+../Hil_DemoApp/Sources/App_VAT_Conversion.c:64:9:VAT_ConvertPressureRealToInt	32	static
+../Hil_DemoApp/Sources/App_VAT_Conversion.c:104:7:VAT_ConvertPositionIntToReal	24	static
+../Hil_DemoApp/Sources/App_VAT_Conversion.c:121:9:VAT_ConvertPositionRealToInt	24	static
+../Hil_DemoApp/Sources/App_VAT_Conversion.c:146:7:VAT_ConvertPressure	24	static
+../Hil_DemoApp/Sources/App_VAT_Conversion.c:208:7:VAT_ConvertPosition	24	static

@@ -1,0 +1,4 @@
+../App/model/APC_AccessMode.c:30:6:initAccessMode	1
+../App/model/APC_AccessMode.c:46:6:refreshAccessMode	6
+../App/model/APC_AccessMode.c:78:9:setAccessMode	5
+../App/model/APC_AccessMode.c:110:9:getAccessMode	1

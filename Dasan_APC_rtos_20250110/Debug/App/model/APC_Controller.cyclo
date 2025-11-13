@@ -1,0 +1,17 @@
+../App/model/APC_Controller.c:39:6:initController	9
+../App/model/APC_Controller.c:63:6:syncControllerData	2
+../App/model/APC_Controller.c:82:9:getControllerType	1
+../App/model/APC_Controller.c:87:6:setControllerType	2
+../App/model/APC_Controller.c:101:5:getGainFactor	1
+../App/model/APC_Controller.c:105:6:setGainFactor	2
+../App/model/APC_Controller.c:119:5:getSensorDelay	1
+../App/model/APC_Controller.c:123:6:setSensorDelay	2
+../App/model/APC_Controller.c:137:9:getRampTime	1
+../App/model/APC_Controller.c:141:6:setRampTime	2
+../App/model/APC_Controller.c:152:10:getPgain	1
+../App/model/APC_Controller.c:156:6:setPgain	2
+../App/model/APC_Controller.c:167:10:getIgain	1
+../App/model/APC_Controller.c:171:6:setIgain	2
+../App/model/APC_Controller.c:182:10:getDgain	1
+../App/model/APC_Controller.c:186:6:setDgain	2
+../App/model/APC_Controller.c:200:6:setHoldPosition	1

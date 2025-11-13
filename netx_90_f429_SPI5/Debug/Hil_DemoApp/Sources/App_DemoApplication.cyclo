@@ -1,0 +1,8 @@
+../Hil_DemoApp/Sources/App_DemoApplication.c:48:6:App_ReadBoardInfo	5
+../Hil_DemoApp/Sources/App_DemoApplication.c:95:9:App_AllChannels_Open	5
+../Hil_DemoApp/Sources/App_DemoApplication.c:125:6:App_AllChannels_GetChannelInfo_WaitReady	6
+../Hil_DemoApp/Sources/App_DemoApplication.c:152:10:App_AllChannels_Configure	6
+../Hil_DemoApp/Sources/App_DemoApplication.c:183:10:App_AllChannels_PacketHandler	6
+../Hil_DemoApp/Sources/App_DemoApplication.c:212:6:App_AllChannels_Close	4
+../Hil_DemoApp/Sources/App_DemoApplication.c:236:5:App_CifXApplicationDemo	11
+../Hil_DemoApp/Sources/App_DemoApplication.c:370:6:App_IODataHandler	4

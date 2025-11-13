@@ -1,0 +1,5 @@
+../App/model/APC_CompAir.c:26:6:initCompAir	1
+../App/model/APC_CompAir.c:39:9:checkCompAirStatus	1
+../App/model/APC_CompAir.c:75:9:getCompAirStatus	1
+../App/model/APC_CompAir.c:80:9:getCompAir	2
+../App/model/APC_CompAir.c:97:10:getCompAirValue	2

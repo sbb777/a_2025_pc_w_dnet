@@ -1,0 +1,4 @@
+../Hil_cifXToolkit/Source/netX90_netX4x00.c:33:5:IsNetX4x00FLASH	8	static
+../Hil_cifXToolkit/Source/netX90_netX4x00.c:67:5:IsNetX4x00ROM	8	static
+../Hil_cifXToolkit/Source/netX90_netX4x00.c:98:5:IsNetX90FLASH	8	static
+../Hil_cifXToolkit/Source/netX90_netX4x00.c:129:5:IsNetX90ROM	32	static

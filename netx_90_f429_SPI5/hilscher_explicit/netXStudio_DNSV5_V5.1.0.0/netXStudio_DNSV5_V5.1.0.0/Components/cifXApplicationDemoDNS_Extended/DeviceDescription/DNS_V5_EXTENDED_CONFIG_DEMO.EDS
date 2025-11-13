@@ -1,0 +1,272 @@
+$ EZ-EDS Version 3.27.1.20191218 Generated Electronic Data Sheet
+
+$ DNS V5 Extended Configuration Demo Electronic Data Sheet
+$ Version 1.1
+$ 01/01/21
+$ Template EDS file provided by Hilscher Gesellschaft fuer Systemautomation mbH
+$ Template fingerprint: $Id: $
+$ Please provide the above fingerprint for reference in any support requests towards Hilscher.
+$  
+$ This file should be changed by the device manufacturer only.
+$ Incompatible changes may lead to communication errors in the DeviceNet network
+$  
+$ The metafields ModDate and ModTime in section [File] are set to arbitrary values in this template.
+$ The customer will have to modify these in the development process along with the actual content.
+
+$ File Description Section
+[File]
+        DescText = "DNS-File for DeviceNet Slave Extended Config Demo Application";
+        CreateDate = 01-01-2021;
+        CreateTime = 00:00:00;
+        ModDate = 01-01-2021;
+        ModTime = 00:00:00;
+        Revision = 1.1;
+        HomeURL = "www.hilscher.com";
+
+$ Device Description Section
+[Device]
+        VendCode = 283;
+        VendName = "Hilscher GmbH";
+        ProdType = 12;
+        ProdTypeStr = "Communications Adapter";
+        ProdCode = 34;
+        MajRev = 5;
+        MinRev = 4;
+        ProdName = "DNS_V5_EXTENDED_CONFIG_DEMO";
+        Catalog = "0";
+        Icon = "NETX.ICO";
+
+$ I/O Characteristics Section
+[IO_Info]
+
+        Default = 0x0001;       $ poll as default
+
+        PollInfo =
+                0x000F,         $ OK to Combine w/Poll/Strobe/COS/Cyclic
+                1,              $ Default Input  = Input1
+                1;              $ Default Output = Output1
+
+        StrobeInfo =
+                0x000F,         $ OK to Combine w/Poll/Strobe/COS/Cyclic
+                1,              $ Default Input  = Input1
+                0;              $ Default Output = none
+
+        COSInfo =
+                0x0007,         $ OK to Combine w/Poll/Strobe/COS
+                1,              $ Default Input  = Input1
+                1;              $ Default Output = Output1
+
+        CyclicInfo =
+                0x000B,         $ OK to Combine w/Poll/Strobe/Cyclic
+                1,              $ Default Input  = Input4
+                1;              $ Default Output = Output4
+
+        Input1 =
+                10,
+                80,
+                0x000F,
+                "Counter + Sensor + Actuator data",
+                6,
+                "20 04 24 65 30 03",
+                "Counter, S1(Value), S1(Status), S2(Value), S2(Status), A1(Status) A1(Status)";
+
+        Input2 =
+                6,
+                28,
+                0x000F,
+                "Sensor data",
+                6,
+                "20 04 24 67 30 03",
+                "S1(Value), S1(Status), S2(Value), S2(Status)";
+
+        Output1 =
+                6,
+                48,
+                0x000D,
+                "Actuator data + Counter control",
+                6,
+                "20 04 24 64 30 03",
+                "A1(Value), A1(Value), Counter Direction, Counter Speed";
+
+        Output2 =
+                4,
+                32,
+                0x000D,
+                "Actuator data",
+                6,
+                "20 04 24 66 30 03",
+                "A1(Value), A1(Value),";
+
+[Params]
+        Param1 =
+                0,
+                6,"20 05 24 02 30 64",
+                0x002E,
+                0xC6,
+                1,
+                "Output Assembly",
+                "",
+                "Assembly Number of Data Consuming Assembly",
+                100,102,100,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+
+        Param2 =
+                0,
+                6,"20 05 24 02 30 65",
+                0x002E,
+                0xC6,
+                1,
+                "Input Assembly",
+                "",
+                "Assembly Number of Data Producing Assembly",
+                101,103,101,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+
+        Param3 =
+                0,
+                6,"20 05 24 03 30 65",
+                0x002E,
+                0xC6,
+                1,
+                "Strobe Input Assembly",
+                "",
+                "Assembly Number of Data Producing Assembly",
+                101,103,101,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+
+        Param4 =
+                0,
+                6,"20 05 24 04 30 65",
+                0x002E,
+                0xC6,
+                1,
+                "COS/Cyclic Input Assembly",
+                "",
+                "Assembly Number of Data Producing Assembly",
+                101,103,101,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+ 
+        Param5 =
+                0,
+                6,"20 64 24 01 30 01",
+                0x002E,
+                0xC6,
+                1,
+                "Sensor 1 sensity",
+                "",
+                "Sensor 1 sensity",
+                0,2,0,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+                
+        Param6 =
+                0,
+                6,"20 64 24 01 30 02",
+                0x002E,
+                0xC6,
+                1,
+                "Sensor 2 sensity",
+                "",
+                "Sensor 2 sensity",
+                0,2,0,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+
+        Param7 =
+                0,
+                6,"20 65 24 01 30 01",
+                0x002E,
+                0xC6,
+                1,
+                "Actuator 1 fail safe behavior",
+                "",
+                "Actuator 1 fail safe behavior",
+                0,1,0,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+                
+        Param8 =
+                0,
+                6,"20 65 24 01 30 02",
+                0x002E,
+                0xC6,
+                1,
+                "Actuator 2 fail safe behavior",
+                "",
+                "Actuator 2 fail safe behavior",
+                0,1,0,
+                1,1,1,0,
+                0,0,0,0,
+                0;
+                
+
+[EnumPar]
+        Param1 =
+                "Assembly Object 100",
+                "n.a",
+                "Assembly Object 102";
+
+        Param2 =
+                "Assembly Object 101",
+                "n.a",
+                "Assembly Object 103";
+
+        Param3 =
+                "Assembly Object 101",
+                "",
+                "Assembly Object 103";
+
+        Param4 =
+                "Assembly Object 101",
+                "n.a.",
+                "Assembly Object 103";
+
+        Param5  =
+                "High sensity",
+                "Middle sensity",
+                "Low sensity";
+                
+        Param6  =
+                "High sensity",
+                "Middle sensity",
+                "Low sensity";
+                
+        Param7 =
+                "Clear outputs",
+                "Hold Last State";
+
+        Param8 =
+                "Clear outputs",
+                "Hold Last State";
+
+
+[Groups]
+        Group1 =
+                "Assemblies",
+                4,
+                1,2,3,4;
+
+        Group2 =
+                "Sensor Settings",
+                2,
+                5,6;
+
+        Group3 =
+                "Acuator settings",
+                2,
+                7,8;
+
+
+
+$ DNS V5 Extended Configuration Demo EDS File

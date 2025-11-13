@@ -1,0 +1,12 @@
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:95:10:AppDNS_SetConfiguration	1
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:145:10:AppDNS_ChannelInit	1
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:161:10:AppDNS_StartCommunication	1
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:182:10:AppDNS_ConfigureStack	5
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:228:6:AppDNS_PacketHandler_callback	4
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:290:10:AppDNS_GlobalPacket_SendReceive	2
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:315:10:AppDNS_GlobalPacket_Send	2
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:335:7:AppDNS_GlobalPacket_Init	1
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:346:7:AppDNS_GlobalPacket_Get	1
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:360:10:AppDNS_RegisterClass	2
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:392:10:AppDNS_RegisterAllVatClasses	3
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:424:6:AppDNS_HandleCipServiceIndication	21

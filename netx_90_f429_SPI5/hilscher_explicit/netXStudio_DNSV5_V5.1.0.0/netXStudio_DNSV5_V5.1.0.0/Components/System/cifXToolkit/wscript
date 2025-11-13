@@ -1,0 +1,53 @@
+
+
+def build(bld):
+    toolchain = "gccarmemb"
+    platform  = "netx90"
+
+    comp_prefix = bld.get_name_prefix(toolchain = toolchain, platform  = platform)
+
+    sources  = [
+        "Source/cifXDownload.c",
+        "Source/cifXEndianess.c",
+        "Source/cifXFunctions.c",
+        "Source/cifXHWFunctions.c",
+        "Source/cifXInit.c",
+        "Source/cifXInterrupt.c",
+        "Source/Hilmd5.c",
+        "Source/Hilcrc32.c",
+        "Source/netX90_netX4x00.c",
+        "Source/netX5x_hboot.c",
+        "Source/netX5xx_hboot.c",
+
+        "OSAbstraction/OS_Custom.c",
+        "User/TKitUser_Custom.c",
+        ]
+    
+    includes = [
+        "Common/cifXAPI",
+        "Common/HilscherDefinitions",
+        "OSAbstraction",
+        "Source"
+        ]
+    
+    bld.stlib(
+        target          = "cifXToolkit",
+        name            = comp_prefix + "cifXToolkit",
+        description     = "DPM cifXToolkit Library for netX90 iDPM",
+        displaygroup    = "Libraries",
+        platform        = platform,
+        toolchain       = toolchain, 
+        use             = [
+                            "CMSIS_sdk",
+                            "netx_drv_sdk",
+                          ],
+        source          = sources,
+        includes        = includes,
+        )
+        
+    bld.sdkcomponent(
+        name            = "cifXToolkit_sdk",
+        export_includes = ["Common/cifXAPI",
+                           "OSAbstraction",
+                           "Source"],
+        )

@@ -1,0 +1,88 @@
+--- a/Core/Src/main.c
++++ b/Core/Src/main.c
+@@ -471,46 +471,73 @@
+         case 3:  /* Continuous Monitoring */
+         {
+-            printf("Test: Continuous Monitoring\r\n");
+-            printf("Cycles: 100 (10 seconds @ 100ms)\r\n");
+-            printf("Setpoint: 750\r\n\r\n");
++            printf("Test: INFINITE Continuous Monitoring\r\n");
++            printf("Cycles: INFINITE (until reset)\r\n");
++            printf("Update Rate: 100ms\r\n");
++            printf("Press RESET button to stop.\r\n\r\n");
+
+             /* 압력 제어 모드 설정 */
+             VAT_Test_SetControlMode(&g_tVatContext, VAT_CONTROL_MODE_PRESSURE);
+-            VAT_Test_SetPressureSetpoint(&g_tVatContext, 750);
+
+-            /* 연속 모니터링 루프 */
+-            for(int i = 0; i < 100; i++)
++            /* 초기 Setpoint */
++            int16_t setpoint = 500;
++            VAT_Test_SetPressureSetpoint(&g_tVatContext, setpoint);
++
++            /* 무한 연속 모니터링 루프 */
++            uint32_t cycle_count = 0;
++            while(1)
+             {
++                /* Setpoint 증가 */
++                setpoint++;
++                if(setpoint > 1000) setpoint = 0;
++                VAT_Test_SetPressureSetpoint(&g_tVatContext, setpoint);
++
+                 /* 제어 데이터 전송 */
+                 int32_t lRet = VAT_Test_WriteOutput(&g_tVatContext, hChannel);
+                 if(lRet != CIFX_NO_ERROR)
+                 {
+-                    printf("[%03d] Write Error: 0x%08X\r\n", i, (unsigned int)lRet);
++                    printf("[%lu] Write Error: 0x%08X\r\n", cycle_count, (unsigned int)lRet);
+                 }
+
+                 /* 센서 데이터 읽기 */
+                 lRet = VAT_Test_ReadInput(&g_tVatContext, hChannel);
+                 if(lRet != CIFX_NO_ERROR)
+                 {
+-                    printf("[%03d] Read Error: 0x%08X\r\n", i, (unsigned int)lRet);
++                    printf("[%lu] Read Error: 0x%08X\r\n", cycle_count, (unsigned int)lRet);
+                 }
+
+                 /* 예외 상태 확인 */
+                 if(VAT_Test_HasException(&g_tVatContext))
+                 {
+-                    printf("[%03d] WARNING: Exception 0x%02X\r\n",
+-                           i, VAT_Test_GetExceptionStatus(&g_tVatContext));
++                    printf("[%lu] WARNING: Exception 0x%02X\r\n",
++                           cycle_count, VAT_Test_GetExceptionStatus(&g_tVatContext));
+                 }
+
+                 /* 매 10회마다 상태 출력 */
+-                if((i % 10) == 0 && g_tVatContext.input_data_valid)
++                if((cycle_count % 10) == 0 && g_tVatContext.input_data_valid)
+                 {
+-                    printf("[%03d] Pressure=%d, Position=%d, Status=0x%02X\r\n",
+-                           i,
++                    printf("[%lu] Setpoint=%d, Pressure=%d, Position=%d, Status=0x%02X\r\n",
++                           cycle_count,
++                           setpoint,
+                            g_tVatContext.input_asm100.pressure,
+                            g_tVatContext.input_asm100.position,
+                            g_tVatContext.input_asm100.device_status);
+                 }
+
+                 /* 100ms 대기 */
+                 HAL_Delay(100);
++
++                cycle_count++;
++
++                /* 1000회마다 진행 상황 출력 */
++                if((cycle_count % 1000) == 0)
++                {
++                    printf("\r\n*** Running for %lu cycles (%.1f minutes) ***\r\n",
++                           cycle_count, (float)cycle_count / 600.0f);
++                }
+             }
+
+-            printf("\r\nContinuous monitoring completed.\r\n");
++            /* 이 코드는 실행되지 않음 (무한 루프) */
+             break;
+         }

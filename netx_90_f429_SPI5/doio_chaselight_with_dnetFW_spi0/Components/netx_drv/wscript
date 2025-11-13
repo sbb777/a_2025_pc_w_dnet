@@ -1,0 +1,62 @@
+def build(bld):
+    
+    toolchain = bld.env["UsedToolchain"]
+    if not toolchain:
+        bld.fatal('Environment parameter "UsedToolchain" is not available! Make sure to provide the environment parameter "UsedToolchain" in the root wscript file of your project. e.g.: conf.env["UsedToolchain"] = "gccarmemb"')
+    
+    platform  = bld.env["UsedPlatform"]
+    if not platform:
+        bld.fatal('Environment parameter "UsedPlatform" is not available! Make sure to provide the environment parameter "UsedPlatform" in the root wscript file of your project. e.g.: conf.env["UsedPlatform"]  = "netx90"')
+    
+    comp_prefix = bld.get_name_prefix(
+        toolchain = toolchain,
+        platform  = platform)
+    
+# Component netx_drv ------------------------------------------------------------    
+    netx_studio_sources = [
+        "Source/netx_drv_dio.c",
+        "Source/netx_drv_cortex.c",
+        "Source/netx_drv_spi.c",
+        "Source/netx_drv_dmac.c",
+        "Source/netx_drv_tim.c",
+        "Source/netx_drv_uart.c",
+        "Source/netx_drv_canctrl.c",
+        "Source/netx_drv_i2c.c", 
+        "Source/netx_drv_biss.c", 
+        "Source/netx_drv.c",
+        "Source/netx_drv_eth_xpic.c",
+        "Source/netx_drv_xpic.c",
+        "Source/netx_drv_adc.c",
+        "Source/netx_drv_mled.c",
+    ]
+
+    includes = [
+        "Include/",
+        ]
+
+    bld.stlib( 
+        target          = "netx_drv",
+        name            = comp_prefix + "netx_drv",
+        description     = "netx_drv",
+        displaygroup    = "Libraries",
+        platform        = platform,
+        toolchain       = toolchain,
+        use             = [
+                           "CMSIS_sdk",
+                           "netx_drv_configuration_sdk",
+                          ],
+        source          = netx_studio_sources,
+        includes        = includes,
+        export_includes = includes,
+        version         = "0.1.5.2"
+    )
+    
+    bld.sdkcomponent(
+        name            = "netx_drv_sdk",
+        use             = [ 
+                           "CMSIS_sdk",
+                           "netx_drv_configuration_sdk",
+                           ],
+        export_includes = includes,
+    )
+    

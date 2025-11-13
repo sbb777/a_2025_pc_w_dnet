@@ -1,0 +1,54 @@
+def build(bld):
+
+    toolchain = bld.env["UsedToolchain"]
+    if not toolchain:
+        bld.fatal('Environment parameter "UsedToolchain" is not available! Make sure to provide the environment parameter "UsedToolchain" in the root wscript file of your project. e.g.: conf.env["UsedToolchain"] = "gccarmemb"')
+
+    platform  = bld.env["UsedPlatform"]
+    if not platform:
+        bld.fatal('Environment parameter "UsedPlatform" is not available! Make sure to provide the environment parameter "UsedPlatform" in the root wscript file of your project. e.g.: conf.env["UsedPlatform"]  = "netx90"')
+
+    comp_prefix = bld.get_name_prefix(
+        toolchain = toolchain,
+        platform  = platform)
+
+# Component cifXApplicationDemoDNS ---------------------------------------------------------
+    netx_studio_sources = [
+        "Sources/AppDNS_DemoApplication.c",
+        "Sources/AppDNS_DemoApplicationFunctions.c",
+        "Sources/AppDNS_DemoApplication_AssemblyObject.c",
+        "Sources/AppDNS_DemoApplication_ConnObject.c",
+        "Sources/AppDNS_DemoApplication_DDP.c",
+        "Sources/AppDNS_DemoApplication_MnsObject.c",
+        "Sources/AppDNS_DemoApplication_Remanent.c",
+        "Sources/AppDNS_DemoApplication_UserObject.c",
+        ]
+
+    includes = [
+        "Includes",
+        ]
+
+    bld.stlib(
+        target          = "demoDNSV5_extended",
+        name            = comp_prefix + "demoDNSV5_extended",
+        description     = "cifX Application Demo - DeviceNet Slave",
+        displaygroup    = "Libraries",
+        platform        = platform,
+        toolchain       = toolchain,
+        use             = [
+                           "Hil_ProductCode_CIP_sdk",
+                           "FirmwareHeaders_sdk",
+                           "Hil_Definition_netXFirmware_sdk",
+                           "ApplicationDemo_sdk",
+                           "cifXToolkit_sdk",
+                          ],
+        source          = netx_studio_sources,
+        includes        = includes,
+        export_includes = includes,
+        defines         = [
+                           #"HOST_APPLICATION_SETS_SERIAL_NUMBER",      # activate only, if firmware's taglist entry "DDP Mode after firmware startup"
+                                                                        # is configured to "passive"
+                           #"HOST_APPLICATION_STORES_REMANENT_DATA",    # activate only, if firmware's taglist entry "AP task remanent data handling responsibility"
+                                                                        # has the check mark for "Remanent Data stored by Host" set.
+                           ],
+    )

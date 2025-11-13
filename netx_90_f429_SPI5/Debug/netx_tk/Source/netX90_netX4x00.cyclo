@@ -1,0 +1,4 @@
+../netx_tk/Source/netX90_netX4x00.c:33:5:IsNetX4x00FLASH	3
+../netx_tk/Source/netX90_netX4x00.c:67:5:IsNetX4x00ROM	3
+../netx_tk/Source/netX90_netX4x00.c:98:5:IsNetX90FLASH	2
+../netx_tk/Source/netX90_netX4x00.c:129:5:IsNetX90ROM	3

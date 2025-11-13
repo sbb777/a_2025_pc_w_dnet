@@ -1,0 +1,6 @@
+../App/logic/APC_Synch.c:26:6:initSynch	16	static
+../App/logic/APC_Synch.c:43:9:procSynch	32	static
+../App/logic/APC_Synch.c:179:6:getSynchStatus	4	static
+../App/logic/APC_Synch.c:187:6:syncronizeValve	24	static
+../App/logic/APC_Synch.c:248:5:synchronizeClosed	8	static
+../App/logic/APC_Synch.c:260:5:synchronizeOpen	24	static

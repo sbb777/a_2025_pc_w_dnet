@@ -1,0 +1,73 @@
+
+
+DISCLAIMER FOR PRE-RELEASE SOFTWARE
+Hilscher Gesellschaft fuer Systemautomation mbH
+
+-------------------------------------------------------------------------------------
+ENGLISH
+-------------------------------------------------------------------------------------
+
+§ 1 PREAMBLE
+
+The present legally effective Agreement is applicable to our test software products identified as "Pre-Release". These products are not part of a legal Purchase Contract, but are temporarily made available to the User for test purposes.
+
+ 
+
+§ 2 PERFORMANCE OBLIGATIONS
+
+This software product is exclusively intended for test purposes and evaluation. 
+The User shall be granted the non-exclusive right to use the products in an unmodified form within the scope of the agreed manner of utilization on the devices for which they are intended.
+The software is subject to the copyright of Hilscher Gesellschaft für Systemautomation mbH. The User must not sell, lease or give away the software and any supporting materials to third parties. The re-translation of the program code into other code forms as well as other methods of re-development of the different production stages of the software including a change in the program are not permissible.
+
+ 
+
+§ 3 LIMITED WARRANTY AND LIABILITY
+
+The User understands and agrees that the software is in the Beta status. By using software identified as a "Pre-Release", the User acknowledges that such software might be defective and may cause system damage (software or hardware). The User agrees not to assert any direct or indirect claims against Hilscher for any such damage. Neither is the User entitled to claim that the software is suitable for a specific purpose.
+
+USE IN PRODUCTION FACILITIES (APPLICATION ON OWN OR THIRD-PARTY PRODUCTIVE COMPUTER SYSTEMS) IS NOT PERMITTED.
+HILSCHER CANNOT BE HELD LIABLE FOR DAMAGE SUFFERED BY THE USER BY USING THE SOFTWARE IN OPERATING PLANTS.
+WE URGENTLY ADVISE AGAINST USING THE SOFTWARE OUTSIDE A TEST ENVIRONMENT!
+
+This takes place at the User's own risk. The User shall ensure that use of the software will not affect any systems which are in any way relevant to the safety of goods or individuals.
+
+ 
+
+§ 4 MISCELLANEOUS
+
+Side agreements need to be made in writing. Should one provision of this Agreement be invalid, the legal validity of the remaining provisions shall not be affected by this. In this case, the invalid provision shall be replaced by one which meets the intended contents and purpose of all parties and is enforceable with initial effect. This Agreement shall be governed by the law of the Federal Republic of Germany with exclusion of the UN Convention on Contracts for the International Sale of Goods.
+
+
+
+
+-------------------------------------------------------------------------------------
+GERMAN
+-------------------------------------------------------------------------------------
+
+§ 1 PRÄAMBEL
+
+Der folgende rechtswirksame Vertrag gilt für unsere als "Pre-Release" gekennzeichneten Test-Softwareprodukte. Diese Produkte sind nicht Bestandteil eines rechtmäßigen Kaufvertrages, sondern werden von uns an den Nutzer im Rahmen einer zeitweiligen Überlassung zu Testzwecken ausgeliefert.
+
+ 
+
+§ 2 LEISTUNGSPFLICHTEN
+
+Diese Software dient ausschließlich zu Testzwecken und zur Evaluierung.  
+Dem Nutzer steht das nicht ausschließliche Recht zu, die Produkte in unveränderter Form im Umfang der vereinbarten Nutzungsart auf den Geräten zu nutzen, für die sie bestimmt sind.
+Die Software unterliegt dem Copyright der Hilscher Gesellschaft für Systemautomation mbH. Der Anwender darf die Software und die sonstigen begleitenden Materialien nicht an Dritte veräußern, vermieten oder verschenken. Die Rückübersetzung des Programmcodes in andere Codeformen sowie sonstige Arten der Rückerschließung der verschiedenen Herstellungsstufen der Software einschließlich einer Programmänderung ist nicht zulässig.
+
+ 
+
+§ 3 EINGESCHRÄNKTE GEWÄHRLEISTUNG UND HAFTUNG
+
+Der Nutzer nimmt zur Kenntnis und akzeptiert, dass die Software im Beta-Status vorliegt. Der Nutzer ist sich mit der Verwendung einer als " Pre-Release" gekennzeichneten Software darüber bewusst, dass die Software möglicherweise fehlerhaft ist und Beschädigungen am System (Software oder Hardware) möglich sind. Der Nutzer ist damit einverstanden, für keine solcher Beschädigungen direkte oder indirekte Ansprüche an Hilscher zu stellen. Auch besteht seitens des Nutzers kein Anspruch darauf, dass die Software für einen bestimmten Zweck eingesetzt werden kann.
+EINE VERWENDUNG IN PRODUZIERENDEN ANLAGEN (VERWENDUNG AUF PRODUKTIVEN, EIGENEN ODER DRITTEN COMPUTERSYSTEMEN) IST NICHT GESTATTET.
+HILSCHER HAFTET NICHT FÜR SCHÄDEN DIE DEM NUTZER DURCH DIE VERWENDUNG DER SOFTWARE IN LAUFENDEN ANLAGEN ENTSTEHEN.
+VON DEM EINSATZ AUSSERHALB EINER TESTUMGEBUNG WIRD DRINGEND ABGERATEN!
+Dies erfolgt auf eigenes Risiko. Der Nutzer muss sicherstellen, dass durch den Einsatz der Software keine Systeme beeinflusst werden, die in irgend einer form sicherheitsrelevant für Güter und Personen sind.
+
+ 
+
+§ 4 SONSTIGES
+
+Nebenabreden bedürfen der Schriftform. Sollte eine Bestimmung dieses Vertrages unwirksam sein, so werden dadurch die übrigen Bestimmungen in ihrer rechtlichen Wirksamkeit nicht berührt. An die Stelle der unwirksamen Bestimmung muss für diesen Fall mit anfänglicher Wirkung eine solche treten, die dem beabsichtigten Sinn und Zweck aller Parteien entspricht und ihrem Inhalt nach durchführbar ist. Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.

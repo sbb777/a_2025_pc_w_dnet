@@ -1,0 +1,10 @@
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:21:6:VAT_Explicit_HandleCipService_Direct	56	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:80:6:VAT_Explicit_HandleCipService	48	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:135:10:VAT_Parameter_HandleService	96	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:243:10:VAT_Assembly_HandleService	32	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:265:10:VAT_Parameter_GetAll	32	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:309:10:VAT_Parameter_Reset	24	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:331:6:VAT_Explicit_HandleRead	16	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:345:6:VAT_Explicit_HandleWrite	16	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:362:6:VAT_Sync_ParametersToIoData	16	static
+../Hil_DemoApp/Sources/App_VAT_ExplicitHandler.c:382:6:VAT_Sync_IoDataToParameters	16	static

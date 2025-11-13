@@ -1,0 +1,46 @@
+def build(bld):
+    
+    toolchain = bld.env["UsedToolchain"]
+    if not toolchain:
+        bld.fatal('Environment parameter "UsedToolchain" is not available! Make sure to provide the environment parameter "UsedToolchain" in the root wscript file of your project. e.g.: conf.env["UsedToolchain"] = "gccarmemb"')
+    
+    platform  = bld.env["UsedPlatform"]
+    if not platform:
+        bld.fatal('Environment parameter "UsedPlatform" is not available! Make sure to provide the environment parameter "UsedPlatform" in the root wscript file of your project. e.g.: conf.env["UsedPlatform"]  = "netx90"')
+      
+    comp_prefix = bld.get_name_prefix(
+        toolchain = toolchain,
+        platform  = platform)
+    
+    netx_studio_sources = [
+        "Sources/App_DemoApplication.c", 
+        "Sources/App_SystemPackets.c", 
+        "Sources/App_PacketCommunication.c", 
+        "Sources/App_Functions.c", 
+    ]
+
+    includes = [
+        "Includes",
+        ]
+        
+    bld.stlib( 
+        target          = "ApplicationDemo",
+        name            = comp_prefix + "ApplicationDemo",
+        description     = "Application Demo (Framework)",
+        displaygroup    = "Libraries",
+        platform        = platform,
+        toolchain       = toolchain, 
+        use             = [
+                           "cifXToolkit_sdk",
+                           "FirmwareHeaders_sdk",
+                          ],
+        source          = netx_studio_sources,
+        includes        = includes,
+        export_includes = includes,
+        )
+    
+    bld.sdkcomponent(
+        name            = "ApplicationDemo_sdk",
+        export_includes = includes,
+        )
+    

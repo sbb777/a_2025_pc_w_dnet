@@ -1,0 +1,8 @@
+../App/model/driver/APC_SRAM.c:24:6:initSRAM	4	static
+../App/model/driver/APC_SRAM.c:29:6:readSRAM2	24	static
+../App/model/driver/APC_SRAM.c:40:6:writeSRAM2	24	static
+../App/model/driver/APC_SRAM.c:51:6:readSRAM3	16	static
+../App/model/driver/APC_SRAM.c:59:6:writeSRAM3	16	static
+../App/model/driver/APC_SRAM.c:67:9:readSRAM4	24	static
+../App/model/driver/APC_SRAM.c:80:6:writeSRAM4	16	static
+../App/model/driver/APC_SRAM.c:93:10:convertAddress	32	static

@@ -1,0 +1,85 @@
+# project  configured on Fri Aug 01 14:33:22 2025 by
+# waf 1.6.11 (abi 98, python 20703f0 on win32)
+# using C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\waf\dist\waf-1.6.11.exe configure build --conditions=debug
+#
+----------------------------------------
+Setting top to
+C:\Users\louis\netX CDT Projects\doio_chaselight_with_dnetFW_spi0
+----------------------------------------
+Setting out to
+C:\Users\louis\netX CDT Projects\doio_chaselight_with_dnetFW_spi0\build
+----------------------------------------
+Hilscher Waf version
+1.13.0.1
+----------------------------------------
+Checking for waf version in 1.6.11-1.7.0
+ok
+----------------------------------------
+Checking for program patch
+not found
+find program=['patch'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\python\\2.7.11\\', 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\mingw\\4.9.3\\bin', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/bin/client', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/bin', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/lib/i386', 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common', 'C:\\Python312\\Scripts\\', 'C:\\Python312\\', 'C:\\WINDOWS\\system32', 'C:\\WINDOWS', 'C:\\WINDOWS\\System32\\Wbem', 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\', 'C:\\WINDOWS\\System32\\OpenSSH\\', 'C:\\Program Files\\dotnet\\', 'C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\', 'C:\\Program Files\\Git\\cmd', 'C:\\Program Files\\Pandoc\\', 'C:\\MinGW\\bin', 'C:\\Program Files\\CMake\\bin', 'C:\\Program Files\\MATLAB\\R2024a\\bin', 'C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin\\', 'C:\\Program Files\\IVI Foundation\\VISA\\Win64\\Bin\\', 'C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin', 'C:\\Program Files\\nodejs\\', 'C:\\ProgramData\\chocolatey\\bin', 'C:\\Program Files\\Bandizip\\', 'C:\\Program Files (x86)\\Windows Kits\\8.1\\Windows Performance Toolkit\\', 'C:\\Program Files (x86)\\Vector CANdb++ 3.1\\Exec32', 'C:\\Program Files\\Git\\mingw64\\bin', 'C:\\Program Files\\Graphviz\\bin', 'C:\\Users\\louis\\.cargo\\bin', 'C:\\Users\\louis\\AppData\\Local\\Microsoft\\WindowsApps', 'C:\\Users\\louis\\.dotnet\\tools', 'C:\\Users\\louis\\AppData\\Local\\Programs\\Microsoft VS Code\\bin', 'D:\\git', 'C:\\Users\\louis\\AppData\\Roaming\\npm', 'C:\\ST\\STM32CubeIDE_1.13.1\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_2.1.0.202305091550\\tools\\bin', 'C:\\Program Files (x86)\\Common Files\\Hilscher GmbH\\TLRDecode', '', 'C:\\Program Files (x86)\\Hilscher GmbH\\netX Studio CDT', ''] var='PATCH' -> None
+from C:\Users\louis\netX CDT Projects\doio_chaselight_with_dnetFW_spi0: Could not find the program patch
+----------------------------------------
+Checking for program svn
+not found
+find program=['svn'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\python\\2.7.11\\', 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\mingw\\4.9.3\\bin', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/bin/client', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/bin', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/lib/i386', 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common', 'C:\\Python312\\Scripts\\', 'C:\\Python312\\', 'C:\\WINDOWS\\system32', 'C:\\WINDOWS', 'C:\\WINDOWS\\System32\\Wbem', 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\', 'C:\\WINDOWS\\System32\\OpenSSH\\', 'C:\\Program Files\\dotnet\\', 'C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\', 'C:\\Program Files\\Git\\cmd', 'C:\\Program Files\\Pandoc\\', 'C:\\MinGW\\bin', 'C:\\Program Files\\CMake\\bin', 'C:\\Program Files\\MATLAB\\R2024a\\bin', 'C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin\\', 'C:\\Program Files\\IVI Foundation\\VISA\\Win64\\Bin\\', 'C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin', 'C:\\Program Files\\nodejs\\', 'C:\\ProgramData\\chocolatey\\bin', 'C:\\Program Files\\Bandizip\\', 'C:\\Program Files (x86)\\Windows Kits\\8.1\\Windows Performance Toolkit\\', 'C:\\Program Files (x86)\\Vector CANdb++ 3.1\\Exec32', 'C:\\Program Files\\Git\\mingw64\\bin', 'C:\\Program Files\\Graphviz\\bin', 'C:\\Users\\louis\\.cargo\\bin', 'C:\\Users\\louis\\AppData\\Local\\Microsoft\\WindowsApps', 'C:\\Users\\louis\\.dotnet\\tools', 'C:\\Users\\louis\\AppData\\Local\\Programs\\Microsoft VS Code\\bin', 'D:\\git', 'C:\\Users\\louis\\AppData\\Roaming\\npm', 'C:\\ST\\STM32CubeIDE_1.13.1\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_2.1.0.202305091550\\tools\\bin', 'C:\\Program Files (x86)\\Common Files\\Hilscher GmbH\\TLRDecode', '', 'C:\\Program Files (x86)\\Hilscher GmbH\\netX Studio CDT', ''] var='SVN' -> None
+from C:\Users\louis\netX CDT Projects\doio_chaselight_with_dnetFW_spi0: Could not find the program svn
+----------------------------------------
+Checking for program python
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\python\2.7.11\python.exe
+find program=['python'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\python\\2.7.11\\', 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\mingw\\4.9.3\\bin', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/bin/client', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/bin', 'C:/Program Files (x86)/Hilscher GmbH/netX Studio CDT/jre/lib/i386', 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common', 'C:\\Python312\\Scripts\\', 'C:\\Python312\\', 'C:\\WINDOWS\\system32', 'C:\\WINDOWS', 'C:\\WINDOWS\\System32\\Wbem', 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\', 'C:\\WINDOWS\\System32\\OpenSSH\\', 'C:\\Program Files\\dotnet\\', 'C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\', 'C:\\Program Files\\Git\\cmd', 'C:\\Program Files\\Pandoc\\', 'C:\\MinGW\\bin', 'C:\\Program Files\\CMake\\bin', 'C:\\Program Files\\MATLAB\\R2024a\\bin', 'C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin\\', 'C:\\Program Files\\IVI Foundation\\VISA\\Win64\\Bin\\', 'C:\\Program Files (x86)\\IVI Foundation\\VISA\\WinNT\\Bin', 'C:\\Program Files\\nodejs\\', 'C:\\ProgramData\\chocolatey\\bin', 'C:\\Program Files\\Bandizip\\', 'C:\\Program Files (x86)\\Windows Kits\\8.1\\Windows Performance Toolkit\\', 'C:\\Program Files (x86)\\Vector CANdb++ 3.1\\Exec32', 'C:\\Program Files\\Git\\mingw64\\bin', 'C:\\Program Files\\Graphviz\\bin', 'C:\\Users\\louis\\.cargo\\bin', 'C:\\Users\\louis\\AppData\\Local\\Microsoft\\WindowsApps', 'C:\\Users\\louis\\.dotnet\\tools', 'C:\\Users\\louis\\AppData\\Local\\Programs\\Microsoft VS Code\\bin', 'D:\\git', 'C:\\Users\\louis\\AppData\\Roaming\\npm', 'C:\\ST\\STM32CubeIDE_1.13.1\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_2.1.0.202305091550\\tools\\bin', 'C:\\Program Files (x86)\\Common Files\\Hilscher GmbH\\TLRDecode', '', 'C:\\Program Files (x86)\\Hilscher GmbH\\netX Studio CDT', ''] var='PYTHON' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\python\\2.7.11\\python.exe'
+----------------------------------------
+Checking for hboot image compiler
+C:\Users\louis\netX CDT Projects\doio_chaselight_with_dnetFW_spi0\WAF\hboot_image_compiler\com
+-------------------------------------------
+Checking for app intflash image update tool
+C:\Users\louis\netX CDT Projects\doio_chaselight_with_dnetFW_spi0\WAF\hboot_image_compiler\com\netx90_app_iflash_image.py
+-------------------------------------------
+Checking for app image update tool
+C:\Users\louis\netX CDT Projects\doio_chaselight_with_dnetFW_spi0\WAF\hboot_image_compiler\app\netx90_app_image.py
+(tool objcopy is already loaded, skipping)
+-------------------------------------------
+Checking for program arm-none-eabi-ar
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-ar.exe
+find program=['arm-none-eabi-ar'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='AR' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-ar.exe'
+-------------------------------------------
+Checking for program arm-none-eabi-readelf
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-readelf.exe
+find program=['arm-none-eabi-readelf'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='READELF' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-readelf.exe'
+-------------------------------------------
+Checking for program arm-none-eabi-objdump
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-objdump.exe
+find program=['arm-none-eabi-objdump'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='OBJDUMP' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-objdump.exe'
+-------------------------------------------
+Checking for program arm-none-eabi-objcopy
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-objcopy.exe
+find program=['arm-none-eabi-objcopy'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='OBJCOPY' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-objcopy.exe'
+-------------------------------------------
+Checking for program arm-none-eabi-strip
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-strip.exe
+find program=['arm-none-eabi-strip'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='STRIP' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-strip.exe'
+-------------------------------------------
+Checking for program arm-none-eabi-nm
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-nm.exe
+find program=['arm-none-eabi-nm'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='NM' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-nm.exe'
+-------------------------------------------
+Checking for program arm-none-eabi-gcc
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-gcc.exe
+find program=['arm-none-eabi-gcc'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='CC' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-gcc.exe'
+-------------------------------------------
+Checking for program arm-none-eabi-g++
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-g++.exe
+find program=['arm-none-eabi-g++'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='CXX' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-g++.exe'
+['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-gcc.exe', '-dumpversion']
+out: 4.9.3
+
+['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-gcc.exe', '-dumpmachine']
+out: arm-none-eabi
+
+-------------------------------------------
+Checking for program arm-none-eabi-gcov
+C:\ProgramData\Hilscher GmbH\netX Studio CDT\BuildTools\arm-none-eabi-gcc\4.9.3\bin\arm-none-eabi-gcov.exe
+find program=['arm-none-eabi-gcov'] paths=['C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin'] var='GCOV' -> 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\arm-none-eabi-gcc\\4.9.3\\bin\\arm-none-eabi-gcov.exe'
+-------------------------------------------
+Toolchain 'gccarmemb'
+gcc 4.9.3

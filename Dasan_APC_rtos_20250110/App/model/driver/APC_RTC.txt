@@ -1,0 +1,72 @@
+/*
+ * rtc.c
+ *
+ *  Created on: 2023. 10. 5.
+ *      Author: Yongseok
+ */
+
+#include "APC_RTC.h"
+
+extern RTC_HandleTypeDef hrtc;
+extern UART_HandleTypeDef huart1;
+
+RTC_DateTypeDef sDate;
+RTC_TimeTypeDef sTime;
+char temp[100];
+char ampm[2][3] = {"AM", "PM"};
+uint8_t rx;
+uint8_t bufindex=0;
+uint8_t buf[30];
+
+
+void getRtcTime() {
+	HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BCD); // GetTime to sTime in BCD format
+	HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BCD); // GetDate to sDate in BCD format
+
+
+	sprintf(temp,"\r\n20%02x-%02x-%02x %s %02x:%02x:%02x", sDate.Year, sDate.Month,
+			sDate.Date, ampm[sTime.TimeFormat], sTime.Hours, sTime.Minutes,
+			sTime.Seconds); // sprintf to temp
+	HAL_UART_Transmit(&huart1, (uint8_t*)temp, strlen(temp), 10);
+}
+
+void setRtcTime() {
+	HAL_UART_RxCpltCallback(&huart1);
+
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if (huart->Instance == USART1) {
+		if (rx == '\n')
+		{
+			buf[bufindex] = 0;
+			char *p;
+			if ((p = strstr((char*)buf, "SetTime:")) != NULL)
+			{
+				sTime.Hours   = (( *(p+8)-'0') << 4) + ( *(p+9)-'0');
+				sTime.Minutes = ((*(p+10)-'0') << 4) + (*(p+11)-'0');
+				sTime.Seconds = ((*(p+12)-'0') << 4) + (*(p+13)-'0');
+
+				HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD);
+			}
+			else if ((p = strstr((char*)buf, "SetDate:")) != NULL)
+			{
+				sDate.Year  = (( *(p+8)-'0') << 4) + ( *(p+9)-'0');
+				sDate.Month = ((*(p+10)-'0') << 4) + (*(p+11)-'0');
+				sDate.Date  = ((*(p+12)-'0') << 4) + (*(p+13)-'0');
+
+				HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD);
+			}
+			bufindex = 0;
+		}
+		else
+		{
+			if (bufindex < 30)
+			{
+				buf[bufindex++] = rx;
+			}
+		}
+		HAL_UART_Receive_IT(huart, &rx, 1); // enable IT again
+	}
+}

@@ -1,0 +1,3 @@
+../App/model/driver/APC_E2prom.c:24:6:initE2prom	4	static
+../App/model/driver/APC_E2prom.c:39:6:getE2promData	24	static
+../App/model/driver/APC_E2prom.c:76:6:setE2promData	24	static

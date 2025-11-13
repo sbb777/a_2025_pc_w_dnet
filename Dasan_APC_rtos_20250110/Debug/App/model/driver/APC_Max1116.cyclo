@@ -1,0 +1,5 @@
+../App/model/driver/APC_Max1116.c:16:6:initMax1116	1
+../App/model/driver/APC_Max1116.c:21:6:getMax1116Config	1
+../App/model/driver/APC_Max1116.c:26:6:setMax1116Config	1
+../App/model/driver/APC_Max1116.c:36:9:getMax1116Value	1
+../App/model/driver/APC_Max1116.c:68:9:getMax1116_VDRUCK_Value	1

@@ -1,0 +1,51 @@
+
+@startuml
+
+title Pkt_SendReceivePacket()
+
+start
+
+: <b>Pkt_SendPacket()</b>
+  confirmationReceived = false;
+
+repeat
+    : <b>Pkt_ReceivePacket()</b>;
+
+    if (we received the confirmation we are waiting for?) then (yes)
+        : confirmationReceived = true;
+        
+    else (no)
+        if (this is another confirmation?) then (yes)
+            : <b>Pkt_QueueConfirmation()</b>;
+            note left
+              This is a confirmation for another 
+              command we have issued, so put 
+              it into the receive queue for now.
+            endnote
+        else
+            -> this is an indication; 
+            : <b>Pkt_DispatchIndication()</b>;
+            note left
+                Dispatch indication packet to 
+                registered callback handler.
+            end note
+            : <b>Pkt_TryDequeConfirmation() </b>;
+            note left
+              Checks whether the confirmation 
+              we are waiting for 
+              was queued up during above 
+              indication handling.
+            end note
+            
+            if (confirmation was queued up?) then (yes)
+              : confirmationReceived = true;
+            endif
+
+        endif
+    endif
+
+repeat while (confirmationReceived?) is (no)
+
+stop
+
+@enduml

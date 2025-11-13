@@ -1,0 +1,5 @@
+../Hil_DemoApp/Sources/App_VAT_Diagnostic.c:26:6:VAT_Diagnostic_Init	1
+../Hil_DemoApp/Sources/App_VAT_Diagnostic.c:48:6:VAT_Diagnostic_Update	6
+../Hil_DemoApp/Sources/App_VAT_Diagnostic.c:98:6:VAT_Diagnostic_RecordError	1
+../Hil_DemoApp/Sources/App_VAT_Diagnostic.c:111:6:VAT_Diagnostic_Reset	1
+../Hil_DemoApp/Sources/App_VAT_Diagnostic.c:128:10:VAT_Diagnostic_HandleService	22

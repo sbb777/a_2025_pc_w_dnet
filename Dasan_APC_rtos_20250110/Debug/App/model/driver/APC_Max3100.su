@@ -1,0 +1,14 @@
+../App/model/driver/APC_Max3100.c:33:6:initMax3100	24	static
+../App/model/driver/APC_Max3100.c:45:9:calculateBaudrateConfig	24	static
+../App/model/driver/APC_Max3100.c:65:6:setMax3100Baudrate	24	static
+../App/model/driver/APC_Max3100.c:70:10:getMax3100Baudrate	16	static
+../App/model/driver/APC_Max3100.c:83:5:readMax3100Data	16	static
+../App/model/driver/APC_Max3100.c:92:6:availableMax3100Transmit	16	static
+../App/model/driver/APC_Max3100.c:99:6:writeMax3100Data	16	static
+../App/model/driver/APC_Max3100.c:105:6:availableMax3100Receive	16	static
+../App/model/driver/APC_Max3100.c:113:6:setMax3100Config	16	static
+../App/model/driver/APC_Max3100.c:118:10:getMax3100Config	8	static
+../App/model/driver/APC_Max3100.c:123:6:setMax3100Data	16	static
+../App/model/driver/APC_Max3100.c:128:10:getMax3100Data	8	static
+../App/model/driver/APC_Max3100.c:133:6:setMax3100	16	static
+../App/model/driver/APC_Max3100.c:142:10:getMax3100	24	static

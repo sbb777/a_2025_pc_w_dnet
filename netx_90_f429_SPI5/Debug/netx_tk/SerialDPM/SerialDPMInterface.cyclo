@@ -1,0 +1,9 @@
+../netx_tk/SerialDPM/SerialDPMInterface.c:57:14:Read_NX50	5
+../netx_tk/SerialDPM/SerialDPMInterface.c:117:14:Write_NX50	2
+../netx_tk/SerialDPM/SerialDPMInterface.c:157:14:Read_NX500	6
+../netx_tk/SerialDPM/SerialDPMInterface.c:232:14:ReadModifyWrite_NX500	6
+../netx_tk/SerialDPM/SerialDPMInterface.c:286:14:Read_NX10	2
+../netx_tk/SerialDPM/SerialDPMInterface.c:313:14:Write_NX10	2
+../netx_tk/SerialDPM/SerialDPMInterface.c:340:14:Read_NX51	2
+../netx_tk/SerialDPM/SerialDPMInterface.c:368:14:Write_NX51	1
+../netx_tk/SerialDPM/SerialDPMInterface.c:392:5:SerialDPM_Init	12

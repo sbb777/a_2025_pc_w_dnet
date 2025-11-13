@@ -1,0 +1,6 @@
+../netx_tk/OSAbstraction/OS_SPICustom.c:67:6:OS_SpiInit	1
+../netx_tk/OSAbstraction/OS_SPICustom.c:77:6:OS_SpiAssert	1
+../netx_tk/OSAbstraction/OS_SPICustom.c:87:6:OS_SpiDeassert	1
+../netx_tk/OSAbstraction/OS_SPICustom.c:96:6:OS_SpiLock	1
+../netx_tk/OSAbstraction/OS_SPICustom.c:106:6:OS_SpiUnlock	1
+../netx_tk/OSAbstraction/OS_SPICustom.c:119:6:OS_SpiTransfer	5

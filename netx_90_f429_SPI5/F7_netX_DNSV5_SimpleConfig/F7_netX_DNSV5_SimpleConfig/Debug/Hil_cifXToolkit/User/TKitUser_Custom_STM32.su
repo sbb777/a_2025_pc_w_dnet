@@ -1,0 +1,11 @@
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:45:5:USER_GetOSFile	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:59:10:USER_GetFirmwareFileCount	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:75:5:USER_GetFirmwareFile	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:89:10:USER_GetConfigurationFileCount	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:105:5:USER_GetConfigurationFile	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:116:6:USER_GetBootloaderFile	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:127:5:USER_GetWarmstartParameters	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:140:6:USER_GetAliasName	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:150:5:USER_GetInterruptEnable	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:160:5:USER_GetCachedIOBufferMode	0	static
+../Hil_cifXToolkit/User/TKitUser_Custom_STM32.c:187:6:USER_Trace	0	static

@@ -1,0 +1,6 @@
+../App/model/driver/APC_Display.c:37:6:initDisplay	8	static
+../App/model/driver/APC_Display.c:43:7:getDisplayData	4	static
+../App/model/driver/APC_Display.c:51:6:setDisplayData	56	static
+../App/model/driver/APC_Display.c:98:6:setControlRegister	24	static
+../App/model/driver/APC_Display.c:129:6:setLed	16	static
+../App/model/driver/APC_Display.c:134:6:setDisplayCodeNumber	32	static

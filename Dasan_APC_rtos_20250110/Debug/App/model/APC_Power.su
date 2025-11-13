@@ -1,0 +1,4 @@
+../App/model/APC_Power.c:18:6:initPower	8	static
+../App/model/APC_Power.c:28:5:getPower	16	static
+../App/model/APC_Power.c:35:6:setPower	16	static
+../App/model/APC_Power.c:54:6:refreshPower	16	static

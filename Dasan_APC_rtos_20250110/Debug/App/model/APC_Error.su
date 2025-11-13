@@ -1,0 +1,6 @@
+../App/model/APC_Error.c:18:6:initError	4	static
+../App/model/APC_Error.c:23:9:getErrorCode	4	static
+../App/model/APC_Error.c:28:6:setErrorCode	16	static
+../App/model/APC_Error.c:37:9:getFatalErrorCode	4	static
+../App/model/APC_Error.c:42:6:setFatalErrorCode	16	static
+../App/model/APC_Error.c:51:6:resetError	16	static

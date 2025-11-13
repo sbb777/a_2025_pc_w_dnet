@@ -1,0 +1,6 @@
+../Hil_cifXToolkit/Source/netX5x_hboot.c:96:12:hboot_waitforbitstate	8
+../Hil_cifXToolkit/Source/netX5x_hboot.c:163:16:hboot_send_packet	3
+../Hil_cifXToolkit/Source/netX5x_hboot.c:218:16:hboot_get_packet	4
+../Hil_cifXToolkit/Source/netX5x_hboot.c:269:16:hboot_transfer_packet	2
+../Hil_cifXToolkit/Source/netX5x_hboot.c:55:5:IsNetX51or52ROM	6
+../Hil_cifXToolkit/Source/netX5x_hboot.c:294:9:cifXStartBootloader_hboot	18

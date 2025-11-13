@@ -1,0 +1,11 @@
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:27:6:VAT_UpdateInputAssembly100	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:36:6:VAT_UpdateInputAssembly101	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:45:6:VAT_UpdateInputAssembly105	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:59:6:VAT_ProcessOutputAssembly8	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:66:6:VAT_ProcessOutputAssembly24	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:74:6:VAT_ProcessOutputAssembly102	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:88:6:VAT_UpdateInputAssembly	48	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:155:6:VAT_ProcessOutputAssembly	32	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:209:6:VAT_HandleCyclicIo	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:220:6:VAT_HandlePollIo	16	static
+../Hil_DemoApp/Sources/App_VAT_IoHandler.c:229:6:VAT_HandleCosIo	16	static

@@ -1,0 +1,5 @@
+../App/model/driver/APC_LocalPort.c:22:6:initLocalPort	1
+../App/model/driver/APC_LocalPort.c:29:10:availableLocalRS232	2
+../App/model/driver/APC_LocalPort.c:44:9:readLocalRS232Data	3
+../App/model/driver/APC_LocalPort.c:63:10:writeLocalRS232Data	3
+../App/model/driver/APC_LocalPort.c:83:10:printLocalRS232	2

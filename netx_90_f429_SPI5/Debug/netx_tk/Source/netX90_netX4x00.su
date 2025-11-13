@@ -1,0 +1,4 @@
+../netx_tk/Source/netX90_netX4x00.c:33:5:IsNetX4x00FLASH	24	static
+../netx_tk/Source/netX90_netX4x00.c:67:5:IsNetX4x00ROM	32	static
+../netx_tk/Source/netX90_netX4x00.c:98:5:IsNetX90FLASH	32	static
+../netx_tk/Source/netX90_netX4x00.c:129:5:IsNetX90ROM	56	static

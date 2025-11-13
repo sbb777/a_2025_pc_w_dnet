@@ -1,0 +1,11 @@
+../App/logic/APC_Scheduler.c:36:6:initScheduler	4	static
+../App/logic/APC_Scheduler.c:41:6:procScheduler	16	static
+../App/logic/APC_Scheduler.c:52:6:scheduleInterrupt	24	static
+../App/logic/APC_Scheduler.c:77:6:scheduleDisplay	24	static
+../App/logic/APC_Scheduler.c:101:6:schedulePower	16	static
+../App/logic/APC_Scheduler.c:145:6:scheduleSensor	16	static
+../App/logic/APC_Scheduler.c:154:6:scheduleValve	24	static
+../App/logic/APC_Scheduler.c:186:6:scheduleAir	16	static
+../App/logic/APC_Scheduler.c:212:6:scheduleRemotePort	24	static
+../App/logic/APC_Scheduler.c:487:6:scheduleSyncData	16	static
+../App/logic/APC_Scheduler.c:502:6:HAL_GPIO_EXTI_Callback	16	static

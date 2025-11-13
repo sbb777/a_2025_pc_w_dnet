@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<build hboot_compiler_version="1.2.2" hwconfig_tool_version="4.1.9">
+  <resource path="HWC\netX90\hardware_config.xml">
+    <hash>sgSvrz5EV9EBB4blP9hqSXggl++iyNYAiM/BtT+APRQ=</hash>
+  </resource>
+</build>

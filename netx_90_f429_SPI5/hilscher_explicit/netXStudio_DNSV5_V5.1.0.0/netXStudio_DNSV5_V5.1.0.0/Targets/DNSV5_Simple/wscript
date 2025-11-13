@@ -1,0 +1,117 @@
+def build(bld):
+
+    toolchain = bld.env["UsedToolchain"]
+    if not toolchain:
+        bld.fatal('Environment parameter "UsedToolchain" is not available! Make sure to provide the environment parameter "UsedToolchain" in the root wscript file of your project. e.g.: conf.env["UsedToolchain"] = "gccarmemb"')
+
+    platform  = bld.env["UsedPlatform"]
+    if not platform:
+        bld.fatal('Environment parameter "UsedPlatform" is not available! Make sure to provide the environment parameter "UsedPlatform" in the root wscript file of your project. e.g.: conf.env["UsedPlatform"]  = "netx90"')
+
+    comp_prefix = bld.get_name_prefix(
+        toolchain = toolchain,
+        platform  = platform)
+
+    sources = [
+         "../NXHX90-JTAG/Sources/handler.c",
+         "../NXHX90-JTAG/Sources/main.c",
+         "../Common/terminal.c",
+        ]
+
+    sources_usecaseA = [
+         "../NXHX90-JTAG/Sources/netx90_app_header_useCaseA.c",
+        ]
+
+    sources_usecaseC = [
+         "../NXHX90-JTAG/Sources/netx90_app_header_useCaseC.c",
+        ]
+
+    includes = [
+        "../NXHX90-JTAG/Include",
+        ]
+
+
+    defines = [
+        "__NETX90",
+        "_NETX_",
+        ]
+
+    uses = [
+        comp_prefix + "CMSIS",
+        comp_prefix + "netx_drv",
+        comp_prefix + "cifXToolkit",
+        comp_prefix + "libc_support",
+        comp_prefix + "ApplicationDemo",
+        comp_prefix + "demoDNSV5_simple",
+        ]
+
+    ###############################
+    # Targets for USE CASE A
+
+    bld.program (
+        target       = "dns_simple_nx90_app_usecase_a_sdram",
+        name         = comp_prefix + "dns_simple_nx90_app_usecase_a_sdram",
+        description  = "DNS V5 Simple Host Example using NXHX90-JTAG as Host (usecase_a, sdram)",
+        displaygroup = "Targets",
+        platform     = platform,
+        toolchain    = toolchain,
+        use          = uses,
+        source       = sources + sources_usecaseA,
+        includes     = includes,
+        defines      = defines,
+        linkerscript = "../NXHX90-JTAG/Linker/netx90_sdram.ld",
+        features     = ["group_lib"],
+        )
+
+    bld.firmware(
+        target       = "dns_simple_nx90_app_usecase_a_iflash.nai",
+        name         = comp_prefix + "dns_simple_nx90_app_usecase_a_iflash",
+        description  = "DNS V5 Simple Host Example using NXHX90-JTAG as Host (usecase_a, iflash)",
+        displaygroup = "Targets",
+        platform     = platform,
+        toolchain    = toolchain,
+        use          = uses,
+        source       = sources + sources_usecaseA,
+        includes     = includes,
+        defines      = defines,
+        stlib        = 'm c',
+        linkerscript = ["../NXHX90-JTAG/Linker/netx90_app_iflash.ld"],
+        features     = ["group_lib"],
+        netx_type    = 'netx90_rev1',
+    )
+
+    ###############################
+    # Targets for USE CASE C
+
+    bld.program (
+        target       = "dns_simple_nx90_app_usecase_c_sdram",
+        name         = comp_prefix + "dns_simple_nx90_app_usecase_c_sdram",
+        description  = "DNS V5 Simple Host Example using NXHX90-JTAG as Host (usecase_c, sdram)",
+        displaygroup = "Targets",
+        platform     = platform,
+        toolchain    = toolchain,
+        use          = uses,
+        source       = sources + sources_usecaseC,
+        includes     = includes,
+        defines      = defines,
+        linkerscript = "../NXHX90-JTAG/Linker/netx90_sdram.ld",
+        features     = ["group_lib"],
+        )
+
+    bld.firmware(
+        target       = "dns_simple_nx90_app_usecase_c_iflash.nai",
+        name         = comp_prefix + "dns_simple_nx90_app_usecase_c_iflash",
+        description  = "DNS V5 Simple Host Example using NXHX90-JTAG as Host (usecase_c, iflash)",
+        displaygroup = "Targets",
+        platform     = platform,
+        toolchain    = toolchain,
+        use          = uses,
+        source       = sources + sources_usecaseC,
+        includes     = includes,
+        defines      = defines,
+        stlib        = 'm c',
+        linkerscript = ["../NXHX90-JTAG/Linker/netx90_app_iflash.ld"],
+        features     = ["group_lib"],
+        netx_type    = 'netx90_rev1',
+    )
+

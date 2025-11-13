@@ -1,0 +1,7 @@
+../App/model/APC_Warning.c:21:6:initWarning	1
+../App/model/APC_Warning.c:43:6:setWarningCode	5
+../App/model/APC_Warning.c:65:9:getWarningStatus	1
+../App/model/APC_Warning.c:70:9:getWarningServiceRequest	1
+../App/model/APC_Warning.c:81:9:getWarningLearnDatasetPresent	1
+../App/model/APC_Warning.c:86:9:getWarningCompressedAir	1
+../App/model/APC_Warning.c:91:9:getWarningPFOBattery	1

@@ -1,0 +1,69 @@
+def build(bld):
+
+    
+# Component cifXToolkit --------------------------------------------------------------------
+    sources  = [
+        "Source/cifXDownload.c",
+        "Source/cifXEndianess.c",
+        "Source/cifXFunctions.c",
+        "Source/cifXHWFunctions.c",
+        "Source/cifXInit.c",
+        "Source/cifXInterrupt.c",
+        "Source/Hilmd5.c",
+        "Source/netX90_netX4x00.c",
+        "Source/netX5x_hboot.c",
+        "Source/netX5xx_hboot.c",
+        ]
+    
+    sources_spm  = [
+        "SerialDPM/SerialDPMInterface.c",
+        ]
+    
+    includes = [
+        "OSAbstraction",
+        "SerialDPM",
+        "Source",
+        ]
+    
+    for toolchain,platform in (("codesourcery","netx51"),("gccarmemb","netx90"),):
+
+        comp_prefix = bld.get_name_prefix(toolchain = toolchain, suffix = None,   platform = platform)
+
+        bld.stlib(
+            target          = "cifXToolkit",
+            name            = comp_prefix + "cifXToolkit",
+            description     = "Parallel DPM cifXToolkit Library for netX",
+            displaygroup    = "Libraries",
+            platform        = bld.platform,
+            toolchain       = toolchain, 
+            use             = [
+                                "Hil_Definition_cifXApi_sdk",
+                                "Hil_Definition_netXFirmware_sdk",
+                              ],
+            source          = sources,
+            includes        = includes,
+            export_includes = includes,
+        )
+        
+        bld.stlib(
+            target          = "cifXToolkit_spm",
+            name            = comp_prefix + "cifXToolkit_spm",
+            description     = "Serial DPM (SPM) cifXToolkit Library for netX",
+            displaygroup    = "Libraries",
+            platform        = bld.platform,
+            toolchain       = toolchain, 
+            use             = [
+                                "Hil_Definition_cifXApi_sdk",
+                                "Hil_Definition_netXFirmware_sdk",
+                              ],
+            source          = sources + sources_spm,
+            includes        = includes,
+            defines         = ["CIFX_TOOLKIT_HWIF"],
+            export_includes = includes,
+            export_defines  = ["CIFX_TOOLKIT_HWIF"],
+        )
+    
+    bld.sdkcomponent(
+        name            = "cifXToolkit_sdk",
+        export_includes = includes,
+        )

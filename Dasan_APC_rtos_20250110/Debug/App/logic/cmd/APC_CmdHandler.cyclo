@@ -1,0 +1,3 @@
+../App/logic/cmd/APC_CmdHandler.c:44:5:doCmdHandler	153
+../App/logic/cmd/APC_CmdHandler.c:323:5:getCmdKey	4
+../App/logic/cmd/APC_CmdHandler.c:343:5:doCmdParser	27

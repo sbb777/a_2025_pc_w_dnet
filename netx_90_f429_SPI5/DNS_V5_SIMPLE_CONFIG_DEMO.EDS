@@ -1,0 +1,83 @@
+$ EZ-EDS Version 3.27.1.20191218 Generated Electronic Data Sheet
+
+$ DNS V5 Simple Configuration Demo Electronic Data Sheet
+$ Version 1.1
+$ 01/01/21
+$ Template EDS file provided by Hilscher Gesellschaft fuer Systemautomation mbH
+$ Template fingerprint: $Id: $
+$ Please provide the above fingerprint for reference in any support requests towards Hilscher.
+$  
+$ This file should be changed by the device manufacturer only.
+$ Incompatible changes may lead to communication errors in the DeviceNet network
+$  
+$ The metafields ModDate and ModTime in section [File] are set to arbitrary values in this template.
+$ The customer will have to modify these in the development process along with the actual content.
+
+$ File Description Section
+[File]
+        DescText = "DNS-File for DeviceNet Slave Simple Config Demo Application";
+        CreateDate = 01-01-2021;
+        CreateTime = 00:00:00;
+        ModDate = 01-01-2021;
+        ModTime = 00:00:00;
+        Revision = 1.1;
+        HomeURL = "www.hilscher.com";
+
+$ Device Description Section
+[Device]
+        VendCode = 283;
+        VendName = "Hilscher GmbH";
+        ProdType = 12;
+        ProdTypeStr = "Communications Adapter";
+        ProdCode = 34;
+        MajRev = 5;
+        MinRev = 1;
+        ProdName = "DNS_V5_SIMPLE_CONFIG_DEMO";
+        Catalog = "0";
+        Icon = "NETX.ICO";
+
+$ I/O Characteristics Section
+[IO_Info]
+
+        Default = 0x0001;       $ poll as default
+
+        PollInfo =
+                0x000F,         $ OK to Combine w/Poll/Strobe/COS/Cyclic
+                1,              $ Default Input  = Input1
+                1;              $ Default Output = Output1
+
+        StrobeInfo =
+                0x000F,         $ OK to Combine w/Poll/Strobe/COS/Cyclic
+                1,              $ Default Input  = Input1
+                0;              $ Default Output = none
+
+        COSInfo =
+                0x0007,         $ OK to Combine w/Poll/Strobe/COS
+                1,              $ Default Input  = Input1
+                1;              $ Default Output = Output1
+
+        CyclicInfo =
+                0x000B,         $ OK to Combine w/Poll/Strobe/Cyclic
+                1,              $ Default Input  = Input1
+                1;              $ Default Output = Output1
+
+        Input1 =
+                10,
+                80,
+                0x000F,
+                "Counter + Sensor + Actuator data",
+                6,
+                "20 04 24 65 30 03",
+                "Counter, S1(Value), S1(Status), S2(Value), S2(Status), A1(Status) A1(Status)";
+
+        Output1 =
+                6,
+                48,
+                0x000D,
+                "Actuator data + Counter control",
+                6,
+                "20 04 24 64 30 03",
+                "A1(Value), A1(Value), Counter Direction, Counter Speed";
+
+
+$ DNS V5 Simple Configuration Demo EDS File

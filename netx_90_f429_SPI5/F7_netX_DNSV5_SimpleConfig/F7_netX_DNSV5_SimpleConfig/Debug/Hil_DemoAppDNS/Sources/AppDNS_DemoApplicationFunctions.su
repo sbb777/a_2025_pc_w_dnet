@@ -1,0 +1,9 @@
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:259:10:AppDNS_GlobalPacket_SendReceive	8	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:284:10:AppDNS_GlobalPacket_Send	8	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:207:6:AppDNS_PacketHandler_callback	8	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:304:7:AppDNS_GlobalPacket_Init	8	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:85:10:AppDNS_SetConfiguration	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:135:10:AppDNS_ChannelInit	8	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:151:10:AppDNS_StartCommunication	8	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:172:10:AppDNS_ConfigureStack	8	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:315:7:AppDNS_GlobalPacket_Get	0	static

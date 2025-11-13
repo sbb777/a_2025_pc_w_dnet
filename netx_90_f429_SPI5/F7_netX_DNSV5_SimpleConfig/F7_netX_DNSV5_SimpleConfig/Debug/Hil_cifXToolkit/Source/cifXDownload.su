@@ -1,0 +1,12 @@
+../Hil_cifXToolkit/Source/cifXDownload.c:132:5:DEV_IsFWFile	8	static
+../Hil_cifXToolkit/Source/cifXDownload.c:157:5:DEV_IsFWFileNetX90or4000	16	static
+../Hil_cifXToolkit/Source/cifXDownload.c:194:5:DEV_IsNXOFile	8	static
+../Hil_cifXToolkit/Source/cifXDownload.c:216:5:DEV_IsNXFFile	8	static
+../Hil_cifXToolkit/Source/cifXDownload.c:313:9:DEV_DeleteFile	3240	static
+../Hil_cifXToolkit/Source/cifXDownload.c:54:5:DEV_RemoveChannelFiles	88	static
+../Hil_cifXToolkit/Source/cifXDownload.c:244:5:DEV_RemoveFWFiles	72	static
+../Hil_cifXToolkit/Source/cifXDownload.c:379:9:DEV_GetFWTransferTypeFromFileName	24	static
+../Hil_cifXToolkit/Source/cifXDownload.c:440:9:DEV_CheckForDownload	3344	static
+../Hil_cifXToolkit/Source/cifXDownload.c:916:9:DEV_DownloadFile	3296	static
+../Hil_cifXToolkit/Source/cifXDownload.c:574:9:DEV_ProcessFWDownload	80	static
+../Hil_cifXToolkit/Source/cifXDownload.c:1239:9:DEV_UploadFile	3264	static

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlasherPackage version="1.4.0" has_subdirs="true">
+   <Target netx="NETX90">
+      <Flash bus="IFlash" unit="3" chip_select="0">
+         <Data offset="0" size="8192" condition="" file="../HWC/netX90/hardware_config.hwc"/>
+         <Data offset="12288" size="1596" condition="" file="../LFW/netx90_com_iflash_dummy.nxi"/>
+      </Flash>
+      <Flash bus="IFlash" unit="2" chip_select="0">
+         <Data offset="0" size="656" condition="" file="../LFW/netx90_app_iflash_dummy.nai"/>
+      </Flash>
+   </Target>
+</FlasherPackage>

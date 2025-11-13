@@ -1,0 +1,344 @@
+Version       | Date       | Who  | Description
+--------------|------------|------|-----------------------------------
+V0.1.5.4      | 2024-11-22 | DM   | enhancements and bug-fixes
+V0.1.5.3      | 2024-10-07 | DM   | enhancements and bug-fixes
+V0.1.5.2      | 2024-06-21 | DM   | enhancements and bug-fixes
+V0.1.5.1      | 2024-04-22 | DM   | enhancements and bug-fixes
+V0.1.5.0      | 2024-02-20 | DM   | enhancements and bug-fixes
+V0.1.4.0      | 2023-06-27 | EB   | enhancements and bug-fixes
+V0.1.3.0      | 2022-02-09 | EB   | Versioning, usage for 'Template'
+V0.1.2.0      | 2022-01-28 | JZ   | Versioning
+V0.1.0.3      | 2020-11-06 | AGR  | SPI and I2C
+V0.1.0.2      | 2020-09-28 | AGR  | GCC Note
+V0.1.0.1      | 2020-09-28 | AGR  | Versioning
+V0.1.1.0      | 2020-09-22 | AGR  | Versioning
+V0.1.0.0      | 2020-09-07 | AGR  | NAE, MCP and FPU
+V0.0.5.0      | 2019-12-17 | AGR  | Header changes
+V0.0.4.10     | 2019-12-16 | AGR  | XPIC Hotfix
+V0.0.4.9      | 2019-12-05 | AGR  | SPI and UART Hotfix
+V0.0.4.8      | 2019-10-07 | AGR  | CMSIS Temperature Support
+V0.0.4.7      | 2019-05-14 | AGR  | CMSIS Template ld
+V0.0.4.6      | 2019-05-02 | AGR  | TIM Hotfix
+V0.0.4.5      | 2019-04-25 | AGR  | Info Page Fix
+V0.0.4.4      | 2019-04-17 | AGR  | Production Tested Chips
+V0.0.4.3      | 2018-12-18 | AGR  | End of year
+V0.0.4.2      | 2018-11-22 | AGR  | Trading Show Beta
+V0.0.4.1      | 2018-11-15 | AGR  | First Hotfix Round
+V0.0.4.0      | 2018-11-13 | AGR  | Final Silicon Pre-Beta
+V0.0.3.0      | 2018-07-20 | AGR  | DMA Pre-Beta
+V0.0.2.0      | 2018-03-01 | AGR  | CAN Pre-Beta
+V0.0.1.0      | 2018-01-26 | AGR  | Pre-Beta
+V0.0.0.3564   | 2018-01-16 | AGR  | Alpha
+V0.0.0.3452   | 2017-11-06 | AGR  | Pre-Alpha
+
+### V0.1.5.4
+
+** Bug
+- [NX90APPDRV-284] - UART - Verify handler in GetStaticBuffer() function
+- [NX90APPDRV-285] - UART - TransmitReceive() function premature end in POLL mode
+- [NX90APPDRV-286] - UART - DRV_UART_DeInit() function
+- [NX90APPDRV-287] - UART - GetTxState() and GetRxState() behavior in DMA mode
+- [NX90APPDRV-288] - UART - DMA configuration checks
+- [NX90APPDRV-289] - SPI/SQI - DMA configuration checks
+- [NX90APPDRV-290] - UART - DRV_UART_GetTxCounter(), DRV_UART_GetRxCounter() in DMA mode
+- [NX90APPDRV-291] - UART - DMA mode works incorrectly when re-initialized for subsequent use
+- [NX90APPDRV-292] - UART, SPI/SQI, I2C - Flush_Buffers functions not inlined
+- [NX90APPDRV-294] - I2C - Adding Function SetSlaveReverseBuffer()
+	
+** Change
+- [NX90APPDRV-283] - UART - Documentation Issues
+
+
+### V0.1.5.3
+
+** Bug
+- [NX90APPDRV-183] - meaningless test of eDioMskOutputReference in DRV_TIM_ChannelGetCapture()
+- [NX90APPDRV-264] - I2C - Master Transmit results in mFIFO Underrun when addressing is 10-bit
+- [NX90APPDRV-265] - I2C - Master Receive results in mFIFO Underrun when addressing is 10-bit
+- [NX90APPDRV-266] - I2C - Master Transmit does not work with 10-bit slave addressing
+- [NX90APPDRV-267] - I2C - Master Receive does not work correctly with 10-bit slave addressing
+- [NX90APPDRV-268] - I2C - Master Transmit repeats sending 10-bit address' second byte in continuous mode
+- [NX90APPDRV-269] - Hardfault occurs when debugging with SDRAM as target 
+- [NX90APPDRV-270] - I2C - Master Receive repeats sending second 10-bit address' byte in continuous mode
+- [NX90APPDRV-271] - I2C - sAckPollMaximum configuration value not validated. Value range should be added in description.
+- [NX90APPDRV-273] - I2C - eSpeedMode is not validated
+- [NX90APPDRV-274] - I2C - Polling mode MasterTransmit() and MasterReceive() error in transfer in consecutive Continuous and Continuous End operations
+- [NX90APPDRV-275] - I2C - Slave Transmit function generates cyclic IRQs while waiting for Master's request
+- [NX90APPDRV-276] - I2C - Abort function fix
+- [NX90APPDRV-277] - I2C - Device address verification for Master and Slave mode
+- [NX90APPDRV-279] - I2C - Slave does not detect transfer direction change or premature stop from Master
+- [NX90APPDRV-281] - I2C - Master does not send Stop in IRQ mode, when Slave is not responding
+- [NX90APPDRV-282] - I2C - Master Receive with 10-bit addressing does not correspond to the Philips standard
+
+### V0.1.5.2
+
+** Bug
+- Bit Field usage must result always in word access, no byte access
+- DRV_TIM_LatchSytimes - Corrected wrong spelling
+- linker-script 'netx90_app_intram.ld' needs ALIGN(8)
+- un-lucky defines like 'hash' in 'netx90_app.h' - implemented a mechanism to resolve definition conflicts with language reserved words
+- DRV functions return DRV_LOCKED in single thread usage - little modification in Semaphore of locking mechanism
+- Wrong file name in header comment block of netx_drv_user_conf_template.h
+- DRV_UART_Receive always return BUSY if a RX timeout occurs in polling mode
+- DMAC - Transfer of more than 4095 byte is not working
+
+** New Feature
+- Add version parameter to bld.stlib commmand in the component wscript
+
+
+
+### V0.1.5.1
+
+** Bug
+- I2C module is used only as a master device, but get param error if don't config tSlaveAddress parameter
+- I2C copy and paste errors
+- I2C - Watermark issue when receiving data as a slave
+- DRV_I2C_MasterTransmit() function seems to set incorrect I2C command in IRQ mode
+- I2C - Compile error due to bool usage
+- I2C - Device does not transmit data correctly in slave mode
+- I2C - On High Speed in Slave Mode, Device does not transmit correctly first bytes of data
+- I2C - Polling mode Master Receive functionality ends a transaction to be continued with STOP on the line
+- I2C - MasterTransmit() continues mode correction
+- I2C - Copying all received data out of FIFO not possible in Slave mode after STOP
+- I2C - Watermark issue when receiving data as a master
+- I2C - In Master Receive IRQ mode transaction is not finished if ISR is interrupted by higher priority IRQ
+
+** New Feature
+- I2C Timeout Config Entry
+
+** Change
+- I2C - Implement timeout functionality in Slave Polling mode
+
+
+### V0.1.5.0
+
+** Bug
+- ptTim->ulSubID
+- SPI RefillLevel
+- SPI device in IRQ mode stuck with DRV_BUSY when sending small amount of data with low SPI frequencies 
+- DIO - Reconfiguration of the GPIO capture mode with DRV_DIO_ChannelSetMode does not work correctly
+- I2C - Watermark issue when receiving data as a slave
+- UART - DRV_UART_ABORT not working correctly in DMA mode
+- Implement writing of ADC Sequencer command register once per job with all parameters
+- UART - Transmission does not work properly when watermark level is 1 in DMA mode
+- UART - ullFrameStartTick for timeout is not reset in DRV_UART_GetChar and DRV_UART_PutChar
+- Problem when using a SQI interface from app side in standard SPI full-duplex mode
+- SQI Chip Select hardware mode issue
+- Function DRV_I2C_Abort() returns only negative result
+- DRV_I2C_MasterReceive() function is no more useable if returns with timeout in polling mode
+
+** New Feature
+- Test SPI slave functionality in SQI capable SPI driver
+- Uart driver: add support to 6.25M baudrate
+- Trimmed ADC_VREF for low-level driver of temperature sensor
+- In function DRV_ADC_Start() wrong check for selected sequencer
+
+** Change
+- UART Baud Rate Mode Calculation
+- netX 90 regdef update due to ADC register description
+- Change ADC software default value for tt_add to 10
+
+
+
+### V0.1.4.0 Versioning, some enhancements due requests
+- DRV_LOCK/'DRV_UNLOCK' introduced different solution for these macros 'as new default'
+        in 'netx_drv_conf.h', 'netx_drv.h', not using LDREX/STREX instructions
+        Note: these macros are used/included by 'all drivers'
+- ADC   changed config data type of DMA Base Address 
+- ADC   fixed wrong check for selected sequencer in DRV_ADC_Start 
+- TIMER fixed DRV_TIM_Init not returning DRV_NSUPP when DMA mode is selected
+- DIO   fixed bug in DRV_DIO_ChannelSetMode where reconfiguring of GPIO capture mode did not work
+- CMSIS added feature 'using Trimmed ADC_VREF for low-level driver of temperature sensor'
+
+### V0.1.3.0 Versioning, note on some driver-code
+- ADC added more description-text in .c and .h file
+- SPI introduced a fix for getting SQI-Mode 'using DMA' working
+
+### V0.1.2.0 Versioning
+- version with updated wscript
+
+### V0.1.0.3 SPI and I2C
+- SPI fixed size correction
+- I2C missing clr added
+- DMAC added the falsely removed align. Note does still not disapear.
+
+### V0.1.0.2 GCC Note
+- DMAC Another approach to the note regarding packed bit-fields in gcc 4.4 increased the amount of notes, so it was reverted again
+
+### V0.1.1.0 Versioning
+- Tagged the wrong version
+
+### V0.1.0.0 NAE, MCP and FPU
+- CMSIS FPU support added
+- CMSIS NAE in linker scripts is correctly placed now
+- CMSIS License of linker scripts has changed
+- WAF modified configuration struct
+- DMAC abort now disables the device before waiting for the active flag to go down
+- I2C Refill Level was added
+- I2C Clear is now functional
+- I2C get state now copes with missing state parameter
+- SPI Abort now also for polling mode
+- SPI Refill Level was added
+- SPI added assert
+- SPI fixed size correction
+- UART Abort fixed
+
+### V0.0.5.0 Header changes
+Changed the wscript and tagged basically the V0.0.4.10 again due to the
+changes in driver and CMSIS regarding the headers linker files
+and everything that was part of V0.0.4.9 and V0.0.4.10
+
+
+### V0.0.4.10 Header Changes
+- Added error message for MPW header include
+- Removed MPW chip support package header file
+- Wrong include of obsolete MPW header fixed
+
+### V0.0.4.9 SPI and UART Hotfix
+- SPI init assert at wrong position
+- UART missing DRV_OK returns in certain cases
+- UART optimization of the Tx context reset constraints
+- CMSIS updated file header informations in the linker script
+
+### V0.0.4.8 CMSIS Temperature Support
+- CMSIS new regdef base for netX90, not the netX MPW, so the MPW support is broken
+- CMSIS extended for calibration/reference value support and convenience functions 
+- CMSIS C++ constructor execution routine integrated
+- CORTEX and CMSIS added software reset vector
+- CSP changes for new regdef/svd and linter
+- ADC naming fix of DRV_ADC_DEVICE_ID_E to DRV_ADC_SEQ_DEVICE_ID_E including the IRQ handler
+- ADC initializer and documentation updated
+- ADC linter related changes like break added and several type casts
+- MLED changes related to the new regdef/svd file and linter
+- ETH MAC XPIC driver updated and now supported by netX 90
+- BiSS changes regarding the ETH MAC XPIC support
+- SPI naming change of DRV_SPI_FSS_STATIC_E to more meaningfull names
+- SPI eDataSize now set as supposed
+- SPI DMAC abort now working as needed
+- SPI DMA callback does not free context anymore
+- SPI fss static driver in dma mode removed from configuration space 
+- Mutex and lock definitions expanded by an type and value define
+- TRACE_PRINTER define added to header
+- Non functional linter issuses fixed in TRACE, DIO, DMAC, I2C, SPI, UART
+- Readme and documentation updates
+
+### V0.0.4.7 CMSIS Template ld
+- ld file referred to PageExtraction an should have been PageReader
+- SPI added more robustness to init and fifo clr
+- DIO fixed bod unmask
+
+### V0.0.4.6 TIM Hotfix
+- TIM correction of assert
+
+### V0.0.4.5 Info Page Fix
+- CMSIS info page reader cache reset and better guarding
+- ADC includes added
+
+### V0.0.4.4 Production Tested Chips
+- SPI Device ID documentation corrected
+- SPI reset/default value and init of data size select fixed
+- SPI alignment calculation fixed
+- SPI and UART FiFo servicing order changed
+- SQI fss set fixed
+- UART variable set order changed
+- UART added missing else
+- UART str/ldr exclusive protection for watermark set
+- UART added separate tx and rx get state functions
+- DIO IRQ Mask fixed
+- CSP DIO HIF ID fixed
+- TRACE print function added
+- Changed DRV_LOCK behaviour during initialization
+- Moved RTOS_USED stubs into user_conf
+
+### V0.0.4.3 End of year
+- More documentation.
+- IRQ disable fixed.
+- MLED return values corrected.
+- RMW of irq clear fixed in I2C, DIO, TIM
+- DMA added missing IRQ clear pending
+- I2C HS Master Code transmission got HS mode parameter check
+- TIM boundary check fixed in pause and getValue and set preload
+- I2C and UART Poll mode got tick timeout similar to spi
+- SPI tick timeout behaviour homogenised with other modules
+- SPI dma slave mode unlocked
+- DeInit was implemented for ADC, I2C, DMA, SPI, UART
+
+### V0.0.4.2 Trading Show Beta
+- Some more documentation.
+- UART get and put char is now accepting unsigned char
+- CMSIS introduced Data memory barriers for the info page reader.
+
+### V0.0.4.1 First Hotfix Round
+- Some more documentation.
+- Regdef include of legacy HALs for mpw fixed
+- CMSIS linker script had wrong names for copy section
+- DMAC irq chip support is now modular and dev 3 was added to list
+
+### V0.0.4.0 Final Silicon Pre-Beta
+This release shall have the support for the final silicon of the netX90 chip. Also the MLED module,
+the SQI devices, the ADC device for the final and the ethernet_mac_xpic device drivers are included. 
+- General documentation update
+- CMSIS
+  - Linker scripts
+  - Final chip support including header and startup files
+  - Flash info page reader for temperature calibration data
+- DMAC asic_ctrl pointer changed and abort fixed
+- SQI integration into the SPI
+- ADC device driver added
+- XPIC driver added
+- ETH_XPIC added
+- CSP for final silicon
+- MLED driver added
+- PIO driver overhaul for final silicon
+- Hotfix merge of V0.0.3.3
+- TIM deinit fixed
+- Removed a lot of traces
+- Abort for i2c
+
+### V0.0.3.0 DMA Pre-Beta
+This release introduces the chip support layer and it contains changes to some drivers and also new ones.
+It also renames all driver files regarding the namespace convention.
+- CMSIS was updated to 5.3.0 and the usage of the regdef was switched to the 
+  svd generated headers in non legacy drivers (BiSS, CAN)
+- SPI DMA and 16b support changed the master slave config option and the mode option
+- I2C driver added
+- DMA driver added
+- BiSS legacy driver added
+- TIM finished
+- UART DMA support
+- I2C driver added
+- BOD support added to dio
+- ITM support added to cortex
+
+### V0.0.2.0 CAN Pre-Beta
+The canctrl driver was added to support can functionality.
+NOTE: The driver is just a temporary implementation and might be replaced in the future.
+
+### V0.0.1.0 Pre-Beta
+First release contains everything until today. (V0.0.0.3452, V0.0.0.3452)
+Since last version
+- DRV TIM get counter value call has changed
+- added the user_drv_conf_template.h
+- The callbacks now contain the driver context as first parameter
+- DRV UART interrupt mode
+- DRV UART getchar and putchar methods
+- Some minor bugfixes in tim and spi
+- DRV DIO line api changes regarding the final chip 
+
+### V0.0.0.3564 Alpha
+- New regdef integrated
+- CMSIS updated with new devices
+- DRV DIO finished
+- DRV SPI poll and irq modes implemented
+- DRV TIM poll and irq modes implemented for GPIO counter, ARM Timer and ARM SysTick
+    with PWM, Capture and Compare functionality on GPIO
+- DRV UART in poll mode only
+- DRV Cortex with CMSIS function wrapping.
+- Customization via user_drv_conf.h possible
+- Doxygen documentation design
+
+### V0.0.0.3452 Pre-Alpha
+- CMSIS
+- DRV GPIO
+- Examples for GPIO
+- DRV SPI POLL 8b

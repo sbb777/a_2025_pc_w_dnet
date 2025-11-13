@@ -1,0 +1,2098 @@
+$ EZ-EDS Version 3.3 (Alpha, 19-Dec-2007) Generated Electronic Data Sheet
+
+
+$ File Description Section:
+$ For more information about the meaning of each entry,
+$ please check CIP Networks Library Volume 1 Chapter 7-3.6.2
+[File]
+        DescText = "VAT Adaptive Pressure Controller";
+        CreateDate = 06-12-2010;        $ mm-dd-yyyy
+        CreateTime = 00:00:00;          $ hh:mm:ss
+        ModDate = 06-12-2010;           $ mm-dd-yyyy
+        ModTime = 00:00:00;             $ hh:mm:ss
+        Revision = 1.0;                 $ EDS file revision
+        HomeURL = "http://www.vatvalve.com";
+
+
+$ Device Description Section:
+$ For more information about the meaning of each entry,
+$ please check CIP Networks Library Volume 1 Chapter 7-3.6.3
+$ and CIP Networks Library Volume 3 Chapter 7-3
+[Device]
+        VendCode = 404;                 $ Identity Object - Vendor ID
+        VendName = "VAT Vakuumventile AG";    $ Textual Vendor Name
+        ProdType = 29;                  $ Identity Object - Device Type
+        ProdTypeStr = "Process Control Valve";    $ Device Type String
+        ProdCode = 650;                 $ Identity Object - Product Code
+        MajRev = 2;                     $ Identity Object - Major Revision
+        MinRev = 1;                     $ Identity Object - Minor Revision
+        ProdName = "VAT Adaptive Pressure Controller";    $ Identity Object - Product Name
+        Catalog = "650";               $ Textual catalog or model number
+        Icon = "VAT.ico";              $ Icon File Name
+
+
+$ Device Classification Section:
+$ For more information about the meaning of each entry,
+$ please check CIP Networks Library Volume 1 Chapter 7-3.6.4
+$ and CIP Networks Library Volume 3 Chapter 7-4
+[Device Classification]
+        Class1 = DeviceNet;
+
+
+$ I/O Characteristics Section:
+$ For more information about the meaning of each entry,
+$ please check CIP Networks Library Volume 3 Chapter 7-5
+[IO_Info]
+                $ I/O Type Mask Bit Definitions
+                $ +------+---+---+---+---+---+
+                $ | 15-5 | 4 | 3 | 2 | 1 | 0 |
+                $ +------+---+---+---+---+---+
+                $     |    |   |   |   |   |
+                $     |    |   |   |   |   +----- Poll
+                $     |    |   |   |   +--------- Strobe
+                $     |    |   |   +------------- Change of State
+                $     |    |   +----------------- Cyclic
+                $     |    +--------------------- Multicast Poll
+                $     +-------------------------- Reserved
+
+        Default = 0x0001;       $ Default I/O Connection
+        PollInfo =
+                0x000F,         $ Compatible I/O Type Mask
+                2,              $ Default Input
+                7;              $ Default Output
+        StrobeInfo =
+                0x000F,         $ Compatible I/O Type Mask
+                2,              $ Default Input
+                1;              $ Default Output
+        COSInfo =
+                0x0007,         $ Compatible I/O Type Mask
+                3,              $ Default Input
+                1;              $ Default Output
+        CyclicInfo =
+                0x000B,         $ Compatible I/O Type Mask
+                3,              $ Default Input
+                1;              $ Default Output
+
+    $ Device's Producing Connection Entries:
+    $ For more information about the encoding of the Connection Path
+    $ format please check CIP Networks Library Volume 1 Appendix C-1
+        Input1 =
+                2,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 1",     $ Name
+                6,                      $ Path length
+                "20 04 24 01 30 03",    $ Path
+                "INT Process Variable"; $ Help
+        Input2 =
+                3,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 2",     $ Name
+                6,                      $ Path length
+                "20 04 24 02 30 03",    $ Path
+                "Exception Status, Pressure";    $ Help
+        Input3 =
+                5,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 3",     $ Name
+                6,                      $ Path length
+                "20 04 24 03 30 03",    $ Path
+                "Exception Status, Pressure, Position";    $ Help
+        Input4 =
+                5,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 4",     $ Name
+                6,                      $ Path length
+                "20 04 24 04 30 03",    $ Path
+                "Exception Status, Pressure, Control Setpoint";    $ Help
+        Input5 =
+                7,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 5",     $ Name
+                6,                      $ Path length
+                "20 04 24 05 30 03",    $ Path
+                "Exception Status, Pressure, Control Setpoint, Position";    $ Help
+        Input6 =
+                8,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 6",     $ Name
+                6,                      $ Path length
+                "20 04 24 06 30 03",    $ Path
+                "Exception Status, Pressure, Control Setpoint, Control Mode, Position";    $ Help
+        Input7 =
+                1,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 10",    $ Name
+                6,                      $ Path length
+                "20 04 24 0A 30 03",    $ Path
+                "Exception Status";     $ Help
+        Input8 =
+                6,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 11",    $ Name
+                6,                      $ Path length
+                "20 04 24 0B 30 03",    $ Path
+                "Exception Status, Pressure, Position, Discrete Inputs";    $ Help
+        Input9 =
+                4,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 17",    $ Name
+                6,                      $ Path length
+                "20 04 24 11 30 03",    $ Path
+                "FP-Pressure";          $ Help
+        Input10 =
+                5,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 18",    $ Name
+                6,                      $ Path length
+                "20 04 24 12 30 03",    $ Path
+                "Exception Status, FP-Pressure";    $ Help
+        Input11 =
+                9,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 19",    $ Name
+                6,                      $ Path length
+                "20 04 24 13 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Position";    $ Help
+        Input12 =
+                9,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 20",    $ Name
+                6,                      $ Path length
+                "20 04 24 14 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Control Setpoint";    $ Help
+        Input13 =
+                13,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 21",    $ Name
+                6,                      $ Path length
+                "20 04 24 15 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Control Setpoint, FP-Position";    $ Help
+        Input14 =
+                14,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 22",    $ Name
+                6,                      $ Path length
+                "20 04 24 16 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Control Setpoint, Control Mode, FP-Position";    $ Help
+        Input15 =
+                10,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 26",    $ Name
+                6,                      $ Path length
+                "20 04 24 1A 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Position, Discrete Inputs";    $ Help
+        Input16 =
+                7,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 100",   $ Name
+                6,                      $ Path length
+                "20 04 24 64 30 03",    $ Path
+                "Exception Status, Pressure, Position, Device Status, Access Mode";    $ Help
+        Input17 =
+                7,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000F,                 $ Compatible I/O Type Mask
+                "Input Assembly 101",   $ Name
+                6,                      $ Path length
+                "20 04 24 65 30 03",    $ Path
+                "Exception Status, Pressure, Position, Discrete Inputs, Device Status";    $ Help
+        Input18 =
+                23,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 104",   $ Name
+                6,                      $ Path length
+                "20 04 24 68 30 03",    $ Path
+                "Exception Status, Pressure, Pressure Sensor #2, Position, Access Mode, Device Status, Clusterinformation";    $ Help
+        Input19 =
+                11,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 105",   $ Name
+                6,                      $ Path length
+                "20 04 24 69 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Position, Device Status, Access Mode";    $ Help
+        Input20 =
+                11,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 106",   $ Name
+                6,                      $ Path length
+                "20 04 24 6A 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Position, Discrete Inputs, Device Status";    $ Help
+        Input21 =
+                29,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 109",   $ Name
+                6,                      $ Path length
+                "20 04 24 6D 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Pressure Sensor #2, FP-Position, Access Mode, Device Status, Clusterinformation";    $ Help
+        Input22 =
+                34,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 111",   $ Name
+                6,                      $ Path length
+                "20 04 24 6F 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Position, FP-Pressure Sensor #1, FP-Pressure Sensor #2, Discrete Inputs, Device Status, Access Mode, Clusterinformation";    $ Help
+        Input23 =
+                34,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 113",   $ Name
+                6,                      $ Path length
+                "20 04 24 71 30 03",    $ Path
+                "Exception Status, FP-Pressure, FP-Position, FP-Pressure Sensor #1, FP-Pressure Sensor #2, Discrete Inputs, Device Status, Access Mode, Clusterinformation";    $ Help
+        Input24 =
+                9,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Input Assembly 150",   $ Name
+                6,                      $ Path length
+                "20 04 24 96 30 03",    $ Path
+                "Exception Status, Pressure Sensor #1, Pressure Sensor #2, Position, Sensor Select, Discrete Inputs";    $ Help
+
+    $ Device's Consuming Connection Entries:
+        Output1 =
+                4,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 7",    $ Name
+                6,                      $ Path length
+                "20 04 24 07 30 03",    $ Path
+                "Control Setpoint, Control Instance";    $ Help
+        Output2 =
+                5,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 8",    $ Name
+                6,                      $ Path length
+                "20 04 24 08 30 03",    $ Path
+                "Control Mode, Control Setpoint, Control Instance";    $ Help
+        Output3 =
+                6,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 23",   $ Name
+                6,                      $ Path length
+                "20 04 24 17 30 03",    $ Path
+                "FP Control Setpoint, Control Instance";    $ Help
+        Output4 =
+                7,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 24",   $ Name
+                6,                      $ Path length
+                "20 04 24 18 30 03",    $ Path
+                "Control Mode, FP Control Setpoint, Control Instance";    $ Help
+        Output5 =
+                17,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 32",   $ Name
+                6,                      $ Path length
+                "20 04 24 20 30 03",    $ Path
+                "Control Mode, FP Control Setpoint, Kp, Ki, Kd";    $ Help
+        Output6 =
+                8,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 102",  $ Name
+                6,                      $ Path length
+                "20 04 24 66 30 03",    $ Path
+                "Control Mode, Control Setpoint, Control Instance, Auto Learn, Calibration Scale, Zero Adjust";    $ Help
+        Output7 =
+                6,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 103",  $ Name
+                6,                      $ Path length
+                "20 04 24 67 30 03",    $ Path
+                "Control Mode, Control Setpoint, Control Instance, Individual Valve Control (Address), Individual Valve Control (Action)";    $ Help
+        Output8 =
+                12,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 107",  $ Name
+                6,                      $ Path length
+                "20 04 24 6B 30 03",    $ Path
+                "Control Mode, FP Control Setpoint, Control Instance, Auto Learn, Calibration Scale, Zero Adjust";    $ Help
+        Output9 =
+                8,                      $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 108",  $ Name
+                6,                      $ Path length
+                "20 04 24 6C 30 03",    $ Path
+                "Control Mode, FP-Control Setpoint, Control Instance, Individual Valve Control (Address), Individual Valve Control (Action)";    $ Help
+        Output10 =
+                17,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 110",  $ Name
+                6,                      $ Path length
+                "20 04 24 6E 30 03",    $ Path
+                "Control Mode, FP Control Setpoint Pressure, FP-Setpoint Position, Control Instance, Auto Learn, Calibration Scale, Zero Adjust, Individual Valve Control (Address), Individual Valve Control (Action)";    $ Help
+        Output11 =
+                18,                     $ number of bytes transferred
+                0,                      $ number of significant bits (0=all)
+                0x000D,                 $ Compatible I/O Type Mask
+                "Output Assembly 112",  $ Name
+                6,                      $ Path length
+                "20 04 24 70 30 03",    $ Path
+                "Control Mode, FP Control Setpoint Pressure, FP-Setpoint Position, Control Instance, Auto Learn, FP-Calibration Scale, Zero Adjust, Individual Valve Control (Address), Individual Valve Control (Action)";    $ Help
+
+
+$ Parameter Class Section:
+$ For more information about the meaning of each entry,
+$ please check CIP Networks Library Volume 1 Chapter 7-3.6.1.3
+$ and Chapter 5-14.1
+[ParamClass]
+        MaxInst = 99;                   $ number of parameters supported
+        Descriptor = 0x0003;            $ supports parameter instances + full attributes
+        CfgAssembly = 0;                $ not used here
+
+
+$ Parameter Section:
+$ For more information about the meaning of each entry, please check
+$ CIP Networks Library Volume 1 Chapter 7-3.6.5 and Chapter 5-14.2
+[Params]
+        Param1 =
+                0,                      $ reserved, shall equal 0
+                6,"20 01 24 01 30 01",  $ Link Path Size, Link Path
+                0x0012,                 $ Descriptor: + enumerated string + read only
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Vendor ID",            $ name
+                "",                     $ units
+                "Identification of vendor", $ help string
+                404,404,404,            $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum1 =
+                404,"VAT Vacuum Valves";
+
+        Param2 =
+                0,                      $ reserved, shall equal 0
+                6,"20 30 24 01 30 06",  $ Link Path Size, Link Path
+                0x0010,                 $ Descriptor: + read only
+                0xDA,                   $ Data Type: SHORT_STRING
+                1,                      $ Data Size in bytes
+                "Manufacturer’s  Model Number", $ name
+                "",                     $ units
+                "VAT part number",      $ help string
+                0,20," ",               $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param3 =
+                0,                      $ reserved, shall equal 0
+                6,"20 01 24 01 30 64",  $ Link Path Size, Link Path
+                0x0010,                 $ Descriptor: + read only
+                0xDA,                   $ Data Type: SHORT_STRING
+                1,                      $ Data Size in bytes
+                "Product Variant",      $ name
+                "",                     $ units
+                "Valve Type",           $ help string
+                0,32,"650",             $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param4 =
+                0,                      $ reserved, shall equal 0
+                6,"20 01 24 01 30 65",  $ Link Path Size, Link Path
+                0x0010,                 $ Descriptor: + read only
+                0xDA,                   $ Data Type: SHORT_STRING
+                1,                      $ Data Size in bytes
+                "Serial Number",        $ name
+                "",                     $ units
+                "DeviceNet Serial Number", $ help string
+                8,8,"00000000",         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param5 =
+                0,                      $ reserved, shall equal 0
+                6,"20 30 24 01 30 0B",  $ Link Path Size, Link Path
+                0x0032,                 $ Descriptor: + enumerated string + read only  + monitoring
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Device Status",        $ name
+                "",                     $ units
+                "State of the S-Device Supervisor Object", $ help string
+                0,255,0,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum5 =
+                0,"Undefined",
+                1,"Self Testing",
+                2,"Idle",
+                3,"Self-Test Exception",
+                4,"Executing",
+                5,"Abort",
+                6,"Critical Fault";
+
+        Param6 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 67",  $ Link Path Size, Link Path
+                0x0032,                 $ Descriptor: + enumerated string + read only  + monitoring
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Controller Mode",      $ name
+                "",                     $ units
+                "Actual operating mode of the valve", $ help string
+                0,14,0,                 $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum6 =
+                0,"Init",
+                1,"Sync",
+                2,"Position",
+                3,"Close",
+                4,"Open",
+                5,"Pressure",
+                6,"Hold",
+                7,"Autolearning",
+                8,"Open Interlock",
+                9,"Close Interlock",
+                10,"Maintenance Open",
+                11,"Maintenance Close",
+                12,"Power Fail",
+                14,"Fatal Error";
+
+        Param7 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 6B",  $ Link Path Size, Link Path
+                0x0022,                 $ Descriptor: + enumerated string + monitoring
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Access Mode",          $ name
+                "",                     $ units
+                "Access state of the controller", $ help string
+                0,2,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum7 =
+                0,"Local",
+                1,"Remote",
+                2,"Locked";
+
+        Param8 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 03",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Data Type",            $ name
+                "",                     $ units
+                "Data Type for pressure and position values", $ help string
+                195,202,195,            $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum8 =
+                0xC3,"INT",
+                0xCA,"REAL";
+
+        Param9 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 04",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Pressure Units",       $ name
+                "",                     $ units
+                "Data Units for pressure values", $ help string
+                4097,4875,4865,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum9 =
+                0x1001,"Counts",
+                0x1007,"Percent",
+                0x1300,"psi",
+                0x1301,"Torr",
+                0x1302,"mTorr",
+                0x1307,"Bar",
+                0x1308,"mBar",
+                0x1309,"Pa",
+                0x130B,"atm";
+
+        Param10 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 03 30 04",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Position Units",       $ name
+                "",                     $ units
+                "Data Units for position values", $ help string
+                4097,5891,4103,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum10 =
+                0x1001,"Counts",
+                0x1007,"Percent",
+                0x1703,"Degrees";
+
+        Param11 =
+                0,                      $ reserved, shall equal 0
+                6,"20 05 24 00 30 64",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Poll Output",          $ name
+                "",                     $ units
+                "Output assembly number", $ help string
+                7,112,7,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum11 =
+                7,"Output Assembly 7",
+                8,"Output Assembly 8",
+                23,"Output Assembly 23",
+                24,"Output Assembly 24",
+                32,"Output Assembly 32",
+                102,"Output Assembly 102",
+                103,"Output Assembly 103",
+                107,"Output Assembly 107",
+                108,"Output Assembly 108",
+                110,"Output Assembly 110",
+                112,"Output Assembly 112";
+
+        Param12 =
+                0,                      $ reserved, shall equal 0
+                6,"20 05 24 00 30 65",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Poll Input",           $ name
+                "",                     $ units
+                "Input assembly number", $ help string
+                1,150,2,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum12 =
+                1,"Input Assembly 1",
+                2,"Input Assembly 2",
+                3,"Input Assembly 3",
+                4,"Input Assembly 4",
+                5,"Input Assembly 5",
+                6,"Input Assembly 6",
+                10,"Input Assembly 10",
+                11,"Input Assembly 11",
+                17,"Input Assembly 17",
+                18,"Input Assembly 18",
+                19,"Input Assembly 19",
+                20,"Input Assembly 20",
+                21,"Input Assembly 21",
+                26,"Input Assembly 26",
+                100,"Input Assembly 100",
+                101,"Input Assembly 101",
+                104,"Input Assembly 104",
+                105,"Input Assembly 105",
+                106,"Input Assembly 106",
+                109,"Input Assembly 109",
+                111,"Input Assembly 111",
+                113,"Input Assembly 113",
+                150,"Input Assembly 150";
+
+        Param13 =
+                0,                      $ reserved, shall equal 0
+                6,"20 05 24 00 30 66",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Bit Strobe Input",     $ name
+                "",                     $ units
+                "Bit Strobe input assembly number (Assemblies with max 8 byte)", $ help string
+                1,101,2,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum13 =
+                1,"Input Assembly 1",
+                2,"Input Assembly 2",
+                3,"Input Assembly 3",
+                4,"Input Assembly 4",
+                5,"Input Assembly 5",
+                6,"Input Assembly 6",
+                10,"Input Assembly 10",
+                11,"Input Assembly 11",
+                17,"Input Assembly 17",
+                18,"Input Assembly 18",
+                100,"Input Assembly 100",
+                101,"Input Assembly 101";
+
+        Param14 =
+                0,                      $ reserved, shall equal 0
+                6,"20 05 24 00 30 67",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "COS/Cyclic Input",     $ name
+                "",                     $ units
+                "COS/Cyclic input assembly number", $ help string
+                1,150,3,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum14 =
+                1,"Input Assembly 1",
+                2,"Input Assembly 2",
+                3,"Input Assembly 3",
+                4,"Input Assembly 4",
+                5,"Input Assembly 5",
+                6,"Input Assembly 6",
+                10,"Input Assembly 10",
+                11,"Input Assembly 11",
+                17,"Input Assembly 17",
+                18,"Input Assembly 18",
+                19,"Input Assembly 19",
+                20,"Input Assembly 20",
+                21,"Input Assembly 21",
+                26,"Input Assembly 26",
+                100,"Input Assembly 100",
+                101,"Input Assembly 101",
+                104,"Input Assembly 104",
+                105,"Input Assembly 105",
+                106,"Input Assembly 106",
+                109,"Input Assembly 109",
+                111,"Input Assembly 111",
+                113,"Input Assembly 113",
+                150,"Input Assembly 150";
+
+        Param15 =
+                0,                      $ reserved, shall equal 0
+                6,"20 30 24 01 30 0F",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Exception Alarm Enable", $ name
+                "",                     $ units
+                "Enables/Disables the S-Device Supervisor Exception Status Alarms", $ help string
+                0,1,1,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param16 =
+                0,                      $ reserved, shall equal 0
+                6,"20 30 24 01 30 0C",  $ Link Path Size, Link Path
+                0x0032,                 $ Descriptor: + enumerated string + read only  + monitoring
+                0xD1,                   $ Data Type: BYTE
+                1,                      $ Data Size in bytes
+                "Exception Status",     $ name
+                "",                     $ units
+                "Indicates the status of the alarms and warnings for the device", $ help string
+                0,255,0,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum16 =
+                0,"ALARM/device-common",
+                1,"ALARM/device-specific",
+                2,"ALARM/manufacturer-specific",
+                4,"WARNING/device-common",
+                5,"WARNING/device-specific",
+                6,"WARNING/manufacturer-specific",
+                7,"1 == Expanded Method";
+
+        Param17 =
+                0,                      $ reserved, shall equal 0
+                6,"20 2E 24 01 30 0E",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Control Type",         $ name
+                "",                     $ units
+                "Selects Pressure or Position Control", $ help string
+                0,2,1,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum17 =
+                0,"none",
+                1,"Pressure",
+                2,"Position";
+
+        Param18 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 05",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Pressure Control Mode", $ name
+                "",                     $ units
+                "Selects operational mode of the controller", $ help string
+                0,4,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum18 =
+                0,"Control Mode",
+                1,"Close Valve",
+                2,"Open Valve",
+                3,"Hold Valve Position",
+                4,"Safe State";
+
+        Param19 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 06",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Pressure Setpoint",    $ name
+                "",                     $ units
+                "The pressure setpoint to which the process variable will be controlled", $ help string
+                0,32767,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param20 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 07",  $ Link Path Size, Link Path
+                0x0020,                 $ Descriptor: + monitoring
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Pressure",             $ name
+                "",                     $ units
+                "Actual Pressure",      $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param21 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 0A",  $ Link Path Size, Link Path
+                0x0032,                 $ Descriptor: + enumerated string + read only  + monitoring
+                0xD1,                   $ Data Type: BYTE
+                1,                      $ Data Size in bytes
+                "Pressure Control Status", $ name
+                "",                     $ units
+                "Alarm and Warning State", $ help string
+                0,255,0,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum21 =
+                0,"Alarm Exception",
+                1,"Warning Exception";
+
+        Param22 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 69",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "PID Controller Gain Factor", $ name
+                "",                     $ units
+                "Control Parameter P-Gain of the controller", $ help string
+                0,22,0,                 $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum22 =
+                0,"0.10",
+                1,"0.13",
+                2,"0.18",
+                3,"0.23",
+                4,"0.32",
+                5,"0.42",
+                6,"0.56",
+                7,"0.75",
+                8,"1.00",
+                9,"1.33",
+                10,"1.78",
+                11,"2.37",
+                12,"3.16",
+                14,"5.62",
+                15,"7.5",
+                16,"0.0001",
+                17,"0.0003",
+                18,"0.001",
+                19,"0.003",
+                20,"0.01",
+                21,"0.02",
+                22,"0.05";
+
+        Param23 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 6B",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "PID Controller Sensor Delay", $ name
+                "",                     $ units
+                "Control Parameter to compensate sensor delays", $ help string
+                0,15,0,                 $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum23 =
+                0,"0.00",
+                1,"0.02",
+                2,"0.04",
+                3,"0.06",
+                4,"0.08",
+                5,"0.10",
+                6,"0.15",
+                7,"0.20",
+                8,"0.25",
+                9,"0.30",
+                10,"0.35",
+                11,"0.40",
+                12,"0.50",
+                14,"0.80",
+                15,"1.00";
+
+        Param24 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 6C",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "PID Controller Setpoint Ramp", $ name
+                "",                     $ units
+                "Defines the ramp time for a new setpoint", $ help string
+                0,20,0,                 $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum24 =
+                0,"0.0",
+                1,"0.5",
+                2,"1.0",
+                3,"1.5",
+                4,"2.0",
+                5,"2.5",
+                6,"3.0",
+                7,"3.5",
+                8,"4.0",
+                9,"4.5",
+                10,"5.0",
+                11,"5.5",
+                12,"6.0",
+                14,"7.0",
+                15,"7.5",
+                16,"8.0",
+                17,"8.5",
+                18,"9.0",
+                19,"9.5",
+                20,"10.0";
+
+        Param25 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 11",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Pressure Safe State",  $ name
+                "",                     $ units
+                "Behaviour for Pressure Control Mode 'Safe State'", $ help string
+                0,3,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum25 =
+                0,"Close Valve",
+                1,"Open Valve",
+                2,"Hold Last Value",
+                3,"Use Safe Value";
+
+        Param26 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 12",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Pressure Safe Value",  $ name
+                "",                     $ units
+                "Defines Pressure Safe State 3 Value (Use Safe Value)", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param27 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 6A",  $ Link Path Size, Link Path
+                0x0030,                 $ Descriptor: + read only  + monitoring
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Learn Status",         $ name
+                "",                     $ units
+                "Returns Status of Learn Procedure (Binary Coded)", $ help string
+                0,65535,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param28 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 64",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Learn Pressure Limit", $ name
+                "",                     $ units
+                "Pressure Limit for Learn", $ help string
+                0,32767,10000,          $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param29 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 58",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Sensor Cross Over Delay Time", $ name
+                "ms",                   $ units
+                "Defines the time necessary for crossover condition to be present before switching ranges", $ help string
+                0,65535,100,            $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param30 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 C5",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Sensor Crossover Mode", $ name
+                "",                     $ units
+                "",                     $ help string
+                0,4,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum30 =
+                0,"Fade",
+                1,"Switchpoints",
+                2,"Setpoint",
+                3,"High Sensor Disabled";
+
+        Param31 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 59",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor Crossover High", $ name
+                "%",                    $ units
+                "Defines the crossover point between High to Low range inputs", $ help string
+                0,120,9,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param32 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 5A",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor Crossover Low", $ name
+                "%",                    $ units
+                "Defines the crossover point between Low to High range inputs", $ help string
+                0,120,100,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param33 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 60",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Process Variable Source", $ name
+                "",                     $ units
+                "Source of the Process Variable value fo the process control function", $ help string
+                1,3,1,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum33 =
+                1,"S-Analog Sensor Object Instance #1",
+                2,"S-Analog Sensor Object Instance #2",
+                3,"Auto";
+
+        Param34 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 0B",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Pressure Control - Alarm Enable", $ name
+                "",                     $ units
+                "Enables the setting of the Alarm Status Bit", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param35 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 0C",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Pressure Control - Warning Enable", $ name
+                "",                     $ units
+                "Enables the setting of the Warning Status Bit", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param36 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 0D",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Pressure Control - Alarm Settling Time", $ name
+                "ms",                   $ units
+                "Number of Milliseconds allowed fo the control-loop to settle to within the error band", $ help string
+                0,65535,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param37 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 0E",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Pressure Control - Alarm Error Band", $ name
+                "",                     $ units
+                "The amount by which the Setpoint must equal the Process Variable", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param38 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 0F",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Pressure Control - Warning Settling Time", $ name
+                "ms",                   $ units
+                "Number of Milliseconds allowed fo the control-loop to settle to within the error band", $ help string
+                0,65535,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param39 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 01 30 10",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Pressure Control - Warning Error Band", $ name
+                "",                     $ units
+                "The amount by which the Setpoint must equal the Process Variable", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param40 =
+                0,                      $ reserved, shall equal 0
+                6,"20 2E 24 01 30 0E",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Control Type",         $ name
+                "",                     $ units
+                "Selects Pressure or Position Control", $ help string
+                0,2,1,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum40 =
+                0,"none",
+                1,"Pressure",
+                2,"Position";
+
+        Param41 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 05",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Position Control Mode", $ name
+                "",                     $ units
+                "Selects operational mode of the controller", $ help string
+                0,4,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum41 =
+                0,"Control Mode",
+                1,"Close Valve",
+                2,"Open Valve",
+                3,"Hold Valve Position",
+                4,"Safe State";
+
+        Param42 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 06",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Position Setpoint",    $ name
+                "",                     $ units
+                "The position setpoint to which the process variable will be controlled", $ help string
+                0,32767,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param43 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 03 30 06",  $ Link Path Size, Link Path
+                0x0020,                 $ Descriptor: + monitoring
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Position Reading",     $ name
+                "",                     $ units
+                "Actual Valve Position", $ help string
+                0,32767,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param44 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 65",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Valve Speed",          $ name
+                "",                     $ units
+                "Valve Speed",          $ help string
+                0,1000,1000,            $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param45 =
+                0,                      $ reserved, shall equal 0
+                6,"20 08 24 02 30 03",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Valve Open Check",     $ name
+                "",                     $ units
+                "Indicactes that the valve is fully open", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param46 =
+                0,                      $ reserved, shall equal 0
+                6,"20 08 24 01 30 03",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Valve Closed Check",   $ name
+                "",                     $ units
+                "Indicactes that the valve is fully closed", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param47 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 0A",  $ Link Path Size, Link Path
+                0x0032,                 $ Descriptor: + enumerated string + read only  + monitoring
+                0xD1,                   $ Data Type: BYTE
+                1,                      $ Data Size in bytes
+                "Position Control Status", $ name
+                "",                     $ units
+                "Alarm and Warning State", $ help string
+                0,255,0,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum47 =
+                0,"Alarm Exception",
+                1,"Warning Exception";
+
+        Param48 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 11",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Position Safe State",  $ name
+                "",                     $ units
+                "Behaviour for Position Control Mode 'Safe State'", $ help string
+                0,3,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum48 =
+                0,"Close Valve",
+                1,"Open Valve",
+                2,"Hold Last Value",
+                3,"Use Safe Value";
+
+        Param49 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 12",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Position Safe Value",  $ name
+                "",                     $ units
+                "Defines Position Safe State 3 Value (Use Safe Value)", $ help string
+                0,32767,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param50 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 0B",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Position Control - Alarm Enable", $ name
+                "",                     $ units
+                "Enables the setting of the Alarm Status Bit", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param51 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 0C",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Position Control - Warning Enable", $ name
+                "",                     $ units
+                "Enables the setting of the Warning Status Bit", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param52 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 03 30 04",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Position Units",       $ name
+                "",                     $ units
+                "Data Units for position values", $ help string
+                4097,5891,4103,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum52 =
+                0x1001,"Counts",
+                0x1007,"Percent",
+                0x1703,"Degrees";
+
+        Param53 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 0D",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Position Control - Alarm Settling Time", $ name
+                "ms",                   $ units
+                "Number of Milliseconds allowed fo the control-loop to settle to within the error band", $ help string
+                0,65535,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param54 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 0E",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Position Control - Alarm Error Band", $ name
+                "",                     $ units
+                "The amount by which the Setpoint must equal the Process Variable", $ help string
+                0,32767,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param55 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 0F",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC7,                   $ Data Type: UINT
+                2,                      $ Data Size in bytes
+                "Position Control - Warning Settling Time", $ name
+                "ms",                   $ units
+                "Number of Milliseconds allowed fo the control-loop to settle to within the error band", $ help string
+                0,65535,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param56 =
+                0,                      $ reserved, shall equal 0
+                6,"20 33 24 02 30 10",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Position Control - Warning Error Band", $ name
+                "",                     $ units
+                "The amount by which the Setpoint must equal the Process Variable", $ help string
+                0,32767,0,              $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param57 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 03 30 0E",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Position Gain",        $ name
+                "",                     $ units
+                "Position Scale Factor for Units Counts", $ help string
+                0,32767,1000,           $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param58 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 05",  $ Link Path Size, Link Path
+                0x0030,                 $ Descriptor: + read only  + monitoring
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Sensor 1 Reading Valid", $ name
+                "",                     $ units
+                "Indicates that the Value attribute contains a valid value", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param59 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 06",  $ Link Path Size, Link Path
+                0x0020,                 $ Descriptor: + monitoring
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 1 Reading",     $ name
+                "",                     $ units
+                "Value read from Sensor 1, displayed in Data Units", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param60 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 C7",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xCA,                   $ Data Type: REAL
+                4,                      $ Data Size in bytes
+                "Sensor 1 Fullscale",   $ name
+                "",                     $ units
+                "Sensor Full Scale",    $ help string
+                0,1000000,10000,        $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param61 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 C6",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Sensor 1 Type",        $ name
+                "",                     $ units
+                "Sensor Type",          $ help string
+                0,8,4,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum61 =
+                0,"Pa",
+                1,"Bar",
+                2,"mBar",
+                3,"uBar",
+                4,"Torr",
+                5,"mTorr",
+                6,"atm",
+                7,"Psi",
+                8,"Psf";
+
+        Param62 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 0E",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 1 Gain",        $ name
+                "",                     $ units
+                "Pressure Scale Factor for Units Counts", $ help string
+                0,32767,1000,           $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param63 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 19",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Sensor 1 Safe State",  $ name
+                "",                     $ units
+                "Sensor 1 Value for states other than Execute", $ help string
+                0,4,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum63 =
+                0,"Zero",
+                1,"Full Scale",
+                2,"Hold Last Value",
+                3,"Use Safe Value",
+                4,"Current Value";
+
+        Param64 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 1A",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 1 Safe Value",  $ name
+                "",                     $ units
+                "Defines Sensor 1 Value For Safe State 3 (Use Safe Value)", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param65 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 66",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Zero Control",         $ name
+                "",                     $ units
+                "Enables the pressure zero adjust function", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param66 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 01 30 0C",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 1 Offset Value", $ name
+                "",                     $ units
+                "Pressure Offset",      $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param67 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 05",  $ Link Path Size, Link Path
+                0x0030,                 $ Descriptor: + read only  + monitoring
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Sensor 2 Reading Valid", $ name
+                "",                     $ units
+                "Indicates that the Value attribute contains a valid value", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param68 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 06",  $ Link Path Size, Link Path
+                0x0020,                 $ Descriptor: + monitoring
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 2 Reading",     $ name
+                "",                     $ units
+                "Value read from Sensor 1, displayed in Data Units", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param69 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 C7",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xCA,                   $ Data Type: REAL
+                4,                      $ Data Size in bytes
+                "Sensor 2 Fullscale",   $ name
+                "",                     $ units
+                "Sensor Full Scale",    $ help string
+                0,1000000,10000,        $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param70 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 C6",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Sensor 2 Type",        $ name
+                "",                     $ units
+                "Sensor Type",          $ help string
+                0,8,4,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum70 =
+                0,"Pa",
+                1,"Bar",
+                2,"mBar",
+                3,"uBar",
+                4,"Torr",
+                5,"mTorr",
+                6,"atm",
+                7,"Psi",
+                8,"Psf";
+
+        Param71 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 0E",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 2 Gain",        $ name
+                "",                     $ units
+                "Pressure Scale Factor for Units Counts", $ help string
+                0,32767,1000,           $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param72 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 19",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Sensor 2 Safe State",  $ name
+                "",                     $ units
+                "Sensor 2 Value for states other than Execute", $ help string
+                0,4,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum72 =
+                0,"Zero",
+                1,"Full Scale",
+                2,"Hold Last Value",
+                3,"Use Safe Value",
+                4,"Current Value";
+
+        Param73 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 1A",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 2 Safe Value",  $ name
+                "",                     $ units
+                "Defines Sensor 2 Value For Safe State 3 (Use Safe Value)", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param74 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 66",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Zero Control",         $ name
+                "",                     $ units
+                "Enables the pressure zero adjust function", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param75 =
+                0,                      $ reserved, shall equal 0
+                6,"20 31 24 02 30 0C",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Sensor 2 Offset Value", $ name
+                "",                     $ units
+                "Pressure Offset",      $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param76 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 05",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Valve Position Override", $ name
+                "",                     $ units
+                "Overrides Pressure or Position Control", $ help string
+                0,4,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum76 =
+                0,"Normal",
+                1,"Close",
+                2,"Open",
+                3,"Hold",
+                4,"Safe State";
+
+        Param77 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 06",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Position",             $ name
+                "",                     $ units
+                "Valve Position",       $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param78 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 07",  $ Link Path Size, Link Path
+                0x0032,                 $ Descriptor: + enumerated string + read only  + monitoring
+                0xD1,                   $ Data Type: BYTE
+                1,                      $ Data Size in bytes
+                "Valve Position Status", $ name
+                "",                     $ units
+                "Alarm and Warning state of this Analog Actuator Object instance", $ help string
+                0,255,0,                $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum78 =
+                0,"High Alarm Exception",
+                1,"Low Alarm Exception",
+                2,"High Warning Exception",
+                3,"Low Warning Exception";
+
+        Param79 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 64",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Power Fail Option",    $ name
+                "",                     $ units
+                "Disable PFO temporary (after power up value is 1)", $ help string
+                0,1,1,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum79 =
+                0,"Disabled",
+                1,"Enabled";
+
+        Param80 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 65",  $ Link Path Size, Link Path
+                0x0020,                 $ Descriptor: + monitoring
+                0xC8,                   $ Data Type: UDINT
+                4,                      $ Data Size in bytes
+                "Throttle Cycle Counter", $ name
+                "",                     $ units
+                "Cycle Counter",        $ help string
+                0,4294967295,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param81 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 66",  $ Link Path Size, Link Path
+                0x0022,                 $ Descriptor: + enumerated string + monitoring
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Pos Error Flag",       $ name
+                "",                     $ units
+                "Service Request Flag", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum81 =
+                0,"No Error / Clear Error",
+                1,"Error Bit Set";
+
+        Param82 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 70",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Power Up Configuration", $ name
+                "",                     $ units
+                "Valve Positon After Power Up", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum82 =
+                0,"Close",
+                1,"Open";
+
+        Param83 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 71",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Power Fail Configuration", $ name
+                "",                     $ units
+                "Valve Position After Power Failure", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum83 =
+                0,"Close",
+                1,"Open";
+
+        Param84 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 6A",  $ Link Path Size, Link Path
+                0x0020,                 $ Descriptor: + monitoring
+                0xC8,                   $ Data Type: UDINT
+                4,                      $ Data Size in bytes
+                "Isolation Cycle Counter", $ name
+                "",                     $ units
+                "Isolation Cycle Counter", $ help string
+                0,4294967295,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param85 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 72",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Isolation Function",   $ name
+                "",                     $ units
+                "Control External Valve", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum85 =
+                0,"Off",
+                1,"On";
+
+        Param86 =
+                0,                      $ reserved, shall equal 0
+                6,"20 64 24 01 30 77",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Control Stroke",       $ name
+                "",                     $ units
+                "Control Stroke Limitation", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum86 =
+                0,"Off",
+                1,"On";
+
+        Param87 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 0A",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Offset", $ name
+                "",                     $ units
+                "An amount to be added to Value prior to the application of gain", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param88 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 0D",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Gain",  $ name
+                "",                     $ units
+                "An amount by which Value is scaled prior to deriving the physical actuator", $ help string
+                0,32767,1000,           $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param89 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 0B",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Bias",  $ name
+                "",                     $ units
+                "An amount to be added to Value after the application of gain", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param90 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 08",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Valve Position Alarm Enable", $ name
+                "",                     $ units
+                "Enalbes the setting of the Alarm Bit", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param91 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 15",  $ Link Path Size, Link Path
+                0x0002,                 $ Descriptor: + enumerated string
+                0xC6,                   $ Data Type: USINT
+                1,                      $ Data Size in bytes
+                "Valve Position Safe State", $ name
+                "",                     $ units
+                "Valve Position for states other than Execute", $ help string
+                0,3,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Enum91 =
+                0,"Zero",
+                1,"Maximum Value",
+                2,"Hold Last Value",
+                3,"Use Safe Value";
+
+        Param92 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 16",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Safe Value", $ name
+                "",                     $ units
+                "Defines Valve Position Value For Safe State 3 (Use Safe Value)", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param93 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 09",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC1,                   $ Data Type: BOOL
+                1,                      $ Data Size in bytes
+                "Valve Position Warning Enable", $ name
+                "",                     $ units
+                "Enalbes the setting of the Warning Bit", $ help string
+                0,1,0,                  $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param94 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 0F",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Alarm Trip Point High", $ name
+                "",                     $ units
+                "Determines the Value above which an Alarm Condition will occur", $ help string
+                -32768,32767,32767,     $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param95 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 10",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Alarm Trip Point Low", $ name
+                "",                     $ units
+                "Determines the Value below which an Alarm Condition will occur", $ help string
+                -32768,32767,-32768,    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param96 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 11",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Alarm Trip Point Hysteresis", $ name
+                "",                     $ units
+                "Determines the amount by which the Value must recover to clear an Alamr Condition", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param97 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 12",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Warning Trip Point High", $ name
+                "",                     $ units
+                "Determines the Value above which an Warning Condition will occur", $ help string
+                -32768,32767,32767,     $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param98 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 13",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Warning Trip Point Low", $ name
+                "",                     $ units
+                "Determines the Value below which an Warning Condition will occur", $ help string
+                -32768,32767,-32768,    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+        Param99 =
+                0,                      $ reserved, shall equal 0
+                6,"20 32 24 01 30 14",  $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor:
+                0xC3,                   $ Data Type: INT
+                2,                      $ Data Size in bytes
+                "Valve Position Warning Trip Point Hysteresis", $ name
+                "",                     $ units
+                "Determines the amount by which the Value must recover to clear a Warning Condition", $ help string
+                -32768,32767,0,         $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+
+$ Parameter Groups Section:
+$ For more information about the meaning of each entry,
+$ please check CIP Networks Library Volume 1 Chapter 7-3.6.6
+[Groups]
+        Group1 =
+                "General Settings",     $ Group name
+                16,                     $ Number of members
+                1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16; $ List of members
+        Group2 =
+                "Pressure Controller",  $ Group name
+                23,                     $ Number of members
+                17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39; $ List of members
+        Group3 =
+                "Position Controller",  $ Group name
+                18,                     $ Number of members
+                40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57; $ List of members
+        Group4 =
+                "Sensor 1",             $ Group name
+                9,                      $ Number of members
+                58,59,60,61,62,63,64,65,66; $ List of members
+        Group5 =
+                "Sensor 2",             $ Group name
+                9,                      $ Number of members
+                67,68,69,70,71,72,73,74,75; $ List of members
+        Group6 =
+                "Valve",                $ Group name
+                24,                     $ Number of members
+                76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99; $ List of members
+
+
+$End of File
+
+

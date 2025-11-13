@@ -1,0 +1,5 @@
+../App/logic/APC_Main.c:28:6:initMain	16	static
+../App/logic/APC_Main.c:104:6:procMain	16	static
+../App/logic/APC_Main.c:124:6:getInitStatus	4	static
+../App/logic/APC_Main.c:129:6:setTickFlag	16	static
+../App/logic/APC_Main.c:134:6:getTickFlag	4	static

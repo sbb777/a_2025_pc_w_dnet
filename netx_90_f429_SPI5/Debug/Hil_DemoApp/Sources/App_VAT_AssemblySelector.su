@@ -1,0 +1,7 @@
+../Hil_DemoApp/Sources/App_VAT_AssemblySelector.c:64:6:VAT_Assembly_Init	24	static
+../Hil_DemoApp/Sources/App_VAT_AssemblySelector.c:105:9:VAT_Assembly_IsValidInput	24	static
+../Hil_DemoApp/Sources/App_VAT_AssemblySelector.c:115:9:VAT_Assembly_IsValidOutput	24	static
+../Hil_DemoApp/Sources/App_VAT_AssemblySelector.c:125:9:VAT_Assembly_GetInputSize	24	static
+../Hil_DemoApp/Sources/App_VAT_AssemblySelector.c:135:9:VAT_Assembly_GetOutputSize	24	static
+../Hil_DemoApp/Sources/App_VAT_AssemblySelector.c:149:9:VAT_Assembly_SelectInput	16	static
+../Hil_DemoApp/Sources/App_VAT_AssemblySelector.c:159:9:VAT_Assembly_SelectOutput	16	static

@@ -1,0 +1,19 @@
+import re
+
+def build(bld):
+    svn_head_url = "$HeadURL: https://subversion01/svn/HilscherDefinitions/cifXApi/trunk/wscript $"
+    
+    try: # Try to parse tag name and revision out of the SVN keyword properties head URL 
+        version = re.search(r'/tags/(?P<tag_name>[^/]+)/wscript', svn_head_url).group('tag_name')
+    except:
+        version = " none"
+      
+    bld(name            = "Hil_Definition_cifXApi_sdk",
+        SDK             = True,
+        description     = "Definition of cifX API",
+        displaygroup    = "Hilscher Definitions",
+        version         = version,
+        export_includes = ["includes",],
+       )
+
+

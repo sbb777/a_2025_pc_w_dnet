@@ -1,0 +1,10 @@
+def build(bld):
+
+    bld(name            = "Hil_ProductCode_CIP_sdk",
+        SDK             = True,
+        description     = "Hilscher CIP product codes",
+        displaygroup    = "Hilscher Definitions",
+        version         = "0.1.0.0",
+        export_includes = ["includes",],
+       )
+

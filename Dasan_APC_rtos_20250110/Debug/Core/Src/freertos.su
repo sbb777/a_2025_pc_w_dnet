@@ -1,0 +1,6 @@
+../Core/Src/freertos.c:116:6:MX_FREERTOS_Init	8	static
+../Core/Src/freertos.c:177:6:StartDefaultTask	24	static
+../Core/Src/freertos.c:280:6:StartAsyncTask	24	static
+../Core/Src/freertos.c:301:6:StartPidTask	16	static
+../Core/Src/freertos.c:355:6:StartPollTask	24	static
+../Core/Src/freertos.c:389:6:StartCheckInputTask	24	static

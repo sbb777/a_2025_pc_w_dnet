@@ -1,0 +1,29 @@
+Target:  X0907001.nxi
+Version: V5.4.0.1
+
+Used Libraries
+==============
+
+armv7em-ecoscentric-ecospro-eabi/7.3.0d
+---------------------------------------
+libcandl_netx90.a          V3.2.0.0 CAN_DL netX90 
+libcip_common.a            V1.6.0.0 CIP Common 
+libcip_object_dictionary.a V1.6.0.0 CIP Object Dictionary 
+libcip_object_library.a    V1.6.0.0 CIP Object Library 
+libconfigmanager.a         V1.5.0.2 ConfigManager 
+libdns_core.a              V1.6.0.0 DNS Core 
+libdns_gci.a               V1.6.0.0 DNS GCI 
+libfirmwaretoolbox.a       V1.2.0.0 FirmwareToolbox 
+libgeneric_ap.a            V1.5.0.0 Generic AP 
+libhal_toolbox.a           V1.7.0.1 HAL Toolbox 
+libmarshaller.a            V2.2.0.0 netX Marshaller 
+libmiddleware.a            V2.3.0.0 Middleware Library 
+libnetx_toolbox_netx90.a   V1.8.0.2 netX Toolbox 
+libosal_ecospro.a          V2.3.0.2 OSAL 
+libps_toolbox.a            V1.6.0.1 PS Toolbox 
+libstorage.a               V2.0.0.1 eCos Storage Library 
+libtarget.a                V2.3.0.0 eCos  
+
+Selected Environment variables
+==============================
+SPC_BUILDTOOLS_REV=SPC-BuildToolsRev.135

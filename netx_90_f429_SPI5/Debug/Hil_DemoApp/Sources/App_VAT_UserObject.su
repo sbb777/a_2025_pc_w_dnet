@@ -1,0 +1,6 @@
+../Hil_DemoApp/Sources/App_VAT_UserObject.c:57:17:AppDNS_VAT_RegisterObject	32	static
+../Hil_DemoApp/Sources/App_VAT_UserObject.c:88:10:AppDNS_VAT_UserObject_Registration	24	static
+../Hil_DemoApp/Sources/App_VAT_UserObject.c:112:6:AppDNS_VAT_UserObject_IsRegistered	24	static
+../Hil_DemoApp/Sources/App_VAT_UserObject.c:142:13:AppDNS_VAT_HandleParameterObject	96	static
+../Hil_DemoApp/Sources/App_VAT_UserObject.c:253:13:AppDNS_VAT_HandleDiagnosticObject	48	static
+../Hil_DemoApp/Sources/App_VAT_UserObject.c:367:6:AppDNS_VAT_UserObject_Indication	56	static

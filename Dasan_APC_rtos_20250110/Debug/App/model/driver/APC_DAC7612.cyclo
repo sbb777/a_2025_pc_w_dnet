@@ -1,0 +1,4 @@
+../App/model/driver/APC_DAC7612.c:26:6:initDAC7612	1
+../App/model/driver/APC_DAC7612.c:31:6:getDAC7612Config	1
+../App/model/driver/APC_DAC7612.c:36:6:setDAC7612Config	1
+../App/model/driver/APC_DAC7612.c:46:6:setDAC7612Value	3

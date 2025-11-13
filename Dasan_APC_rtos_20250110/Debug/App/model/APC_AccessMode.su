@@ -1,0 +1,4 @@
+../App/model/APC_AccessMode.c:30:6:initAccessMode	4	static
+../App/model/APC_AccessMode.c:46:6:refreshAccessMode	32	static
+../App/model/APC_AccessMode.c:78:9:setAccessMode	32	static
+../App/model/APC_AccessMode.c:110:9:getAccessMode	4	static

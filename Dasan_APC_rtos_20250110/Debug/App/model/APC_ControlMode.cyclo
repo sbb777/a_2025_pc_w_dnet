@@ -1,0 +1,6 @@
+../App/model/APC_ControlMode.c:24:6:initControlMode	1
+../App/model/APC_ControlMode.c:46:9:setControlMode	5
+../App/model/APC_ControlMode.c:101:9:getControlMode	1
+../App/model/APC_ControlMode.c:106:6:setSimulDemonMode	1
+../App/model/APC_ControlMode.c:111:6:getSimulDemonMode	1
+../App/model/APC_ControlMode.c:116:6:checkRemoteLock	2

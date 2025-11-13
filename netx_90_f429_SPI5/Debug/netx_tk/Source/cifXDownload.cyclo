@@ -1,0 +1,12 @@
+../netx_tk/Source/cifXDownload.c:54:5:DEV_RemoveChannelFiles	13
+../netx_tk/Source/cifXDownload.c:132:5:DEV_IsFWFile	6
+../netx_tk/Source/cifXDownload.c:157:5:DEV_IsFWFileNetX90or4000	8
+../netx_tk/Source/cifXDownload.c:194:5:DEV_IsNXOFile	3
+../netx_tk/Source/cifXDownload.c:216:5:DEV_IsNXFFile	3
+../netx_tk/Source/cifXDownload.c:244:5:DEV_RemoveFWFiles	7
+../netx_tk/Source/cifXDownload.c:313:9:DEV_DeleteFile	2
+../netx_tk/Source/cifXDownload.c:379:9:DEV_GetFWTransferTypeFromFileName	9
+../netx_tk/Source/cifXDownload.c:440:9:DEV_CheckForDownload	8
+../netx_tk/Source/cifXDownload.c:574:9:DEV_ProcessFWDownload	34
+../netx_tk/Source/cifXDownload.c:916:9:DEV_DownloadFile	27
+../netx_tk/Source/cifXDownload.c:1239:9:DEV_UploadFile	25

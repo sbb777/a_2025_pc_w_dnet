@@ -1,0 +1,4 @@
+../App/model/driver/APC_ADS1252.c:14:6:initADS1252	4	static
+../App/model/driver/APC_ADS1252.c:19:6:getADS1252Config	16	static
+../App/model/driver/APC_ADS1252.c:24:6:setADS1252Config	16	static
+../App/model/driver/APC_ADS1252.c:33:5:getADS1252	48	static

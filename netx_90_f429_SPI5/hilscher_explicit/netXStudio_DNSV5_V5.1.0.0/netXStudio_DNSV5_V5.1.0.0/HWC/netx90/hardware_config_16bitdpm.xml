@@ -1,0 +1,752 @@
+<?xml version="1.0" ?>
+<hwconfig board="default" chip_type="netx90_rev1" peripherals_version="1.4.0.0" tool_version="4.0.3">
+   
+   
+    
+   
+   <peripherals>
+      
+      
+        
+      
+      <peripheral id="dpm_16_bit">
+         
+         
+            
+         
+         <config id="dpm16_nxhx90_jtag_r3">
+            
+            
+                
+            
+            <parameter id="hif_io_cfg" value="0x00000061"/>
+            
+            
+                
+            
+            <parameter id="dpm_pio_cfg0" value="0x00000000"/>
+            
+            
+                
+            
+            <parameter id="dpm_addr_cfg" value="0x00000036"/>
+            
+            
+                
+            
+            <parameter id="dpm_rdy_cfg" value="0x00000003"/>
+            
+            
+                
+            
+            <parameter id="dpm_pio_cfg1" value="0x80000000"/>
+            
+            
+                
+            
+            <parameter id="dpm_timing_cfg" value="0x00000011"/>
+            
+            
+                
+            
+            <parameter id="dpm_if_cfg" value="0x00000000"/>
+            
+            
+                
+            
+            <parameter id="dpm_misc_cfg" value="0x00000000"/>
+            
+            
+                
+            
+            <parameter id="dpm_io_cfg_misc" value="0x00000080"/>
+            
+            
+                
+            
+            <parameter id="dpm_cfg0x0" value="0x00000004"/>
+            
+            
+                
+            
+            <parameter id="dpm_a13" value="enabled"/>
+            
+            
+                
+            
+            <parameter id="dpm_a12" value="enabled"/>
+            
+            
+                
+            
+            <parameter id="dpm_a14" value="enabled"/>
+            
+            
+                
+            
+            <parameter id="dpm_wrhn" value="disabled"/>
+            
+            
+                
+            
+            <parameter id="dpm_ale" value="disabled"/>
+            
+            
+                
+            
+            <parameter id="dpm_a11" value="enabled"/>
+            
+            
+            
+         
+         </config>
+         
+         
+        
+      
+      </peripheral>
+      
+      
+        
+      
+      <peripheral id="general">
+         
+         
+            
+         
+         <config id="default">
+            
+            
+                
+            
+            <parameter id="file_version" value="0"/>
+            
+            
+                
+            
+            <parameter id="app_cpu_enable" value="false"/>
+            
+            
+                
+            
+            <parameter id="struct_version" value="2"/>
+            
+            
+                
+            
+            <parameter id="firewall_sqi_flash" value="com_only"/>
+            
+            
+                
+            
+            <parameter id="firewall_pad_ctrl" value="no_access"/>
+            
+            
+                
+            
+            <parameter id="firewall_eth_mac" value="app_only"/>
+            
+            
+                
+            
+            <parameter id="firewall_madc" value="app_only"/>
+            
+            
+                
+            
+            <parameter id="firewall_sdram" value="com_only"/>
+            
+            
+                
+            
+            <parameter id="firewall_uart" value="com_only"/>
+            
+            
+                
+            
+            <parameter id="firewall_debug_slave" value="no_access"/>
+            
+            
+                
+            
+            <parameter id="idpm_enable" value="false"/>
+            
+            
+                
+            
+            <parameter id="file_text" value=""/>
+            
+            
+                
+            
+            <parameter id="firewall_crypt_system" value="com_only"/>
+            
+            
+                
+            
+            <parameter id="firewall_extmem" value="app_only"/>
+            
+            
+            
+         
+         </config>
+         
+         
+        
+      
+      </peripheral>
+      
+      
+        
+      
+      <peripheral id="phy0_phy1">
+         
+         
+            
+         
+         <config id="default">
+            
+            
+                
+            
+            <parameter id="hw_option" value="0x0080"/>
+            
+            
+            
+         
+         </config>
+         
+         
+        
+      
+      </peripheral>
+      
+      
+        
+      
+      <peripheral id="uart">
+         
+         
+            
+         
+         <config id="uart"/>
+         
+         
+        
+      
+      </peripheral>
+      
+      
+    
+   
+   </peripherals>
+   
+   
+    
+   
+   <io_config>
+      
+      
+        
+      
+      <pin function="dpm_a0" id="HIF_A0" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a1" id="HIF_A1" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a10" id="HIF_A10" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a11" id="HIF_A11" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a12" id="HIF_A12" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a13" id="HIF_A13" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a14" id="HIF_A14" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a2" id="HIF_A2" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a3" id="HIF_A3" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a4" id="HIF_A4" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a5" id="HIF_A5" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a6" id="HIF_A6" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a7" id="HIF_A7" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a8" id="HIF_A8" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_a9" id="HIF_A9" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_bhen" id="HIF_BHEN" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_csn" id="HIF_CSN" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d0" id="HIF_D0" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d1" id="HIF_D1" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d10" id="HIF_D10" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d11" id="HIF_D11" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d12" id="HIF_D12" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d13" id="HIF_D13" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d14" id="HIF_D14" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d15" id="HIF_D15" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d2" id="HIF_D2" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d3" id="HIF_D3" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d4" id="HIF_D4" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d5" id="HIF_D5" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d6" id="HIF_D6" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d7" id="HIF_D7" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d8" id="HIF_D8" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_d9" id="HIF_D9" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_dirq" id="HIF_DIRQ" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_rdn" id="HIF_RDN" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_rdy" id="HIF_RDY" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_sirq" id="HIF_SDCLK" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="dpm_wrn" id="HIF_WRN" peripheral="dpm_16_bit"/>
+      
+      
+        
+      
+      <pin function="mled0" id="MLED0" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="mled1" id="MLED1" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="mled2" id="MLED2" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="mled3" id="MLED3" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy0_rxn" id="PHY0_RXN" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy0_rxp" id="PHY0_RXP" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy0_txn" id="PHY0_TXN" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy0_txp" id="PHY0_TXP" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy1_rxn" id="PHY1_RXN" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy1_rxp" id="PHY1_RXP" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy1_txn" id="PHY1_TXN" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="phy1_txp" id="PHY1_TXP" peripheral="phy0_phy1"/>
+      
+      
+        
+      
+      <pin function="uart_rxd" id="UART_RXD" peripheral="uart"/>
+      
+      
+        
+      
+      <pin function="uart_txd" id="UART_TXD" peripheral="uart"/>
+      
+      
+    
+   
+   </io_config>
+   
+   
+    
+   
+   <mmio_config/>
+   
+   
+    
+   
+   <pad_config>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A0" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A1" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A10" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A11" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A12" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A13" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A14" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A2" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A3" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A4" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A5" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A6" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A7" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A8" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_A9" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_BHEN" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_CSN" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D0" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D1" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D10" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D11" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D12" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D13" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D14" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D15" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D2" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D3" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D4" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D5" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D6" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D7" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D8" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_D9" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_DIRQ" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_RDN" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_RDY" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_SDCLK" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="HIF_WRN" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="MLED0" pull_enable="false"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="MLED1" pull_enable="false"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="MLED2" pull_enable="false"/>
+      
+      
+        
+      
+      <pin drive_strength="high" id="MLED3" pull_enable="false"/>
+      
+      
+        
+      
+      <pin id="UART_RXD" pull_enable="true"/>
+      
+      
+        
+      
+      <pin drive_strength="low" id="UART_TXD" pull_enable="true"/>
+      
+      
+    
+   
+   </pad_config>
+   
+   
+
+
+</hwconfig>

@@ -1,0 +1,17 @@
+BINDIR = 'C:\\users\\louis\\appdata\\local\\temp/bin'
+CONDITIONS = 'debug'
+DISABLED_WHY = "Toolchain 'ecoscentric' not initialized"
+HBOOT_APPFLASH_IMAGE = 'C:\\Users\\louis\\netX CDT Projects\\doio_chaselight_with_dnetFW_spi0\\WAF\\hboot_image_compiler\\com\\netx90_app_iflash_image.py'
+HBOOT_APP_IMAGE = 'C:\\Users\\louis\\netX CDT Projects\\doio_chaselight_with_dnetFW_spi0\\WAF\\hboot_image_compiler\\app\\netx90_app_image.py'
+HBOOT_IMAGE_COMPILER = 'C:\\Users\\louis\\netX CDT Projects\\doio_chaselight_with_dnetFW_spi0\\WAF\\hboot_image_compiler\\com'
+HILSCHER_WAF_VERSION = '1.13.0.1'
+LIBDIR = 'C:\\users\\louis\\appdata\\local\\temp/lib'
+PLATFORM_armv8a_funs = ('setup_platform_armv8a', 'target_triple_armv8a')
+PLATFORM_netx4000_funs = ('setup_device_netx4000', 'target_triple_armv7r')
+PLATFORM_netx90_funs = ('setup_device_netx90', 'target_triple_armv7em')
+PLATFORM_netxxxlmpw_funs = ('setup_platform_armv8a', 'target_triple_armv8a')
+PREFIX = 'C:\\users\\louis\\appdata\\local\\temp'
+PYTHON = 'C:\\ProgramData\\Hilscher GmbH\\netX Studio CDT\\BuildTools\\python\\2.7.11\\python.exe'
+TOOLCHAIN = 'ecoscentric'
+UsedPlatform = 'netx90_app'
+UsedToolchain = 'gccarmemb'

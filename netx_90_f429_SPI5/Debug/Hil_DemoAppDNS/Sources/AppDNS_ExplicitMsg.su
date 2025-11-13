@@ -1,0 +1,8 @@
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:34:25:VAT_Param_FindByPath	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:51:9:CIP_HandleGetAttributeSingle	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:72:9:CIP_HandleSetAttributeSingle	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:128:9:CIP_HandleGetAttributeAll	32	static
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:152:9:CIP_HandleSave	16	static
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:167:9:CIP_HandleReset	16	static
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:182:9:CIP_HandleExplicitMessage	40	static
+../Hil_DemoAppDNS/Sources/AppDNS_ExplicitMsg.c:232:9:CIP_ProcessExplicitMessage	80	static

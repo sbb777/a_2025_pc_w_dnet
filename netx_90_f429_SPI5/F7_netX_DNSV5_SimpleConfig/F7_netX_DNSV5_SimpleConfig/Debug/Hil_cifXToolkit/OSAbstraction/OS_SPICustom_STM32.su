@@ -1,0 +1,6 @@
+../Hil_cifXToolkit/OSAbstraction/OS_SPICustom_STM32.c:67:6:OS_SpiInit	0	static
+../Hil_cifXToolkit/OSAbstraction/OS_SPICustom_STM32.c:77:6:OS_SpiAssert	8	static
+../Hil_cifXToolkit/OSAbstraction/OS_SPICustom_STM32.c:86:6:OS_SpiDeassert	8	static
+../Hil_cifXToolkit/OSAbstraction/OS_SPICustom_STM32.c:95:6:OS_SpiLock	8	static
+../Hil_cifXToolkit/OSAbstraction/OS_SPICustom_STM32.c:105:6:OS_SpiUnlock	8	static
+../Hil_cifXToolkit/OSAbstraction/OS_SPICustom_STM32.c:118:6:OS_SpiTransfer	8	static

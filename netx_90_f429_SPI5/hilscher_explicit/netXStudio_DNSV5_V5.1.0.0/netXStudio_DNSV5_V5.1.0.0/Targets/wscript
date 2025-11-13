@@ -1,0 +1,20 @@
+def build(bld):
+
+
+    # the following sdk component is used for configuration purposes in several components
+    # in order to keep the components generic and commonly usable in all demo applications
+    bld.sdkcomponent(
+        name            = "cifXApplicationDemoConfig_sdk",
+        export_defines  = [
+#                           "DEMO_DONT_USE_CHANNEL0",       # Communication channel 0 is implicitly used by default, it must be explicitly disabled
+                           "DEMO_USE_CHANNEL0",             # Communication channel 0 is anyway implicitly opened, this define just for readability
+#                           "DEMO_USE_CHANNEL1",            # Communication channel 1 is opened - e.g. SocketIf or WebIf
+#                           "DEMO_USE_CHANNEL2",            # Communication channel 2 is opened - e.g. netPROXY channel
+                            "DEMO_QUIET",                   # Less printf debug outputs
+                            "DEMO_DONT_USE_COMMAND_LOOKUP", # Do not use the packet command look up table, which is specific to the used protocol stack
+#                           "DEMO_ONLY_MAILBOX",            # no cyclic IO data handler registered, very special case e.g. for OpenModbusTCP message mode
+                           ],
+    )
+
+
+

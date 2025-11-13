@@ -1,0 +1,3 @@
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplication.c:168:17:Protocol_PacketHandler_callback	2
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplication.c:131:17:Protocol_StartConfiguration_callback	3
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplication.c:111:14:LookupCommandCode	3

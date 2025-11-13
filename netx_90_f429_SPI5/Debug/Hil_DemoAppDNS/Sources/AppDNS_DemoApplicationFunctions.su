@@ -1,0 +1,12 @@
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:95:10:AppDNS_SetConfiguration	32	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:145:10:AppDNS_ChannelInit	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:161:10:AppDNS_StartCommunication	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:182:10:AppDNS_ConfigureStack	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:228:6:AppDNS_PacketHandler_callback	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:290:10:AppDNS_GlobalPacket_SendReceive	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:315:10:AppDNS_GlobalPacket_Send	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:335:7:AppDNS_GlobalPacket_Init	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:346:7:AppDNS_GlobalPacket_Get	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:360:10:AppDNS_RegisterClass	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:392:10:AppDNS_RegisterAllVatClasses	24	static
+../Hil_DemoAppDNS/Sources/AppDNS_DemoApplicationFunctions.c:424:6:AppDNS_HandleCipServiceIndication	72	static

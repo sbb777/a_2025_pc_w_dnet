@@ -1,0 +1,4 @@
+../Hil_DemoApp/Sources/devicenet_master_info.c:30:9:DeviceNet_GetMasterAttribute	8
+../Hil_DemoApp/Sources/devicenet_master_info.c:105:9:DeviceNet_GetMasterIdentity	20
+../Hil_DemoApp/Sources/devicenet_master_info.c:221:6:DeviceNet_PrintMasterIdentity	4
+../Hil_DemoApp/Sources/devicenet_master_info.c:257:9:DeviceNet_ScanForMaster	12

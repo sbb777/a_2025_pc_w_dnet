@@ -1,0 +1,2297 @@
+/*
+ * APC_CmdFunctions.c
+ *
+ *  Created on: Sep 13, 2023
+ *      Author: Yongseok
+ */
+#include <APC_CmdFunctions.h>
+
+#include <APC_CmdHandler.h>
+#include <APC_CmdListener.h>
+#include <APC_Utils.h>
+#include <math.h>
+
+#include <APC_AsyncHandler.h>
+#include <APC_Scheduler.h>
+
+#include <APC_AccessMode.h>
+#include <APC_ControlMode.h>
+#include <APC_Board.h>
+#include <APC_Controller.h>
+#include <APC_Learn.h>
+#include <APC_RemotePort.h>
+#include <APC_Sensor.h>
+#include <APC_Valve.h>
+#include <APC_Error.h>
+#include <APC_LocalPort.h>
+#include <APC_Warning.h>
+#include <APC_Test.h>
+#include "APC_Synch.h"
+
+/*
+ * command : 'C:'
+ * response: 'C:'
+*/
+int cmds_C_CLOSE_VALVE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint32_t ctrl_mode = getControlMode();
+    if (ctrl_mode != ControlMode_CLOSED) {
+        uint8_t res = setControlMode(ch, ControlMode_CLOSED);
+        if (res > 0) {
+            return res;
+        }
+
+#ifdef _USE_THREAD
+        if (isJobExisted() == true) {
+            return Status_ProcessingJobExist;
+        } else {
+            setJobData((uint32_t) CMD_KEY_C_CLOSE_VALVE, (uint32_t) 0);
+        }
+#else
+        setValveClosed();
+#endif
+        addIsolationCycleCounter();
+        addControlCycleCounter();
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * command : 'O:'
+ * response: 'O:'
+*/
+int cmds_O_OPEN_VALVE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint32_t ctrl_mode = getControlMode();
+    if (ctrl_mode != ControlMode_OPEN) {
+        uint8_t res = setControlMode(ch, ControlMode_OPEN);
+        if (res > 0) {
+            return res;
+        }
+
+#ifdef _USE_THREAD
+        if (isJobExisted() == true) {
+            return Status_ProcessingJobExist;
+        } else {
+            setJobData((uint32_t) CMD_KEY_O_OPEN_VALVE, (uint32_t) 100);
+        }
+#else
+        setValveOpen();
+#endif
+        addIsolationCycleCounter();
+        addControlCycleCounter();
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function stops the valve at the current position.
+ * It is effective in PRESSURE CONTROL and POSITION CONTROL.
+ * The function can be revoked by a POSITION CONTROL, PRESSURE CONTROL, OPEN VALVE or CLOSE VALVE command.
+ */
+int cmds_H_HOLD_VALVE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint32_t control_mode = getControlMode();
+    if (control_mode != ControlMode_POSITION && control_mode != ControlMode_PRESSURE) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] not supported in ControlMode_[%d]\n", cmd, control_mode);
+        return Status_WrongControlMode;
+    }
+
+    uint8_t res = setControlMode(ch, ControlMode_HOLD);
+    if (res > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "Request ControlMode is wrong.\n");
+        return res;
+    }
+
+    setHoldPosition();
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Change to POSITION CONTROL mode and transfer of position SETPOINT value resp. reading of position SETPOINT.
+ * Description : Setpoint valve position (R:)
+*/
+int cmds_R_SETPOINT_VALVE_POSITION(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 6);
+    // 6자리 및 100000 초과 불가
+    int setpoint = atoi(dataValue);
+    if (setpoint < VALVE_POSITION_CLOSE || setpoint > VALVE_POSITION_OPEN) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Out of SetpointValvePosition=[%d]\n", cmd, setpoint);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    uint8_t res = setControlMode(ch, ControlMode_POSITION);
+    if (res > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "Request ControlMode is wrong.\n");
+        return res;
+    }
+
+#ifdef _USE_THREAD
+    if (isJobExisted() == true) {
+        return Status_ProcessingJobExist;
+    } else {
+        setJobData((uint32_t) CMD_KEY_R_SETPOINT_VALVE_POSITION, (uint32_t) setpoint);
+    }
+#else
+    setSetpointValvePosition(setpoint);
+#endif
+
+    addControlCycleCounter();
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+    Description : Setpoint motor step (r:[00|01]xxxxxx)
+*/
+int cmdd_rXX_SETPOINT_VALVE_POSITION(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    uint8_t ctrl_mode = getControlMode();
+    switch(ctrl_mode){              // Modify to check Control / Access Mode. by JWY
+        /*case ControlMode_HOLD:
+            prtLog(0, LL_WARN, __FUNCTION__, "Current ControlMode is Hold Mode\n");
+            return Status_WrongControlMode;
+            break;*/
+        case ControlMode_POSITION:
+        case ControlMode_PRESSURE:
+            break;
+        case ControlMode_CLOSED:
+        case ControlMode_OPEN:
+
+        case ControlMode_MaintenanceOpen:
+        case ControlMode_MaintenanceClose:
+        case ControlMode_PowerFailure:
+        case ControlMode_FatalError:
+        case ControlMode_Service:
+            uint8_t res = setControlMode(ch, ControlMode_POSITION);
+            if (res > 0) {
+                prtLog(0, LL_WARN, __FUNCTION__, "Request ControlMode is wrong.\n");
+                return Status_WrongControlMode;
+            }
+            break;
+        default:
+            prtLog(0, LL_WARN, __FUNCTION__, "Current ControlMode is wrong[=%d]\n", ctrl_mode);
+            return Status_WrongControlMode;
+    }
+
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 6);
+
+    int setpoint = atoi(dataValue);
+    if (setpoint < -1*(VALVE_POSITION_OPEN-1) || setpoint > VALVE_POSITION_OPEN) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Out of SetCurrentValvePosition=[%s]\n", cmd, data);
+        return Format_CommandParameterOutOfRange;
+    }
+
+#if 0
+    if (isJobExisted() == true) {
+        return Status_ProcessingJobExist;
+    }
+    if      (strncmp(cmd, "r:00", 4) == 0) setJobData((uint32_t) CMD_KEY_r00_SETPOINT_VALVE_POSITION, (uint32_t) setpoint);
+    else if (strncmp(cmd, "r:01", 4) == 0) setJobData((uint32_t) CMD_KEY_r01_SETPOINT_VALVE_POSITION, (uint32_t) setpoint);
+    else    return Format_InvalidCommandCharacter;
+#else
+    if      (strncmp(cmd, "r:00", 4) == 0) setCurrentValvePosUsingAbsoluteStep(setpoint);
+    else if (strncmp(cmd, "r:01", 4) == 0) setCurrentValvePosUsingRelativeStep(setpoint);
+    else    return Format_InvalidCommandCharacter;
+#endif
+
+    addControlCycleCounter();
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Without LEARN the valve is not able to run pressure control.
+ *
+ */
+int cmds_S_SETPOINT_VALVE_PRESSURE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    int setpoint = atoi(dataValue);
+    if (setpoint > PRESSURE_RANGE_MAX) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Out of SetpointValvePressure=[%d]\n", cmd, setpoint);
+        return Format_CommandParameterOutOfRange;
+    }
+
+/*    uint8_t SensorZeroStatus = getSensorZeroStatus();
+    if (SensorZeroStatus != Status_Enabled) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Sensor not ZeroStatus=[%d]\n", cmd, SensorZeroStatus);
+        return Setting_InvalidSetupToPerformZero;
+    }*/
+
+/*    uint8_t LearnDatasetStatus = getLearnDatasetPresentStatus();
+    if (LearnDatasetStatus != 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], no LearnDataset=[%d]\n", cmd, LearnDatasetStatus);
+        return Setting_NoLearnDataset;
+    }*/
+
+    uint8_t res = setControlMode(ch, ControlMode_PRESSURE);
+    if (res > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "Request ControlMode is wrong.\n");
+        return res;
+    }
+
+    setSetpointValvePressure(setpoint);
+    setControlMode(APC_PORT_REMOTE, ControlMode_PRESSURE);
+    setPidRunState(true);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns the current valve position.
+ * Note: When motor interlock is active during power up the valve enters the 'safety mode'
+ * and is not able to recognize position. In this case position 999999 is returned.
+ */
+int cmds_A_GET_VALVE_POSITION(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int position = 0;
+
+    EN_A_ControlMode control_mode = getControlMode();
+    if (control_mode == ControlMode_SafetyMode) {
+        position = 999999;
+    } else {
+        position = getCurrentValvePosition();
+    }
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%06d", position);
+    return CMD_PROCESSING_OK;    
+}
+
+/**
+ * This function returns the actual pressure.
+ */
+int cmds_P_GET_SENSOR_PRESSURE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (getSensorZeroAdjusted() != 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] Zero not adjusted.\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    }
+
+    int pressure = 0;
+    EN_A_ControlMode control_mode = getControlMode();
+    if (control_mode != ControlMode_SafetyMode) {
+        pressure = getCurrentPressure();
+    }
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%08d", pressure);
+    return CMD_PROCESSING_OK;    
+}
+
+int cmds_i01_GET_SENSOR_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getSensorType()      );
+    offset += sprintf((char*)(respData + offset), "%01d", getSensorZeroStatus());
+    offset += sprintf((char*)(respData + offset), "%08d", (int)getSensorFullScaleRatio());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_240313)
+ */
+int cmds_i02_GET_CONTROLLER_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s", cmd);    // cmd
+    offset += sprintf((char*)(respData + offset), "%s", "0");    // Reserved
+    offset += sprintf((char*)(respData + offset), "%c", getAlphaNumeric(getGainFactor()));
+    offset += sprintf((char*)(respData + offset), "%c", getAlphaNumeric(getSensorDelay()));
+    offset += sprintf((char*)(respData + offset), "%c", getAlphaNumeric(getRampTime()));
+    offset += sprintf((char*)(respData + offset), "%s", "0000");    // Reserved
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_230313)
+ */
+int cmds_i02Z00_GET_PRESSURE_CONTROLLER(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s", cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getControllerType());
+    return CMD_PROCESSING_OK;
+}
+
+int cmds_i04_GET_VALVE_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getValvePosAfterPowerUp());
+    offset += sprintf((char*)(respData + offset), "%01d", getValvePosAfterPowerFail());
+    offset += sprintf((char*)(respData + offset), "%01d", getExtIsolationValveFunc());
+    offset += sprintf((char*)(respData + offset), "%01d", getCntlStrokeLimit());
+    offset += sprintf((char*)(respData + offset), "%01d", getNetwFailEndPosition());
+    offset += sprintf((char*)(respData + offset), "%01d", getSlaveOfflinePosition());
+    offset += sprintf((char*)(respData + offset), "%01d", getSynchronizationStart());
+    offset += sprintf((char*)(respData + offset), "%01d", getSynchronizationMode());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_240313)
+ */
+int cmds_i05_GET_SENSOR_SCALE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int SensorFullScale = getSensorFullScale();
+    int SensorExponent  = getSensorExponent();
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%05d",
+            (int) (SensorFullScale * 10000 / pow(10, SensorExponent)));
+    offset += sprintf((char*)(respData + offset), "%02d", SensorExponent);
+    offset += sprintf((char*)(respData + offset), "%01d", getSensorUnit());
+
+    return CMD_PROCESSING_OK;
+}
+
+int cmds_i20_GET_INTERFACE_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232Baudrate());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232ParityBit());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232DataLength());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232StopBits());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232CommandSet());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteDigitalInputOpenValve());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteDigitalInputCloseValve());
+    offset += sprintf((char*)(respData + offset), "%s",  "0");    // reserved
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_240313)
+ *
+ * PositionCommRange (1)
+ *  - 0: 0 ~ 1,000
+ *  - 1: 0 ~ 10,000
+ *  - 2: 0 ~ 100,000
+ * PressureCommRange (7)
+ *  - 1,000 ~ 1,000,000
+ */
+int cmds_i21_GET_COMM_RANGE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getPositionCommRange());
+    offset += sprintf((char*)(respData + offset), "%07d", (int)getPressureCommRange());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * In simulation mode the valve can demonstrate pressure control capability
+ * independent of other equipment such as vacuum chamber, flow controller and gauge.
+ * Normal operation is not possible when simulation is running.
+ * - data length 8 characters
+ */
+int cmds_i30_GET_DEVICE_STATUS(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getAccessMode()   );
+    offset += sprintf((char*)(respData + offset), "%c",   getAlphaNumeric(getControlMode()));
+    offset += sprintf((char*)(respData + offset), "%01d", getPFOStatus()    );
+    offset += sprintf((char*)(respData + offset), "%01d", getWarningStatus());
+    offset += sprintf((char*)(respData + offset), "%s",  "000");              // reserved
+    offset += sprintf((char*)(respData + offset), "%01d", getSimulationStatus());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function checks the status of LEARN and indicates if the conditions during LEARN were ok.
+ * - data length 8 characters
+ */
+int cmds_i32_GET_LEARN_STATUS(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getLearnRunningStatus()        );
+    offset += sprintf((char*)(respData + offset), "%01d", getLearnDatasetPresentStatus() );
+    offset += sprintf((char*)(respData + offset), "%01d", getLearnAbortStatus()          );
+    offset += sprintf((char*)(respData + offset), "%01d", getLearnOpenPressureStatus()   );
+    offset += sprintf((char*)(respData + offset), "%01d", getLearnClosePressureStatus()  );
+    offset += sprintf((char*)(respData + offset), "%01d", getLearnPressureRaisingStatus() );
+    offset += sprintf((char*)(respData + offset), "%01d", getLearnPressureStabilityStatus());
+    offset += sprintf((char*)(respData + offset), "%s",  "0");        // reserved
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns the pressure limit applied for LEARN.
+ * - data length 8 characters starting with a zero
+ */
+int cmds_i34_GET_LEARN_PRESSLIMIT(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%08d", (int)getLearnPressureLimit());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Reading returns pressure setpoint only in case pressure control is selected, otherwise position setpoint is returned.
+ * - input  [i:38][CR][LF]
+ * - output [i:38][00xxxxxx][CR][LF]  - POSITION
+ *          [i:38][0xxxxxxx][CR][LF]  - PRESSURE
+ */
+int cmds_i38_GETPOINT_VALVE_POSITION(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint32_t setpoint = 0;
+
+    if (getControlMode() == ControlMode_PRESSURE) {
+        setpoint = getSetpointValvePressure();
+    } else {
+        setpoint = getSetpointValvePosition();
+    }
+
+    int offset = 0;
+    offset  = sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%08d", (int)setpoint);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Reading returns pressure setpoint only in case pressure control is selected, otherwise position setpoint is returned.
+ * - input  [i:39][CR][LF]
+ * - output [i:39][xxxxxx][CR][LF]  - Valve Position based on Encoder Value.
+ */
+int cmds_i39_GET_ENCODER_VALUE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint32_t setpoint = 0;
+
+    setpoint = getEncoderPosition();
+
+    int offset = 0;
+    offset  = sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%06d", (int)setpoint);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns an error code in case of any malfunction of the device.
+ * - data length 3 characters
+ */
+int cmds_i50_GET_ERROR_STATUS(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%03d", getErrorCode());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Warning info
+ * - data length 8 characters
+ */
+int cmds_i51_GET_WARNING_STATUS(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getWarningServiceRequest());
+    offset += sprintf((char*)(respData + offset), "%01d", getWarningLearnDatasetPresent());
+    offset += sprintf((char*)(respData + offset), "%01d", getWarningPFOBattery()   );
+    offset += sprintf((char*)(respData + offset), "%01d", getWarningCompressedAir());
+    offset += sprintf((char*)(respData + offset), "%s",  "0000");         // reserved
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns the sensor 1 offset voltage (adjusted by ZERO).
+ */
+int cmds_i60_GET_SENSOR1_OFFSET(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint8_t sensorType = getSensorType();
+    if (sensorType == SensorType_NoSensor || sensorType == SensorType_1Operation_Sensor2) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] not equipped Sensor1\n", cmd);
+        return Hardware_InvalidCommandMissingSensor;
+    }
+
+/*    if (getSensorZeroStatus() == Status_Disabled) {
+        prtLog(0, LL_INFO, __FUNCTION__, "cmd=[%s] SensorZeroStatus_Disabled\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    } */
+
+/*    if (getSensorZeroAdjusted() != 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] Zero not adjusted.\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    } */
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%08d", getSensor1Offset());
+    return CMD_PROCESSING_OK;    
+}
+
+/**
+ * This function returns the sensor 2 offset voltage (adjusted by ZERO).
+ */
+int cmds_i61_GET_SENSOR2_OFFSET(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint8_t sensorType = getSensorType();
+    if (sensorType == SensorType_NoSensor || sensorType == SensorType_1Operation_Sensor1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] not equipped Sensor2\n", cmd);
+        return Hardware_InvalidCommandMissingSensor;
+    }
+
+/*    if (getSensorZeroStatus() == Status_Disabled) {
+        prtLog(0, LL_INFO, __FUNCTION__, "cmd=[%s] SensorZeroStatus_Disabled\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    } */
+
+/*    if (getSensorZeroAdjusted() != 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] Zero not adjusted.\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    }*/
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%08d", getSensor2Offset());
+    return CMD_PROCESSING_OK;    
+}
+
+/** XXX
+ * This function returns direct reading from sensor 1 input.
+ */
+int cmds_i64_GET_SENSOR1_PRESSURE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+/*    uint8_t sensorType = getSensorType();
+    if (sensorType == SensorType_NoSensor || sensorType == SensorType_1Operation_Sensor2) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] not equipped Sensor1\n", cmd);
+        return Hardware_InvalidCommandMissingSensor;
+    }
+
+    if (getSensorZeroStatus() == Status_Disabled) {
+        prtLog(0, LL_INFO, __FUNCTION__, "cmd=[%s] SensorZeroStatus_Disabled\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    }
+
+    if (getSensorZeroAdjusted() != 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] Zero not adjusted.\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    }*/
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%08d", getCurrentSensor1Pressure());
+    return CMD_PROCESSING_OK;    
+}
+
+/** XXX
+ * This function returns direct reading from sensor 2 input.
+ */
+int cmds_i65_GET_SENSOR2_PRESSURE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+/*    uint8_t sensorType = getSensorType();
+    if (sensorType == SensorType_NoSensor || sensorType == SensorType_1Operation_Sensor1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] not equipped Sensor2\n", cmd);
+        return Hardware_InvalidCommandMissingSensor;
+    }
+
+    if (getSensorZeroStatus() == Status_Disabled) {
+        prtLog(0, LL_INFO, __FUNCTION__, "cmd=[%s] SensorZeroStatus_Disabled\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    }
+
+    if (getSensorZeroAdjusted() != 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] Zero not adjusted.\n", cmd);
+        return Setting_InvalidSetupToPerformZero;
+    }*/
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%08d", getCurrentSensor2Pressure());
+    return CMD_PROCESSING_OK;    
+}
+
+/**
+ * This function returns the number of throttle cycles. A movement from max. throttle position
+ * to open back to max. throttle position counts as one cycle. Partial movements will be added
+ * up until equivalent movement is achieved.
+ * - data length 10 characters
+ */
+int cmds_i68_GET_VALVE_SPEED(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s", cmd);
+    offset += sprintf((char*)(respData + offset), "%s", "0000"); // padding
+    offset += sprintf((char*)(respData + offset), "%04d", (int)getValveSpeed());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ *
+ */
+int cmds_i70_GET_CONTROL_CYCLECNT(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s", cmd);
+    offset += sprintf((char*)(respData + offset), "%010ld", getCurrentCntlCycleCounter());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns the number of isolation cycles. Each closing of the sealing ring counts
+ * as one cycle.
+ * - data length 10 characters
+ */
+int cmds_i71_GET_ISOLATION_CYCLECNT(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s", cmd);
+    offset += sprintf((char*)(respData + offset), "%010ld", getCurrentIsoCycleCounter());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns the number of control unit power up.
+ * - data length 10 characters
+ */
+int cmds_i72_GET_POWERUP_COUNTER(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s", cmd);
+    offset += sprintf((char*)(respData + offset), "%010ld", getCurrentPowerUpCounter());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns an assembly consisting of POSITION, PRESSURE and main status
+ * information for the valve.
+ * - data length 17 characters
+ */
+int cmds_i76_GET_VALVE_MAINSTATUS(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%06d", getCurrentValvePosition() );
+    offset += sprintf((char*)(respData + offset), "%08d", getCurrentPressure());
+    offset += sprintf((char*)(respData + offset), "%01d", getAccessMode()           );
+    offset += sprintf((char*)(respData + offset), "%c",   getAlphaNumeric(getControlMode()));
+    offset += sprintf((char*)(respData + offset), "%01d", getWarningStatus()        );
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns the hardware configuration of the device.
+ * - data length 8 characters
+ */
+int cmds_i80_GET_HW_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getPFOEquip());
+    offset += sprintf((char*)(respData + offset), "%01d", getSPSEquip());
+    offset += sprintf((char*)(respData + offset), "%01d", getRS232IntfAnalogOutputEquip());
+    offset += sprintf((char*)(respData + offset), "%01d", getSensorEquip());
+    offset += sprintf((char*)(respData + offset), "%s",  "0000");     // reserved
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns firmware version of the device.
+ * - data length 20 characters
+ */
+int cmds_i82_GET_FW_VERSION(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char FwVersion[21] = { 0 };
+    getFwVersion(FwVersion);
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",    cmd);
+    offset += sprintf((char*)(respData + offset), "%-20s", FwVersion);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function returns an identification code. This code is unique for each valve and allows
+ * tracing.
+ * - data length 21 characters
+ */
+int cmds_i83_GET_VALVE_ModelName(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char ValveModelName[21] = { 0 };
+    int  FwFactoryState = 0; // '0' : False, '1' : True
+                             // 만약 Factory 상태 이면(True) DAM은 q:00, q:10 등의 주기적인 명령을 전송해서는 안된다.
+    getValveModelName(ValveModelName);
+    FwFactoryState = getFwFactoryState();
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s", cmd);
+    offset += sprintf((char*)(respData + offset), "%-20s", ValveModelName);
+    //offset += sprintf((char*)(respData + offset), "%01d",  FwFactoryState);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Valve에 download된 firmware의 number 정보를 얻기위한 명령어
+ */
+int cmds_i84_GET_FW_NUMBER(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char FwNumber[21] = { 0 };
+    //getFwNumber(FwNumber);
+    getFwReleasedDate(FwNumber);    // FwReleasedDate로 갈음
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",    cmd);
+    offset += sprintf((char*)(respData + offset), "%-20s", FwNumber);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function does the sensor configuration for pressure control.
+ * - data length 8 characters
+ */
+int cmds_s01_SET_SENSOR_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    int SensorType              = dataValue[0] - 0x30;
+    int SensorZeroStatus        = dataValue[1] - 0x30;
+    int SensorFullScaleRatio    = atoi(&dataValue[2]);  // 6 characters
+
+    int validation = 0;
+    if (SensorType < SensorType_NoSensor || SensorType > SensorType_2Operation_Sensor2High) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (SensorZeroStatus < Status_Disabled || SensorZeroStatus > Status_Enabled) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (SensorFullScaleRatio < 1000 || SensorFullScaleRatio > 100000) {
+        // High range / Low range sensor full scale ratio * 1000 (1000 ... 100000)
+        validation = Format_CommandParameterOutOfRange;
+    }
+
+    if (validation > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n",
+                dataValue);
+        return Format_CommandParameterOutOfRange;
+    } else {
+        setSensorType(SensorType);
+        setSensorZeroStatus(SensorZeroStatus);
+        setSensorFullScaleRatio(SensorFullScaleRatio);
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_240313)
+ *
+ * This function does the valve configuration.
+ * - data length 8 characters
+ */
+int cmds_s02_SET_CONTROLLER_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    //uint8_t Reserved    = dataValue[0];
+    uint8_t GainFactor  = dataValue[1];
+    uint8_t SensorDelay = dataValue[2];   // sec
+    uint8_t RampTime    = dataValue[3];   // sec
+    //uint8_t Reserved    = dataValue[4];
+
+    bool validation = true;
+    if ((GainFactor < 0x30) || (GainFactor > 0x39 && GainFactor < 0x41) || (GainFactor > 0x4D)) {
+        validation = false;
+    }
+    if ((SensorDelay < 0x30) || (SensorDelay > 0x39 && SensorDelay < 0x41) || (SensorDelay > 0x46)) {
+        validation &= false;
+    }
+    if ((RampTime < 0x30) || (RampTime > 0x39 && RampTime < 0x41) || (RampTime > 0x4B)) {
+        validation &= false;
+    }
+
+    if (validation != true) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n",
+                dataValue);
+        return Format_InvalidCommandType;
+    }
+
+    setGainFactor(GainFactor);
+    setSensorDelay(SensorDelay);
+    setRampTime(RampTime);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_230313)
+ */
+int cmds_s02Z00_SET_PRESSURE_CONTROLLER(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 1);
+
+    uint8_t ControllerType    = (dataValue[1] - 0x30);
+
+    if (ControllerType < 0 || ControllerType> 3) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n",
+                dataValue);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    setControllerType(ControllerType);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 8 characters
+ */
+int cmds_s04_SET_VALVE_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    int ValvePosAfterPowerUp   = dataValue[0] - 0x30;
+    int ValvePosAfterPowerFail = dataValue[1] - 0x30;
+    int ExtIsolationValveFunc  = dataValue[2] - 0x30;
+    int CntlStrokeLimit        = dataValue[3] - 0x30;
+    int NetwFailEndPosition    = dataValue[4] - 0x30;
+    int SlaveOfflinePosition   = dataValue[5] - 0x30;
+    int SynchronizationStart   = dataValue[6] - 0x30;
+    int SynchronizationMode    = dataValue[7] - 0x30;
+
+    int validation = 0;
+    if (ValvePosAfterPowerUp < 0 || ValvePosAfterPowerUp > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (ValvePosAfterPowerFail < 0 || ValvePosAfterPowerFail > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (ExtIsolationValveFunc < 0 || ExtIsolationValveFunc > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (CntlStrokeLimit < 0 || CntlStrokeLimit > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (NetwFailEndPosition < 0 || NetwFailEndPosition > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (SlaveOfflinePosition < 0 || SlaveOfflinePosition > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (SynchronizationStart < 0 || SynchronizationStart > 4) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (SynchronizationMode < 0 || SynchronizationMode > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+
+    if (validation > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n",
+                dataValue);
+        return Format_CommandParameterOutOfRange;
+    } else {
+        setValvePosAfterPowerUp(ValvePosAfterPowerUp);
+        setValvePosAfterPowerFail(ValvePosAfterPowerFail);
+        setExtIsolationValveFunc(ExtIsolationValveFunc);
+        setCntlStrokeLimit( CntlStrokeLimit);
+        setNetwFailEndPosition( NetwFailEndPosition);
+        setSlaveOfflinePosition( SlaveOfflinePosition);
+        setSynchronizationStart( SynchronizationStart);
+        setSynchronizationMode( SynchronizationMode);
+    }
+
+    strcpy(respData, cmd);
+
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_240313)
+ *
+ * Sensor의 full Scale을 설정하는 명령어
+ * Example: 10000114 = 1Torr (input from high range sensor)
+ */
+int cmds_s05_SET_SENSOR_SCALE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    int SensorFullScale = (dataValue[0] - 0x30) * 10000
+                        + (dataValue[1] - 0x30) * 1000
+                        + (dataValue[2] - 0x30) * 100
+                        + (dataValue[3] - 0x30) * 10
+                        + (dataValue[4] - 0x30) * 1;
+    int Sign            = dataValue[5] - 0x30;    // 0x30, 0x2D
+    int SensorExponent  = dataValue[6] - 0x30;
+    int SensorUnit      = dataValue[7] - 0x30;
+
+    int validation = 0;
+    if (SensorFullScale < 0 || SensorFullScale > 99999) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    // 변경됨 (0.9_2311130)
+    if (Sign > 0) { // 0, -3
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (SensorExponent < 0 || SensorExponent > 4) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (SensorUnit < 0 || SensorUnit > 8) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+
+    if (validation > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n",
+                dataValue);
+        return Format_CommandParameterOutOfRange;
+    } else {
+        SensorExponent  = (Sign == 0 ? 1 : -1) * SensorExponent;
+
+        setSensorFullScale(SensorFullScale / 10000 * pow(10, SensorExponent));
+        setSensorExponent(SensorExponent);
+        setSensorUnit(SensorUnit);
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 8 characters
+ */
+int cmds_s20_SET_INTERFACE_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    uint8_t BaudRate    = dataValue[0] - 0x30;
+    uint8_t ParityBit   = dataValue[1] - 0x30;
+    uint8_t DataLength  = dataValue[2] - 0x30;
+    uint8_t StopBits    = dataValue[3] - 0x30;
+    uint8_t CommandSet  = dataValue[4] - 0x30;
+    uint8_t DigitalInputOpenValve   = dataValue[5] - 0x30;
+    uint8_t DigitalInputCloseValve  = dataValue[6] - 0x30;
+    //uint8_t Reserved    = dataValue[7];
+
+    int validation = 0;
+    if (BaudRate < 0 || BaudRate > 8) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (ParityBit < 0 || ParityBit > 4) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DataLength < 0 || DataLength > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (StopBits < 0 || StopBits > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (CommandSet < 0 || CommandSet > 8) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DigitalInputOpenValve < 0 || DigitalInputOpenValve > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DigitalInputCloseValve < 0 || DigitalInputCloseValve > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+
+    if (validation > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n",
+                dataValue);
+        return Format_CommandParameterOutOfRange;
+    } else {
+        setRemoteRS232Baudrate(BaudRate);
+        setRemoteRS232ParityBit(ParityBit);
+        setRemoteRS232DataLength(DataLength);
+        setRemoteRS232StopBits(StopBits);
+        setRemoteRS232CommandSet(CommandSet);
+        setRemoteDigitalInputOpenValve(DigitalInputOpenValve);   // input-1
+        setRemoteDigitalInputCloseValve(DigitalInputCloseValve); // input-2
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * XXX NOT used (v1.0_240313)
+ */
+int cmds_s21_SET_COMM_RANGE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    int PositionCommRange = dataValue[0] - 0x30;
+    int PressureCommRange = atoi(&dataValue[1]);
+
+    // range for POSITION: 0 = 0 – 1000, 1 = 0 – 10000, 2 = 0 – 100000
+    if (PositionCommRange < 0 || PositionCommRange > 2) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is OutOfRange (Position)\n", dataValue);
+        return Format_CommandParameterOutOfRange;
+    }
+    // PRESSURE and SENSOR READING: 1000 ... 1000000
+    // e.g. 0010000 -> pressure range 0 – 10000
+    if (PressureCommRange < 1 || PressureCommRange > PRESSURE_RANGE_MAX) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is OutOfRange (Pressure)\n", dataValue);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    setPositionCommRange(PositionCommRange);
+    setPressureCommRange(PressureCommRange);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This command initiates ZERO to compensate for offset of gauge(s).
+ */
+int cmds_Z_SET_ZERO_ADJUST(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint8_t zero_status = getSensorZeroStatus();
+    if (zero_status == Status_Disabled) {
+        prtLog(0, LL_WARN, __FUNCTION__, "SensorZeroStatus=[%d] is Disabled\n", zero_status);
+        return Setting_InvalidSetupToPerformZero;
+    }
+
+    uint8_t option = 1;
+    if (sizeof(data) > 0) {
+        char dataValue[8] = { 0 };
+        strncpy(dataValue, (char*) data, 1);
+        option = dataValue[0] - 0x30;
+    }
+
+    bool zero_result = adjustSensorZero(option);
+    if (zero_result != true) {
+        prtLog(0, LL_WARN, __FUNCTION__, "Setting_InvalidSetupToPerformZero\n");
+        return Setting_InvalidSetupToPerformZero;
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * LEARN adapts the PID controller of the Master valve to the vacuum system and its operating conditions.
+ * LEARN must be executed only once during system setup.
+ *
+ * - data length: 8 bytes
+ */
+int cmds_L_START_LEARN(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint32_t control_mode = getControlMode();
+    if (control_mode != ControlMode_POSITION && control_mode != ControlMode_CLOSED
+        && control_mode != ControlMode_OPEN /*&& control_mode != ControlMode_HOLD*/) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] not supported in ControlMode_[%d]\n", cmd, control_mode);
+        return Status_WrongControlMode;
+    }
+
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    int LearnPressureLimit = atoi(dataValue);
+    if (LearnPressureLimit < 0 || LearnPressureLimit > 99999999) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is OutOfRange\n", dataValue);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    setLearnPressureLimit(LearnPressureLimit);
+
+#ifdef _USE_THREAD
+        if (isJobExisted() == true) {
+            return Status_ProcessingJobExist;
+        } else {
+            setJobData((uint32_t) CMD_KEY_L_START_LEARN, (uint32_t) 0);
+        }
+#else
+        startLearn();
+#endif
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Download data from UI(DAM) to FW.
+ *
+ * input: 16 bytes (index: 3, data: 13)
+ * output: 3 bytes
+ */
+int cmds_d_DOWNLOAD_LEARN_DATA(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[32] = { 0 };
+    strncpy(dataValue, (char*) data, 16);
+
+    int LearnDataIndex = (dataValue[0] - 0x30) * 100
+                       + (dataValue[1] - 0x30) * 10
+                       + (dataValue[2] - 0x30) * 1;
+    if (LearnDataIndex > (LEARN_INDEX_SIZE - 1)) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n", dataValue);
+        return Format_CommandParameterOutOfRange;
+    }
+
+/* ATTN
+ *   -> index[94] Time Constant : timeConstant 변수에 저장 (Float to Hex string)
+ *   -> index[95] VFS은         : MO 변수에 미리 설정됨
+ *   -> index[96] SFS은         : MO 변수에 미리 설정됨
+ *   -> index[97] MODEL명       : MO 변수에 미리 설정됨
+ *   -> index[98] LEARN LIMIT   : MO 변수에 미리 설정됨
+ *   -> index[99] CheckSum      : (raw data에는 필요없음)
+ */
+    //uint8_t LearnOneData[LEARN_DATA_LENGTH] = { 0x00 };
+    //memcpy(&LearnOneData[0], &dataValue[3], LEARN_DATA_LENGTH);
+    setLearnData((uint8_t)LearnDataIndex, (uint8_t *)&dataValue[3], LEARN_DATA_LENGTH);
+    if (LearnDataIndex == (LEARN_INDEX_SIZE - 1)) {
+        setDataSync(_ADDR_LEARN_DATA, 128 * 1024);
+
+        // TODO check sum
+    }
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%03d", LearnDataIndex);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Upload data from FW to UI(DAM).
+ *
+ * input:   3 bytes
+ * output: 16 bytes
+ */
+int cmds_u_UPLOAD_LEARN_DATA(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 3);
+
+    int LearnDataIndex = atoi(dataValue);
+    if (LearnDataIndex < 0 || LearnDataIndex > (LEARN_INDEX_SIZE - 1)) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n", dataValue);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    uint8_t LearnOneData[LEARN_DATA_LENGTH + 1] = { 0x00 };
+    getLearnData(LearnDataIndex, LearnOneData);
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%03d", LearnDataIndex);
+    offset += sprintf((char*)(respData + offset), "%13s", LearnOneData);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This command allows changing the actuating speed of the valve plate. Speed selection is
+ * effective for pressure control and position control.
+ * Open valve and close valve are always done with max. speed.
+ * - data length 6 characters
+ */
+int cmds_V_SET_VALVE_SPEED(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    uint32_t ctrl_mode = getControlMode();
+    if (ctrl_mode != ControlMode_POSITION && ctrl_mode != ControlMode_CLOSED &&
+            ctrl_mode != ControlMode_OPEN && ctrl_mode != ControlMode_HOLD ) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] not supported in ControlMode_[%d]\n", cmd, ctrl_mode);
+        return Status_WrongControlMode;
+    }
+
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 6);
+    //  2 characters padding
+    int ValveSpeed  = atoi(&dataValue[2]);
+
+    if (ValveSpeed < VALVE_MIN_SPEED || ValveSpeed > VALVE_MAX_SPEED) {  // ratio
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n", dataValue);
+        return Format_CommandParameterOutOfRange;
+    } else {
+        setValveSpeed(ValveSpeed);
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * This function selects the access authorization to the valve. To read access mode use
+ * inquiry command DEVICE STATUS.
+ * Note:
+ * Local operation is only possible when 'DAM' is running. When communication to service port
+ * is interrupted the valve will automatically change to remote operation.
+ */
+int cmds_c01_SET_ACCESS_MODE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 2);
+
+    int req_acs_mode = atoi(dataValue);
+    uint8_t res = setAccessMode(ch, req_acs_mode);
+    if (res > 0) {  // abnormal result
+        return res;
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 2 characters
+ *   00: reset service request WARNINGS
+ *   01: reset FATAL ERROR (Restart control unit)
+ */
+int cmds_c82_RESET_ERROR(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 2);
+
+    int WarningError = atoi(dataValue);
+    if (WarningError < 0 || WarningError > 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n", dataValue);
+        return Format_InvalidCommandType;
+    }
+
+    resetError(WarningError);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 16 characters
+ */
+int cmdd_q00_GET_PRE_POS_VAL(uint8_t ch, char* cmd, char* data, char* respData) {
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%c",   getAlphaNumeric(getControlMode()));
+    offset += sprintf((char*)(respData + offset), "%01d", getAccessMode());
+    offset += sprintf((char*)(respData + offset), "%06d", /*getCurrentValvePosition()*/ getCurrentEncoder());
+    offset += sprintf((char*)(respData + offset), "%08d", getCurrentPressure());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Valve의 HW Equip 상태 관련 모든 정보를 얻는 명령어
+ * - data length 6 characters
+ */
+int cmdd_q01_GET_HW_CONFIG_ALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%c",   getAlphaNumeric(getInterfaceType()));
+    offset += sprintf((char*) (respData + offset), "%01d", getPFOEquip()    );
+    offset += sprintf((char*) (respData + offset), "%01d", getSPSEquip()    );
+    offset += sprintf((char*) (respData + offset), "%01d", getSensorEquip() );
+    offset += sprintf((char*) (respData + offset), "%01d", getClusterEquip());
+    offset += sprintf((char*) (respData + offset), "%01d", getExtIsolationValveFunc());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 70 characters
+ */
+int cmdd_q02_GET_SW_CONFIG_ALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char ValveModelName[21]     = { 0 };
+    char SerialNumber[21]       = { 0 };
+    char FwVersion[21]          = { 0 };
+    char FwReleasedDate[21]     = { 0 };
+    int  FwFactoryState = 0; // '0' : False, '1' : True
+                             // 만약 Factory 상태 이면(True) DAM은 q:00, q:10 등의 주기적인 명령을 전송해서는 안된다.
+
+    getValveModelName(ValveModelName);  //
+    getValveSerialNumber(SerialNumber);
+    getFwVersion(FwVersion);            //
+    getFwReleasedDate(FwReleasedDate);  //
+    FwFactoryState = getFwFactoryState();
+
+    char ValveSerialNumber[32]   = { 0 };
+    int index = 0;
+    index = sprintf(ValveSerialNumber + index, "DC%s", ValveModelName);
+    index = sprintf(ValveSerialNumber + index, "-%s",  SerialNumber);
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",    cmd);
+    offset += sprintf((char*) (respData + offset), "%-20s", ValveSerialNumber); // ModelName + SerialNumber
+    offset += sprintf((char*) (respData + offset), "%-20s", FwVersion        );
+    offset += sprintf((char*) (respData + offset), "%-10s", ValveModelName   );
+    offset += sprintf((char*) (respData + offset), "%-20s", FwReleasedDate   );
+    offset += sprintf((char*) (respData + offset), "%01d",  FwFactoryState    );
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 92 characters
+ */
+int cmdd_q03_GET_SENSOR_STATUS_ALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%01d", getSensorType());
+    //offset += sprintf((char*) (respData + offset), "%08d", (int)getSensorFullScale());
+    offset += sprintf((char*) (respData + offset), "%01d", getSensorZeroStatus());
+    offset += sprintf((char*) (respData + offset), "%08d", getCurrentPressure());
+
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor1Selection());
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor1Unit());
+    offset += sprintf((char*) (respData + offset), "%08d", (int)getSensor1FullScale());
+    offset += sprintf((char*) (respData + offset), "%08d", getSensor1OffsetPressure());
+    offset += sprintf((char*) (respData + offset), "%08d", getSensor1MeasVoltage());
+    offset += sprintf((char*) (respData + offset), "%08d", getCurrentSensor1Pressure());
+    offset += sprintf((char*) (respData + offset), "%03d", getSensor1ApplyRatio());     // 37
+
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor2Selection());
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor2Unit());
+    offset += sprintf((char*) (respData + offset), "%08d", (int)getSensor2FullScale());
+    offset += sprintf((char*) (respData + offset), "%08d", getSensor2OffsetPressure());
+    offset += sprintf((char*) (respData + offset), "%08d", getSensor2MeasVoltage());
+    offset += sprintf((char*) (respData + offset), "%08d", getCurrentSensor2Pressure());
+    offset += sprintf((char*) (respData + offset), "%03d", getSensor2ApplyRatio());     // 37
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 14 characters
+ */
+int cmdd_q04_GET_VALVE_CONFIGALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    offset += sprintf((char*) (respData + offset), "%01d", getValvePosAfterPowerUp());
+    offset += sprintf((char*) (respData + offset), "%01d", getValvePosAfterPowerFail());
+    offset += sprintf((char*) (respData + offset), "%01d", getValvePosAfterNetwFail());
+    offset += sprintf((char*) (respData + offset), "%01d", getExtIsolationValveFunc());
+    offset += sprintf((char*) (respData + offset), "%01d", getCntlStrokeLimit());
+    offset += sprintf((char*) (respData + offset), "%01d", getValvePositionAfterSync());
+    offset += sprintf((char*) (respData + offset), "%01d", getNetwFailEndPosition());
+    offset += sprintf((char*) (respData + offset), "%01d", getSlaveOfflinePosition());
+    offset += sprintf((char*) (respData + offset), "%01d", getSynchronizationStart());
+    offset += sprintf((char*) (respData + offset), "%01d", getSynchronizationMode());
+    offset += sprintf((char*) (respData + offset), "%04d", (int)getValveSpeed());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 40 characters
+ */
+int cmdd_q05_GET_CYCLECNT_ALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",     cmd);
+    offset += sprintf((char*) (respData + offset), "%010ld", getCurrentCntlCycleCounter());
+    offset += sprintf((char*) (respData + offset), "%010ld", getTotalCntlCycleCounter()  );
+    offset += sprintf((char*) (respData + offset), "%010ld", getCurrentIsoCycleCounter() );
+    offset += sprintf((char*) (respData + offset), "%010ld", getTotalIsoCycleCounter()   );
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 19 characters
+ */
+int cmdd_q06_GET_PFO_INFOALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s", cmd);
+    offset += sprintf((char*) (respData + offset), "%08d",   getCurrentPFOVoltage());
+    offset += sprintf((char*) (respData + offset), "%01d",   getPFOStatus());
+    offset += sprintf((char*) (respData + offset), "%010ld", getPFOCycleCounter());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 9 characters
+ */
+int cmdd_q07_GET_COMPAIR_INFOALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s", cmd);
+    offset += sprintf((char*) (respData + offset), "%c",   getAlphaNumeric(getControlMode()));
+    offset += sprintf((char*) (respData + offset), "%08d", (int)getCompressedAirPressure());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 5 characters
+ */
+int cmdd_q08_GET_VALVE_ERRORALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s", cmd);
+    offset += sprintf((char*) (respData + offset), "%c",   getAlphaNumeric(getControlMode()));
+    offset += sprintf((char*) (respData + offset), "%01d", getWarningServiceRequest());
+    offset += sprintf((char*) (respData + offset), "%03d", getErrorCode());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q09_GET_VALVE_HWINFO(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s", cmd);
+    offset += sprintf((char*) (respData + offset), "%01d", getValveType());
+    offset += sprintf((char*) (respData + offset), "%06d", getValveFullStroke());
+    offset += sprintf((char*) (respData + offset), "%04d", getValveSize());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * data length 34 characters
+ * - SensorFullScale: 8
+ * - SensorUnit     : 1
+ * - SensorDelay    : 4
+ * - SetpointValvePosition: 6
+ * - SetpointValvePressure: 8
+ * - ValveSpeed     : 4
+ * - ControllerType : 1 [0, 1]
+ * - SimulationStatus: 1 [0, 1]
+ * - WarningStatus  : [0, 1]
+ */
+int cmdd_q10_GET_DAM_MAIN_INFORM(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s",   cmd);
+    //offset += sprintf((char*) (respData + offset), "%08d", (int) getSensorFullScale()     );
+    //offset += sprintf((char*) (respData + offset), "%01d", getSensorUnit()                );
+    // TODO SensorDelay
+    offset += sprintf((char*) (respData + offset), "%04d", 10 );    // 0 ~ 1sec (백분율로 표기)
+    offset += sprintf((char*) (respData + offset), "%06d", (int)getSetpointValvePosition());
+    offset += sprintf((char*) (respData + offset), "%08d", (int)getSetpointValvePressure());
+    offset += sprintf((char*) (respData + offset), "%04d", (int)getValveSpeed()           );
+    offset += sprintf((char*) (respData + offset), "%01d", getControllerType()            );
+    offset += sprintf((char*) (respData + offset), "%01d", getSimulationStatus()          );
+    offset += sprintf((char*) (respData + offset), "%01d", getWarningStatus()             );
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 36 characters
+ */
+int cmdd_q11_GET_POS_PR_VAL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%c",   getAlphaNumeric(getControlMode()));
+    offset += sprintf((char*)(respData + offset), "%01d", getAccessMode());
+    offset += sprintf((char*)(respData + offset), "%06d", getEncoderPosition());    // getMotorPosition();
+    offset += sprintf((char*)(respData + offset), "%08d", getCurrentPressure());
+    offset += sprintf((char*)(respData + offset), "%06d", getSetPosition());
+    offset += sprintf((char*)(respData + offset), "%08d", getSetpointValvePressure());
+    offset += sprintf((char*)(respData + offset), "%06d", getMotorPosition());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 22 characters
+ */
+int cmdd_q20_GET_SENSOR_CONFIGALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s"  , cmd);
+    offset += sprintf((char*) (respData + offset), "%01d", getSensorZeroStatus());   // enabled, disabled
+    offset += sprintf((char*) (respData + offset), "%01d", getSensorType());
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor1Selection());
+    offset += sprintf((char*) (respData + offset), "%08d", (int) getSensor1FullScale());
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor1Unit());
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor2Selection());
+    offset += sprintf((char*) (respData + offset), "%08d", (int) getSensor2FullScale());
+    offset += sprintf((char*) (respData + offset), "%01d", getSensor2Unit());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 19 characters
+ */
+int cmdd_q21_GET_SENSOR_OFFSETALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s"  ,  cmd);
+    offset += sprintf((char*) (respData + offset), "%c",    getAlphaNumeric(getControlMode()));
+    offset += sprintf((char*) (respData + offset), "%01d",  getAccessMode());
+    offset += sprintf((char*) (respData + offset), "%01d",  getSensorZeroStatus());
+    offset += sprintf((char*) (respData + offset), "%08d", (int) getSensor1Offset());
+    offset += sprintf((char*) (respData + offset), "%08d",  getSensor1OffsetPressure());
+    offset += sprintf((char*) (respData + offset), "%08d",  getSensor1MeasPressure());
+    offset += sprintf((char*) (respData + offset), "%08d",  getCurrentSensor1Pressure());
+    offset += sprintf((char*) (respData + offset), "%08d", (int) getSensor2Offset());
+    offset += sprintf((char*) (respData + offset), "%08d",  getSensor2OffsetPressure());
+    offset += sprintf((char*) (respData + offset), "%08d",  getSensor2MeasPressure());
+    offset += sprintf((char*) (respData + offset), "%08d",  getCurrentSensor2Pressure());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 48 characters
+ */
+int cmdd_q22_GET_LEARN_INFOALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char ValveModelName[21]  = { 0 };
+    getValveModelName(ValveModelName);
+
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s"  , cmd);
+    //offset += sprintf((char*) (respData + offset), "%-20s", ValveModelName);
+    offset += sprintf((char*) (respData + offset), "%04d", (int)getValveSpeed());
+    offset += sprintf((char*) (respData + offset), "%08d", (int)getLearnPressureLimit());
+    offset += sprintf((char*) (respData + offset), "%08d", getLearnMinConductance());
+    offset += sprintf((char*) (respData + offset), "%08d", getLearnRecommendedGasFlow());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q30_GET_ACCESS_MODE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getAccessMode());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q40_GET_INTERFACE_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232Baudrate());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232ParityBit());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232DataLength());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteRS232StopBits());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteDigitalInputOpenValve());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteDigitalInputCloseValve());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteDigitalOutputOpenValve());
+    offset += sprintf((char*)(respData + offset), "%01d", getRemoteDigitalOutputCloseValve());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q70_GET_CONTROL_CYCLECNT(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s"  , cmd);
+    offset += sprintf((char*) (respData + offset), "%010ld", getCurrentCntlCycleCounter());
+    offset += sprintf((char*) (respData + offset), "%010ld", getTotalCntlCycleCounter());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q71_GET_ISOLATION_CYCLECNT(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s"  , cmd);
+    offset += sprintf((char*) (respData + offset), "%010ld", getCurrentIsoCycleCounter());
+    offset += sprintf((char*) (respData + offset), "%010ld", getTotalIsoCycleCounter());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q72_GET_POWERUP_COUNTER(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*) (respData + offset), "%s"  ,   cmd);
+    offset += sprintf((char*) (respData + offset), "%010ld", getCurrentPowerUpCounter());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q80_GET_FIXED_CONTROLLER_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getControllerType());
+    offset += sprintf((char*)(respData + offset), "%06d", (int)(getPgain()));
+    offset += sprintf((char*)(respData + offset), "%06d", (int)(getIgain()));
+    offset += sprintf((char*)(respData + offset), "%06d", (int)(getDgain()));
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_q81_GET_ADAPTIVE_CONTROLLER_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",  cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getControllerType());
+    // XXX
+    offset += sprintf((char*)(respData + offset), "%04d", getGainFactor());
+    offset += sprintf((char*)(respData + offset), "%04d", getSensorDelay());
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * start monitoring Interface port transaction
+ */
+int cmdd_z01_START_INTERFACE_TRACE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    setRemoteTrace(true);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * stop monitoring Interface port transaction
+ */
+int cmdd_z02_STOP_INTERFACE_TRACE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    setRemoteTrace(false);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * In PFO equipped condition, enable/disable PFO function.
+ */
+int cmdd_z06_SET_PFO_STATE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (getPFOEquip() != Dev_Equipped)  return Hardware_InvalidCommandMissingHardware;
+
+    char dataValue[8] = { 0 };
+    strncpy((char*) dataValue, data, 1);
+
+    int pfo_status = dataValue[0] - 0x30;
+    if (pfo_status > Status_Enabled || pfo_status < Status_Disabled) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Extracted Value=[%d]\n", cmd, pfo_status);
+        return Status_InvalidValue;
+    }
+
+    setPFOStatus(pfo_status);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 21 characters
+ */
+int cmdd_z20_SET_SENSOR_CONFIGALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (getSensorEquip() < SensorEquip_1SensorVersion || getSensorEquip() > SensorEquip_2SensorVersion)
+        return Hardware_InvalidCommandMissingSensor;
+
+    char dataValue[32] = { 0 };
+    strncpy(dataValue, (char*) data, 22);
+
+    uint8_t SensorZeroStatus    = dataValue[0] - 0x30;      // 0: disabled, 1: enabled
+    uint8_t SensorType          = dataValue[1] - 0x30;
+    uint8_t Sensor1Selection    = dataValue[2] - 0x30;      // 0: Unselected, 1: Selected
+    uint8_t Sensor1FullScale[9] = { 0 };
+    strncpy((char*)Sensor1FullScale, &dataValue[3], 8);
+    uint8_t Sensor1Unit         = dataValue[11] - 0x30;
+    uint8_t Sensor2Selection    = dataValue[12] - 0x30;     // 0: Unselected, 1: Selected
+    uint8_t Sensor2FullScale[9] = { 0 };
+    strncpy((char*)Sensor2FullScale, &dataValue[13], 8);
+    uint8_t Sensor2Unit         = dataValue[21] - 0x30;
+
+    if (SensorZeroStatus < Status_Disabled || SensorZeroStatus > Status_Enabled) {
+        prtLog(0, LL_WARN, __FUNCTION__, "SensorZeroStatus dataValue=[%d] is CommandParameterOutOfRange\n",
+                SensorZeroStatus);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    if (Sensor1Selection < Sensor_Unselected || Sensor1Selection > Sensor_Selected) {
+        prtLog(0, LL_WARN, __FUNCTION__, "Sensor1Selection dataValue=[%d] is CommandParameterOutOfRange\n",
+                Sensor1Selection);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    if (Sensor2Selection < Sensor_Unselected || Sensor2Selection > Sensor_Selected) {
+        prtLog(0, LL_WARN, __FUNCTION__, "Sensor2Selection dataValue=[%d] is CommandParameterOutOfRange\n",
+                Sensor2Selection);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    setSensorZeroStatus(SensorZeroStatus);
+    setSensorType(SensorType);
+    setSensor1Selection(Sensor1Selection);
+    setSensor1FullScale(atoi((char*) Sensor1FullScale));
+    setSensor1Unit(Sensor1Unit);
+    setSensor2Selection(Sensor2Selection);
+    setSensor2FullScale(atoi((char*) Sensor2FullScale));
+    setSensor2Unit(Sensor2Unit);
+    // XXX align Sensor
+    alignSensor();
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/* XXX modified (v1.0_240416)
+ * - data length 12 characters
+ */
+int cmdd_z22_SET_LEARN_INFOALL(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 12);
+
+    char ValveSpeed[5]         = { 0 };
+    char LearnPressureLimit[9] = { 0 };
+
+    strncpy(ValveSpeed,         &dataValue[0], 4);
+    strncpy(LearnPressureLimit, &dataValue[4], 8);
+
+    int valve_speed  = atoi(ValveSpeed);
+    if (valve_speed < VALVE_MIN_SPEED || valve_speed > VALVE_MAX_SPEED) {  // RPM
+        prtLog(0, LL_WARN, __FUNCTION__, "ValveSpeed dataValue=[%s] is OutOfRange\n", ValveSpeed);
+        return Format_CommandParameterOutOfRange;
+    } else {
+        setValveSpeed(valve_speed);
+    }
+    setLearnPressureLimit((uint32_t) atoi(LearnPressureLimit));
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * call from Local Port
+ */
+int cmdd_z30_SET_ACCESS_MODE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 1);
+
+    int req_acs_mode = dataValue[0] - 0x30;
+    uint8_t res = setAccessMode(ch, req_acs_mode);
+    if (res > 0) {
+        return res;
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * - data length 8 characters
+ */
+int cmdd_z40_SET_INTERFACE_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 8);
+
+    uint8_t BaudRate    = dataValue[0] - 0x30;
+    uint8_t ParityBit   = dataValue[1] - 0x30;
+    uint8_t DataLength  = dataValue[2] - 0x30;
+    uint8_t StopBits    = dataValue[3] - 0x30;
+    uint8_t DigitalInputOpenValve   = dataValue[4] - 0x30;
+    uint8_t DigitalInputCloseValve  = dataValue[5] - 0x30;
+    uint8_t DigitalOutputOpenValve  = dataValue[6] - 0x30;
+    uint8_t DigitalOutputCloseValve = dataValue[7] - 0x30;
+
+    int validation = 0;
+    if (BaudRate < 0 || BaudRate > 8) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (ParityBit < 0 || ParityBit > 4) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DataLength < 0 || DataLength > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (StopBits < 0 || StopBits > 1) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DigitalInputOpenValve < 0 || DigitalInputOpenValve > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DigitalInputCloseValve < 0 || DigitalInputCloseValve > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DigitalOutputOpenValve < 0 || DigitalOutputOpenValve > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+    if (DigitalOutputCloseValve < 0 || DigitalOutputCloseValve > 2) {
+        validation = Format_CommandParameterOutOfRange;
+    }
+
+    if (validation > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "dataValue=[%s] is CommandParameterOutOfRange\n", dataValue);
+        return Format_CommandParameterOutOfRange;
+    } else {
+        setRemoteRS232Baudrate(BaudRate);
+        setRemoteRS232ParityBit(ParityBit);
+        setRemoteRS232DataLength(DataLength);
+        setRemoteRS232StopBits(StopBits);
+        setRemoteDigitalInputOpenValve(DigitalInputOpenValve);   // input-1
+        setRemoteDigitalInputCloseValve(DigitalInputCloseValve); // input-2
+        setRemoteDigitalOutputOpenValve(DigitalOutputOpenValve);   // Output-1
+        setRemoteDigitalOutputCloseValve(DigitalOutputCloseValve); // Output-2
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_z70_RESET_CONTROL_CYCLECNT(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    setCurrentCntlCycleCounter(0);
+    //setTotalCntlCycleCounter(0);
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_z71_RESET_ISOLATION_CYCLECNT(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    setCurrentIsoCycleCounter(0);
+    //setTotalIsoCycleCounter(0);
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_z72_RESET_POWERUP_COUNTER(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    setCurrentPowerUpCounter(0);
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * data length 19 bytes
+ */
+int cmdd_z80_SET_FIXED_CONTROLLER_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[32] = { 0 };
+    strncpy(dataValue, (char*) data, 19);
+
+    uint8_t ControllerType  = dataValue[0] - 0x30;
+    if (ControllerType < 0 || ControllerType > 1) {  // 0: Adaptive, 1: Fixed PID
+        prtLog(0, LL_WARN, __FUNCTION__, "ControllerType dataValue=[%d] is OutOfRange\n", ControllerType);
+        return Format_CommandParameterOutOfRange;
+    }
+    uint8_t Pgain[7]        = { 0 };
+    uint8_t Igain[7]        = { 0 };
+    uint8_t Dgain[7]        = { 0 };
+
+    strncpy((char*) Pgain, &dataValue[1], 6);
+    strncpy((char*) Igain, &dataValue[7], 6);
+    strncpy((char*) Dgain, &dataValue[13], 6);
+
+    setControllerType(ControllerType);
+    setPgain( atoi((char *) Pgain));
+    setIgain( atoi((char *) Igain));
+    setDgain( atoi((char *) Dgain));
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * data length 9 bytes
+ */
+int cmdd_z81_SET_ADAPTIVE_CONTROLLER_CONFIG(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 9);
+
+    uint8_t ControllerType  = dataValue[0] - 0x30;
+    if (ControllerType < 0 || ControllerType > 1) {  // 0: Adaptive, 1: Fixed PID
+        prtLog(0, LL_WARN, __FUNCTION__, "ControllerType dataValue=[%d] is OutOfRange\n", ControllerType);
+        return Format_CommandParameterOutOfRange;
+    }
+    uint8_t GainFactor[5]   = { 0 };
+    uint8_t SensorDelay[5]  = { 0 };
+
+    strncpy((char*)GainFactor,  &dataValue[1], 4);
+    strncpy((char*)SensorDelay, &dataValue[5], 4);
+
+    setControllerType(ControllerType);  // 0: Adaptive, 1: Fixed PID
+    // XXX
+    setGainFactor( atoi((char *) GainFactor));      // 0.01 ~ 7.5
+    setSensorDelay( atoi((char *) SensorDelay));    // 0.00 ~ 1.00 sec
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * Valve에 대한 강제 Syncronization 명령어
+ * - data : '0' Full Synch,
+ *          '1' CloseSync,
+ *          '2' OpenSync
+ */
+int cmdd_Y_SYNC_VALVE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+//    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 1);
+
+    uint8_t sync_mode = dataValue[0] - 0x30;
+    if (sync_mode < SynchMode_Full || sync_mode > SynchMode_Open) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Out of SyncValve[=%d]\n", cmd, sync_mode);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    uint8_t res = setControlMode(ch, ControlMode_Synchronization);
+    if (res > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "Request ControlMode is wrong.\n");
+        return res;
+    }
+
+#ifdef _USE_THREAD
+    if (isJobExisted() == true) {
+        return Status_ProcessingJobExist;
+    } else {
+        setJobData((uint32_t) CMD_KEY_Y_SYNC_VALVE, sync_mode);
+    }
+#else
+    syncronizeValve(sync_mode);
+#endif
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ *  '0' -> Factory 상태가 아님, '1' -> Factory 상태 임
+ */
+int cmdd_y00_GET_FW_FACTORY_STATE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", (int) getFwFactoryState());
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * '0' False,  '1' True
+-> '0': RAM에 설정된 MO 정보를 모두 Flash에 Write 하고, FW를 Restart 한다.
+-> '1': Flash에 있는 MO 정보를 모두 Clear 한다.
+ */
+int cmdd_y01_SET_FW_FACTORY_STATE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 1);
+
+    uint8_t factory_state = dataValue[0] - 0x30;
+    if (factory_state < false || factory_state > true) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Extracted FwFactoryState=[%d]\n", cmd, factory_state);
+        return Status_InvalidValue;
+    }
+
+    setFwFactoryState(factory_state);
+
+    if (factory_state == false) {
+        // '0'로 설정할 경우, RAM에 설정된 MO 정보를 모두 Flash에 Write 하고, FW를 Restart
+        setDataSync(_ADDR_MO_DATA, DATA_SYNC_FULL);
+        setRestartFw(DATA_SYNC_FULL);
+    }
+    else {
+        // '0'로 설정할 경우, Flash에 있는 MO 정보를 모두 Clear
+        setDataSync(_ADDR_MO_DATA, DATA_SYNC_ERASE);
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * '0' : No data Sync to Flash on FW Restart
+ * '1' : Do data Sync to Flash on FW Restart
+ */
+int cmdd_y02_RESTART_FW(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 1);
+
+    uint8_t sync_data = dataValue[0] - 0x30;
+    if (sync_data < 0 || sync_data > 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Extracted SyncData=[%d]\n", cmd, sync_data);
+        return Status_InvalidValue;
+    }
+
+    // FW restart with asynchronous method
+    if (sync_data == true)
+        setDataSync(_ADDR_MO_DATA, DATA_SYNC_FULL);
+    setRestartFw(DATA_SYNC_FULL);
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * FW의 MO 데이터를 Flash에 모두 sync 한다
+ */
+int cmdd_y03_SYNC_DATA(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    bool res = setDataSync(_ADDR_MO_DATA, DATA_SYNC_FULL);
+    if (res != true) {
+        prtLog(0, LL_WARN, __FUNCTION__, "setDataSync() Fail.\n");
+        return res;
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * FW configuration start/stop
+ * - data length 2 bytes
+ */
+int cmdd_a99_VALVE_CONFIG_START_STOP(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 2);
+
+    int StartStopFlag = atoi(dataValue);
+    if (StartStopFlag < 0 || StartStopFlag > 1) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Extracted StartStopFlag=[%d]\n", cmd, StartStopFlag);
+        return Status_InvalidValue;
+    }
+
+    if (StartStopFlag == 1) { // Start
+        // TODO decide Freezing (= Initialization mode)
+        setControlMode(ch, ControlMode_Initialized);
+    }
+    else {   // Stop
+        setDataSync(_ADDR_MO_DATA, DATA_SYNC_FULL);
+        setRestartFw(DATA_SYNC_FULL);
+    }
+
+    strcpy(respData, cmd);
+    return CMD_PROCESSING_OK;
+}
+
+/**
+ * FW configuration
+ * - data length 10 bytes
+ */
+int cmdd_a10_VALVE_CONFIG_SETUP(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+    if (getControlMode() != ControlMode_Initialized)    return Status_WrongControlMode;
+
+    char dataValue[16] = { 0 };
+    strncpy(dataValue, (char*) data, 10);
+
+    uint8_t    id[3] = { 0 };
+    uint8_t value[9] = { 0 };
+
+    strncpy((char*)   id, &dataValue[0], 2);
+    strncpy((char*)value, &dataValue[2], 8);
+
+    int config_id = atoi((char *) id);
+    if (config_id < 0 || config_id > 30) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], Extracted Value=[%s]\n", cmd, dataValue);
+        return Status_InvalidValue;
+    }
+
+    /*
+     * 01   Valve Model
+     * 02   SerialNumber
+     * 03   LEARN min. Conductance
+     * 10   Sensor Equip/NotEquip 설정
+     * 11   Sensor Power Supply 설정
+     * 12   VFS (Valve Full Scale) 설정
+     * 13   PFO Equip/NotEquip 설정
+     * 14   Cluster
+     * 20  REMOTE Interface 종류 설정
+     * 21  REMOTE RS232 AO Equip/NotEquip 설정
+     * 30  ValveType, Isolation
+     */
+    int validation = 0;
+
+    if (config_id == 1) {
+        setValveModelName((char *) value, sizeof(value));
+    }
+    else if (config_id == 2) {
+        setValveSerialNumber((char *) value, sizeof(value));
+    }
+    else if (config_id == 3) {
+        int val = atoi((char *) value);
+        setLearnMinConductance(val);
+    }
+    else if (config_id == 12) {
+        int val = atoi((char *) value);
+        setValveFullStroke(val);
+    }
+    else if (config_id == 10) {
+        uint8_t SensorEquip = value[0] - 0x30;
+        if (SensorEquip == 1 || SensorEquip == 2) {
+            uint8_t sensor1_equip = value[1] - 0x30;
+            uint8_t sensor1_high  = value[2] - 0x30;
+            uint8_t sensor2_equip = value[3] - 0x30;
+            uint8_t sensor2_high  = value[4] - 0x30;
+
+            setSensorEquip(SensorEquip);
+            setSensor1Equip(sensor1_equip);
+            setSensor2Equip(sensor2_equip);
+
+            if (SensorEquip == 1) {
+                (sensor1_equip == 1) ? setSensorType(1) :
+                (sensor2_equip == 1) ? setSensorType(3) : setSensorType(1);
+            }
+            else if (SensorEquip == 2) {
+                (sensor1_high == 1) ? setSensorType(2) :
+                (sensor2_high == 1) ? setSensorType(4) : setSensorType(2);
+            }
+        }
+        else    validation += 1;
+    }
+    else if (config_id == 11 || config_id == 13 || config_id == 14 || config_id == 21) {
+        int val = atoi((char *) value);
+        if (val < 0 || val > 1) validation += 1;
+        else {
+            if (config_id == 11)        setSPSEquip(val);
+            else if (config_id == 13)   setPFOEquip(val);
+            else if (config_id == 14)   setClusterEquip(val);
+            else                        setRS232IntfAnalogOutputEquip(val);
+        }
+    }
+    else if (config_id == 20) {
+        if ((value[7] >= 0x30) && (value[7] <= 0x39))
+            setInterfaceType(value[7] - 0x30);
+        else if ((value[7] >= 0x41) && (value[7] <= 0x4A))
+            setInterfaceType(value[7] - 0x41 + 10);
+        else
+            validation += 1;
+    }
+    else if (config_id == 30) { // ValveType, Isolation
+        uint8_t valveType = value[0] - 0x30;
+        switch(valveType){
+            case 1:
+            case 2:
+                setValveType(valveType);
+                break;
+            default:
+                validation += 1;
+                break;
+        }
+
+        uint8_t isolation = value[1] - 0x30;
+        if (isolation == ExtIsolationValveFunc_No || isolation == ExtIsolationValveFunc_Yes)
+            setExtIsolationValveFunc(isolation);
+        else
+            validation += 1;
+
+        uint16_t valveSize, size1, size2, size3;
+        size1 = (value[2] - 0x30)*1000;
+        size2 = (value[3] - 0x30)*100;
+        size3 = (value[4] - 0x30)*10;
+        valveSize = size1 + size2 + size3 + (value[5] - 0x30);
+        setValveSize(valveSize);
+    }
+    else    validation += 1;
+
+    if (validation > 0) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s], dataValue=[%s] is CommandParameterOutOfRange\n", cmd, dataValue);
+        return Format_CommandParameterOutOfRange;
+    }
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%02d", config_id);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * STOP-SIMULATION-DEAMON
+ */
+int cmdd_t00_Stop_Test(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    int SimulDemonMode = getSimulDemonMode();
+    if (getSimulationStatus() == SimulationStatus_SystemSimulationRunning) {
+        setSimulationStatus(SimulationStatus_NormalOperation);
+        //setSimulDemonMode(-1);
+    }
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", SimulDemonMode);
+    return CMD_PROCESSING_OK;
+}
+
+/*
+ * SimulationMode
+ * - POSITION 모드에서만 진입
+ */
+int cmdd_t01_Start_Test(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (ch == APC_PORT_REMOTE)  return Status_WrongAccessMode;
+
+    if (getControlMode() != ControlMode_POSITION)   return Status_WrongControlMode;
+
+    char dataValue[8] = { 0 };
+    strncpy(dataValue, (char*) data, 1);
+
+    int SimulDemonMode = atoi((char *) dataValue);
+    if (SimulDemonMode < SimulDemonMode_Simulation || SimulDemonMode > SimulDemonMode_Demonstration) {
+        return Format_CommandParameterOutOfRange;
+    }
+
+//#ifdef _USE_THREAD
+//    if (isJobExisted() == true) {
+//        return Status_ProcessingJobExist;
+//    } else {
+//        uint64_t job_val = (((uint64_t)ratio & 0xff) << 32) | ((msec & 0xffff) << 16) | (count & 0xffff);
+//        setJobData((uint32_t) CMD_KEY_t01_TEST_CONTROLLER, job_val);
+//    }
+//#else
+//    setTest(ratio, msec, count);
+//#endif
+
+    setSimulationStatus(SimulationStatus_SystemSimulationRunning);
+    setSimulDemonMode(SimulDemonMode);
+
+    int offset = 0;
+    offset =  sprintf((char*)(respData + offset), "%s",   cmd);
+    offset += sprintf((char*)(respData + offset), "%01d", getSimulDemonMode());
+    return CMD_PROCESSING_OK;
+}
+
+int cmdd_n01_NOTI_INTERFACE_TRACE(uint8_t ch, char* cmd, char* data, char* respData)
+{
+    if (true) {
+        prtLog(0, LL_WARN, __FUNCTION__, "cmd=[%s] NOT supported\n", cmd);
+        return Format_InvalidCommandType;
+    }
+
+    prtLog(0, LL_DEBUG, __FUNCTION__, "Processing OK\n");
+    return CMD_PROCESSING_OK;
+}
+
+/* ----------------------------------------------------------------------
+    Description : Extracting each MO data value from cmd, data
+    Parameters  : -. only command part string
+                  -. only data part string
+                  -. each data length inform. in data
+                  -. each value string extracted
+    Return      : CMD_PROCESSING_OK / CMD_PROCESSING_NOK
+*/
+int extractCmdData(char* cmd, char* data, uint32_t dataLenArr[], char(*dataValueArr)[64])
+{
+    int offset = 0;
+    for(int cnt=0; dataLenArr[cnt] != -1; ++cnt) {
+        strncpy(dataValueArr[cnt], (char*) data+offset, dataLenArr[cnt]);
+        offset += dataLenArr[cnt];
+        prtLog(0, LL_DEBUG, __FUNCTION__, "dataLenArr[%d], length=[%d], value=[%s]\n",
+                cnt, dataLenArr[cnt], dataValueArr[cnt]);
+    }
+    return CMD_PROCESSING_OK;
+}

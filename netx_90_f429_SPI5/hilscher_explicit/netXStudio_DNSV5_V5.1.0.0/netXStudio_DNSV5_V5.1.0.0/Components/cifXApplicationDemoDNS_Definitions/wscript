@@ -1,0 +1,29 @@
+def build(bld):
+
+# Component cifXApplicationDemoGenericAPDefinitions ----------------------------------------------
+
+    bld.sdkcomponent(
+        name            = "GenericAPDefinitions_sdk",
+        export_includes = "Includes\GenericAP_API",
+        )
+
+
+# Component cifXApplicationDemoHilscherDefinitions ----------------------------------------------
+
+    bld.sdkcomponent(
+        name            = "Hil_Definition_netXFirmware_sdk",
+        export_includes = "Includes/HilscherDefinitions",
+        )
+
+
+# Component cifXApplicationDemoEIPDefinitions ----------------------------------------------
+
+    bld.sdkcomponent(
+        name            = "FirmwareHeaders_sdk",
+        export_includes = ["Includes/DNS_API",
+                           "Includes/HilscherDefinitions",
+                           "Includes/GenericAP_API"
+                          ],
+        )
+
+

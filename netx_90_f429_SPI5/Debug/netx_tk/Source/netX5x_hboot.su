@@ -1,0 +1,6 @@
+../netx_tk/Source/netX5x_hboot.c:55:5:IsNetX51or52ROM	32	static
+../netx_tk/Source/netX5x_hboot.c:96:12:hboot_waitforbitstate	48	static
+../netx_tk/Source/netX5x_hboot.c:163:16:hboot_send_packet	80	static
+../netx_tk/Source/netX5x_hboot.c:218:16:hboot_get_packet	64	static
+../netx_tk/Source/netX5x_hboot.c:269:16:hboot_transfer_packet	40	static
+../netx_tk/Source/netX5x_hboot.c:294:9:cifXStartBootloader_hboot	96	static

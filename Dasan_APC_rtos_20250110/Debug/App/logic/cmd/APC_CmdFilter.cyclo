@@ -1,0 +1,3 @@
+../App/logic/cmd/APC_CmdFilter.c:16:9:filterAccessMode	3
+../App/logic/cmd/APC_CmdFilter.c:29:9:filterControlMode	2
+../App/logic/cmd/APC_CmdFilter.c:39:5:checkControlMode	69

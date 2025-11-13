@@ -1,0 +1,11 @@
+../netx_tk/User/TKitUser_Custom.c:45:5:USER_GetOSFile	16	static
+../netx_tk/User/TKitUser_Custom.c:59:10:USER_GetFirmwareFileCount	16	static
+../netx_tk/User/TKitUser_Custom.c:75:5:USER_GetFirmwareFile	24	static
+../netx_tk/User/TKitUser_Custom.c:89:10:USER_GetConfigurationFileCount	16	static
+../netx_tk/User/TKitUser_Custom.c:105:5:USER_GetConfigurationFile	24	static
+../netx_tk/User/TKitUser_Custom.c:116:6:USER_GetBootloaderFile	16	static
+../netx_tk/User/TKitUser_Custom.c:127:5:USER_GetWarmstartParameters	16	static
+../netx_tk/User/TKitUser_Custom.c:140:6:USER_GetAliasName	24	static
+../netx_tk/User/TKitUser_Custom.c:150:5:USER_GetInterruptEnable	16	static
+../netx_tk/User/TKitUser_Custom.c:160:5:USER_GetCachedIOBufferMode	16	static
+../netx_tk/User/TKitUser_Custom.c:187:6:USER_Trace	16	static

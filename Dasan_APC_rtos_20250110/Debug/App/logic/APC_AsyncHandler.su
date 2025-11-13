@@ -1,0 +1,9 @@
+../Drivers/CMSIS/Include/core_cm4.h:1938:34:__NVIC_SystemReset	4	static,ignoring_inline_asm
+../App/logic/APC_AsyncHandler.c:45:6:initJob	4	static
+../App/logic/APC_AsyncHandler.c:53:6:isJobExisted	4	static
+../App/logic/APC_AsyncHandler.c:58:6:setJobData	32	static
+../App/logic/APC_AsyncHandler.c:72:5:putDataIntoMQ	24	static
+../App/logic/APC_AsyncHandler.c:78:6:setDataSync	16	static
+../App/logic/APC_AsyncHandler.c:89:6:setCountSync	16	static
+../App/logic/APC_AsyncHandler.c:99:6:setRestartFw	16	static
+../App/logic/APC_AsyncHandler.c:109:6:procAsyncHandler	24	static
