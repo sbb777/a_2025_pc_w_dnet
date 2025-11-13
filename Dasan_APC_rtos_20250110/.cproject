@@ -58,6 +58,7 @@
 									<listOptionValue builtIn="false" value="../App/model/driver"/>
 									<listOptionValue builtIn="false" value="../App/DeviceNet/includes"/>
 									<listOptionValue builtIn="false" value="../App/cifXToolkit/OSAbstraction"/>
+				<listOptionValue builtIn="false" value="../App/cifXToolkit/Common"/>
 				<listOptionValue builtIn="false" value="../App/cifXToolkit/Source"/>
 				<listOptionValue builtIn="false" value="../App/cifXToolkit/SerialDPM"/>
 				<listOptionValue builtIn="false" value="../App/DeviceNet/includes/DNS_API"/>
@@ -156,6 +157,7 @@
 				<listOptionValue builtIn="false" value="../App/cifXToolkit/Source"/>
 				<listOptionValue builtIn="false" value="../App/cifXToolkit/SerialDPM"/>
 									<listOptionValue builtIn="false" value="../App/cifXToolkit/OSAbstraction"/>
+				<listOptionValue builtIn="false" value="../App/cifXToolkit/Common"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1473773163" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

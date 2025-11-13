@@ -48,6 +48,33 @@ uint8_t AppDNS_GetInitStatus(void);
  */
 uint32_t AppDNS_GetStubCounter(void);
 
+/**
+ * @brief Set input data (data to send to Master)
+ * @param pData Pointer to data buffer
+ * @param len Length of data (max DEVICENET_INPUT_SIZE)
+ * @return 0 on success, negative on error
+ * @note Only available in FULL mode (ENABLE_DEVICENET=1)
+ */
+int AppDNS_SetInputData(const uint8_t *pData, uint8_t len);
+
+/**
+ * @brief Get output data (data received from Master)
+ * @param pData Pointer to destination buffer
+ * @param len Length to read (max DEVICENET_OUTPUT_SIZE)
+ * @return 0 on success, negative on error
+ * @note Only available in FULL mode (ENABLE_DEVICENET=1)
+ */
+int AppDNS_GetOutputData(uint8_t *pData, uint8_t len);
+
+/**
+ * @brief Get I/O statistics
+ * @param pReadCount Pointer to store read count (can be NULL)
+ * @param pWriteCount Pointer to store write count (can be NULL)
+ * @param pErrorCount Pointer to store error count (can be NULL)
+ * @note Only available in FULL mode (ENABLE_DEVICENET=1)
+ */
+void AppDNS_GetStatistics(uint32_t *pReadCount, uint32_t *pWriteCount, uint32_t *pErrorCount);
+
 #ifdef __cplusplus
 }
 #endif
