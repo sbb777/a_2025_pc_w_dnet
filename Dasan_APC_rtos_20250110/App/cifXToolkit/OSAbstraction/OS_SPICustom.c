@@ -19,11 +19,17 @@
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
-/* TODO: Define GPIO pins for SPI5 handshaking */
-#define NETX_CS_PIN         GPIO_PIN_6    /* Example: SPI5_CS on PF6 */
+/* GPIO pins for SPI5 handshaking
+ * NOTE: These pins must be configured in STM32CubeMX as GPIO outputs/inputs!
+ * Current SPI5 pins (DO NOT USE):
+ *   - PF7: SPI5_SCK (already used)
+ *   - PF9: SPI5_MOSI (already used)
+ *   - PF8: Recommended for MISO (TO BE ADDED in CubeMX)
+ */
+#define NETX_CS_PIN         GPIO_PIN_6    /* CS on PF6 (TO BE CONFIGURED) */
 #define NETX_CS_PORT        GPIOF
 
-#define NETX_SRDY_PIN       GPIO_PIN_7    /* Example: SRDY on PF7 */
+#define NETX_SRDY_PIN       GPIO_PIN_10   /* SRDY on PF10 (TO BE CONFIGURED) */
 #define NETX_SRDY_PORT      GPIOF
 
 /* SPI timeout in milliseconds */

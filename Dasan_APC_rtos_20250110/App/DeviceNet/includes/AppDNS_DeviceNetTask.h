@@ -1,10 +1,10 @@
 /**
  * @file AppDNS_DeviceNetTask.h
  * @brief DeviceNet FreeRTOS Task Header
- * @date 2025-01-10
+ * @date 2025-01-13
  *
  * This file contains the FreeRTOS task definition for DeviceNet communication.
- * Integrates DeviceNet SDK with FreeRTOS task management.
+ * Uses CMSIS-RTOS v2 API for compatibility with STM32CubeIDE.
  */
 
 #ifndef APPDNS_DEVICENETTASK_H
@@ -15,15 +15,13 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "FreeRTOS.h"
-#include "task.h"
+#include "cmsis_os.h"
 #include <stdint.h>
 
 /* Exported types ------------------------------------------------------------*/
 
 /* Exported constants --------------------------------------------------------*/
-#define DEVICENET_TASK_PRIORITY      (tskIDLE_PRIORITY + 3)
-#define DEVICENET_TASK_STACK_SIZE    (1024 * 4)  /* 4KB stack */
+/* Note: Actual values are defined in DeviceNet_Config.h */
 
 /* Exported macro ------------------------------------------------------------*/
 
@@ -31,15 +29,21 @@ extern "C" {
 
 /**
  * @brief Create and start DeviceNet FreeRTOS task
- * @return pdPASS on success, pdFAIL on error
+ * @return osOK on success, error code on failure
  */
-BaseType_t AppDNS_DeviceNetTask_Create(void);
+osStatus_t AppDNS_DeviceNetTask_Create(void);
 
 /**
  * @brief DeviceNet task function (FreeRTOS task entry point)
  * @param argument Task parameter (not used)
  */
 void AppDNS_DeviceNetTask(void *argument);
+
+/**
+ * @brief Get DeviceNet task handle
+ * @return Task handle or NULL if not created
+ */
+osThreadId_t AppDNS_GetTaskHandle(void);
 
 #ifdef __cplusplus
 }
