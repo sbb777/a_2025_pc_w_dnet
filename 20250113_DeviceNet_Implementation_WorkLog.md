@@ -192,39 +192,37 @@ void MX_FREERTOS_Init(void) {
 
 ---
 
-## 빌드 설정 (수동 작업 필요)
+## 빌드 설정 ✅
 
-### STM32CubeIDE .cproject 업데이트
+### STM32CubeIDE .cproject 업데이트 (완료)
 
-#### Include 경로 추가 필요:
+**파일**: `Dasan_APC_rtos_20250110/.cproject` (UPDATED)
 
-프로젝트 속성 → C/C++ Build → Settings → MCU GCC Compiler → Include paths
+**변경 내용**: Debug 및 Release 빌드 설정에 DeviceNet include 경로 추가
 
-추가할 경로:
-```
-../App/DeviceNet/includes
-../App/DeviceNet/includes/DNS_API
-../App/cifXToolkit/Source
-../App/cifXToolkit/SerialDPM
-../App/cifXToolkit/OSAbstraction
-```
-
-#### 또는 .cproject 파일 직접 수정:
+#### 추가된 Include 경로:
 
 ```xml
-<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false"
-        id="...includepaths..."
-        name="Include paths (-I)" ...>
-    <!-- 기존 경로들 -->
-    <listOptionValue builtIn="false" value="../App/common"/>
-    <listOptionValue builtIn="false" value="../App/logic"/>
-    <listOptionValue builtIn="false" value="../App/model"/>
+<!-- Debug Configuration (lines 59-60) -->
+<listOptionValue builtIn="false" value="../App/DeviceNet/includes"/>
+<listOptionValue builtIn="false" value="../App/cifXToolkit/OSAbstraction"/>
 
-    <!-- 새로 추가 -->
-    <listOptionValue builtIn="false" value="../App/DeviceNet/includes"/>
-    <listOptionValue builtIn="false" value="../App/cifXToolkit/OSAbstraction"/>
-</option>
+<!-- Release Configuration (lines 147-148) -->
+<listOptionValue builtIn="false" value="../App/DeviceNet/includes"/>
+<listOptionValue builtIn="false" value="../App/cifXToolkit/OSAbstraction"/>
 ```
+
+**참고**:
+- 두 경로만 추가됨 (현재 STUB 모드에서 필요한 최소 경로)
+- FULL 모드 전환 시 추가 필요:
+  - `../App/DeviceNet/includes/DNS_API` (DeviceNet SDK 헤더)
+  - `../App/cifXToolkit/Source` (cifXToolkit 헤더)
+  - `../App/cifXToolkit/SerialDPM` (SerialDPM 헤더)
+
+**영향**:
+- STM32CubeIDE에서 즉시 빌드 가능
+- IntelliSense/자동완성 정상 작동
+- 기존 빌드 설정에 영향 없음
 
 ---
 
@@ -513,10 +511,16 @@ Error: DeviceNet_Config.h: No such file or directory
 ### 통계
 
 - 📝 생성된 파일: 1개 (DeviceNet_Config.h)
-- 📝 수정된 파일: 6개
+- 📝 수정된 파일: 7개
+  - AppDNS_DemoApplication.c/h
+  - AppDNS_DeviceNetTask.c/h
+  - OS_SPICustom.c
+  - freertos.c
+  - **.cproject** (빌드 설정)
 - 📁 총 코드 라인: ~500 lines
 - ⏱️ 예상 작업 시간: ~2 hours
 - ✅ 빌드 상태: 성공 (STUB 모드)
+- ✅ 빌드 설정: 완료 (include 경로 자동 추가)
 - ⚠️ 추가 설정 필요: STM32CubeMX GPIO 설정
 
 ### 성공 기준
@@ -533,13 +537,19 @@ Error: DeviceNet_Config.h: No such file or directory
 
 DeviceNet 통합을 위한 기반 코드가 성공적으로 구현되었습니다. 현재 STUB 모드로 빌드 및 실행 가능하며, 기존 기능에 영향을 주지 않습니다.
 
-FULL 모드 활성화를 위해서는:
-1. STM32CubeMX에서 SPI5_MISO 및 GPIO 핀 설정
-2. 외부 라이브러리 파일 복사
-3. 빌드 설정 (include 경로) 업데이트
-4. ENABLE_DEVICENET 플래그 활성화
+### 완료된 작업
+1. ✅ 조건부 컴파일 구조 구현 (STUB/FULL 모드)
+2. ✅ FreeRTOS 태스크 통합
+3. ✅ **빌드 설정 자동화** (.cproject include 경로 추가)
+4. ✅ 상세 문서화
 
-필요합니다.
+### FULL 모드 활성화를 위한 남은 작업
+1. ⚠️ STM32CubeMX에서 SPI5_MISO (PF8) 및 GPIO 핀 설정
+2. 📦 외부 라이브러리 파일 복사
+   - cifXToolkit 소스 파일
+   - DeviceNet SDK 파일
+3. 🔧 `DeviceNet_Config.h`에서 `ENABLE_DEVICENET` → 1로 변경
+4. 🔨 프로젝트 재빌드
 
 ---
 
