@@ -22,6 +22,8 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+App/DeviceNet/Sources \
+App/cifXToolkit/OSAbstraction \
 App/common \
 App/logic \
 App/logic/cmd \

@@ -21,6 +21,8 @@ RM := rm -rf
 -include App/logic/cmd/subdir.mk
 -include App/logic/subdir.mk
 -include App/common/subdir.mk
+-include App/cifXToolkit/OSAbstraction/subdir.mk
+-include App/DeviceNet/Sources/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -43,34 +45,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := Dasan_APC_rtos_20250110
+BUILD_ARTIFACT_NAME := Dasan_APC_rtos_429ZG
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Dasan_APC_rtos_20250110.elf \
+Dasan_APC_rtos_429ZG.elf \
 
 MAP_FILES += \
-Dasan_APC_rtos_20250110.map \
+Dasan_APC_rtos_429ZG.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Dasan_APC_rtos_20250110.list \
+Dasan_APC_rtos_429ZG.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Dasan_APC_rtos_20250110.elf secondary-outputs
+main-build: Dasan_APC_rtos_429ZG.elf secondary-outputs
 
 # Tool invocations
-Dasan_APC_rtos_20250110.elf Dasan_APC_rtos_20250110.map: $(OBJS) $(USER_OBJS) C:\Users\dasan\STM32CubeIDE\workspace_1.15.0\Dasan_APC_rtos_20250110\STM32F429ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Dasan_APC_rtos_20250110.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\dasan\STM32CubeIDE\workspace_1.15.0\Dasan_APC_rtos_20250110\STM32F429ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Dasan_APC_rtos_20250110.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Dasan_APC_rtos_429ZG.elf Dasan_APC_rtos_429ZG.map: $(OBJS) $(USER_OBJS) D:\git\a_2025_pc_w_dnet\Dasan_APC_rtos_20250110\STM32F429ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Dasan_APC_rtos_429ZG.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\git\a_2025_pc_w_dnet\Dasan_APC_rtos_20250110\STM32F429ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Dasan_APC_rtos_429ZG.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -79,14 +81,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Dasan_APC_rtos_20250110.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Dasan_APC_rtos_20250110.list"
+Dasan_APC_rtos_429ZG.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Dasan_APC_rtos_429ZG.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) Dasan_APC_rtos_20250110.elf Dasan_APC_rtos_20250110.list Dasan_APC_rtos_20250110.map default.size.stdout
+	-$(RM) Dasan_APC_rtos_429ZG.elf Dasan_APC_rtos_429ZG.list Dasan_APC_rtos_429ZG.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
