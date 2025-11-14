@@ -33,6 +33,9 @@
 #include "APC_ControlMode.h"
 #include "APC_CompAir.h"
 #include "APC_Power.h"
+
+/* DeviceNet Integration - Added 2025-01-13 */
+#include "AppDNS_DeviceNetTask.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -157,6 +160,13 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+
+  /* DeviceNet Task - Added 2025-01-13
+   * NOTE: Currently in STUB mode (ENABLE_DEVICENET=0 in DeviceNet_Config.h)
+   * Enable full mode when cifXToolkit and DeviceNet SDK files are ready
+   */
+  AppDNS_DeviceNetTask_Create();
+
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
